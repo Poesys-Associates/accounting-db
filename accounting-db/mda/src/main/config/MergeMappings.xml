@@ -1,0 +1,22 @@
+<mappings name="DeploymentMergeMappings">
+    <mapping>
+        <from><![CDATA[// license-header java merge-point]]></from>
+        <to>
+<![CDATA[
+/**
+ * Copyright 2016 Poesys Associates. All rights reserved.
+ */
+]]>
+        </to>
+    </mapping>
+    <mapping>
+        <from><![CDATA[-- license-header sql merge-point]]></from>
+        <to>
+<![CDATA[
+--
+-- Copyright 2016 Poesys Associates. All rights reserved.
+--
+]]>
+        </to>
+    </mapping>
+</mappings>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+<project name="accounting-db" default="jar">
+
+	<property file="build.properties" />
+
+	<property name="src" value="src" />
+	<property name="target" value="target" />
+	<property name="lib" value="lib" />
+	<property name="dist" value="dist" />
+	<property name="build" value="target/classes" />
+	<property name="build-number" value="1.0.0" />
+	<property name="dist-file" value="accounting-db-${build-number}" />
+
+	<!-- Target source directories for compilation -->
+	<property name="java-src" value="${target}/java/src" />
+	<property name="java-gen" value="${target}/java/gen/src" />
+	<property name="test-src" value="${target}/java/test" />
+	<property name="test-gen" value="${target}/java/gen/test" />
+
+
+	<!-- The classpath for Java compilation -->
+	<path id="project.classpath">
+		<fileset dir="${lib}">
+			<include name="*.jar" />
+		</fileset>
+		<path path="${build}" />
+	</path>
+
+	<!-- ================================= 
+          target: compile Compiles the Java classes               
+         ================================= -->
+	<target name="compile" description="Compiles the Java classes">
+		<mkdir dir="${build}" />
+		<javac source="1.8" target="1.8" destdir="${build}" deprecation="false" nowarn="on" debug="on" memoryMaximumSize="512m" fork="true" includeantruntime="false">
+			<classpath refid="project.classpath" />
+			<src path="${src}" />
+			<src path="${java-src}" />
+			<src path="${java-gen}" />
+			<src path="${test-src}" />
+			<src path="${test-gen}" />
+			<include name="**/*.java" />
+		</javac>
+	</target>
+
+	<!-- ================================= 
+          target: jar Builds the distribution jar file and javadoc with the non-test classes and without the properties files             
+         ================================= -->
+	<target name="jar" depends="compile">
+		<jar destfile="${dist}/${dist-file}.jar">
+			<fileset dir="${build}" includes="**/*.class" excludes="**/*Test*.class, **/*Fake*.class" />
+			<fileset dir="${build}" includes="**/*.properties" excludes="**/*database*, **/*memcached*" />
+			<manifest />
+		</jar>
+		<javadoc access="private" author="true" destdir="doc" doctitle="Poesys/Accounting Database Access Library" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" source="1.8" sourcepath="target/java/src:src:target/java/gen/src" splitindex="true" use="true" version="true">
+			<classpath refid="project.classpath" />
+		</javadoc>
+	</target>
+
+	<!-- ================================= 
+          target: jar-no-javadoc Builds the distribution jar file with the non-test classes and without the properties files or javadoc          
+         ================================= -->
+	<target name="jar-no-javadoc" depends="compile">
+		<jar destfile="${dist}/${dist-file}.jar">
+			<fileset dir="${build}" includes="**/*.class" excludes="**/*Test*.class, **/*Fake*.class" />
+			<fileset dir="${build}" includes="**/*.properties" excludes="**/*database*, **/*memcached*" />
+			<manifest />
+		</jar>
+	</target>
+
+	<!-- ================================= 
+          target: clean Remove compiled classes and jar file
+         ================================= -->
+	<target name="clean" description="Removes compiled classes and jar file">
+		<delete dir="${build}" />
+		<delete file="${dist}/${dist-file}.jar" />
+	</target>
+
+</project>

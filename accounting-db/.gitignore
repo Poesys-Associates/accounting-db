@@ -1,0 +1,10 @@
+.classpath
+.project
+.settings
+/bin/
+/target/classes/
+/${common.generated.dir}/
+/archive/
+/data/
+/*.log
+/build.properties

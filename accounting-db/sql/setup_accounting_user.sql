@@ -1,0 +1,16 @@
+insert into fiscalyear values (1991, '1-JAN-1991', '31-DEC-1991');
+insert into fiscalyear values (1992, '1-JAN-1992', '31-DEC-1992');
+insert into fiscalyear values (1993, '1-JAN-1993', '31-DEC-1993');
+insert into fiscalyear values (1994, '1-JAN-1994', '31-DEC-1994');
+insert into fiscalyear values (1995, '1-JAN-1995', '31-DEC-1995');
+insert into fiscalyear values (1996, '1-JAN-1996', '31-DEC-1996');
+insert into fiscalyear values (1997, '1-JAN-1997', '31-DEC-1997');
+insert into fiscalyear values (1998, '1-JAN-1998', '31-DEC-1998');
+insert into fiscalyear values (1999, '1-JAN-1999', '31-DEC-1999');
+insert into fiscalyear values (2000, '1-JAN-2000', '31-DEC-2000');
+insert into fiscalyear values (2001, '1-JAN-2001', '31-DEC-2001');
+insert into fiscalyear values (2002, '1-JAN-2002', '31-DEC-2002');
+insert into fiscalyear values (2003, '1-JAN-2003', '31-DEC-2003');
+insert into fiscalyear values (2004, '1-JAN-2004', '31-DEC-2004');
+insert into fiscalyear values (2005, '1-JAN-2005', '31-DEC-2005');
+insert into fiscalyear values (2006, '1-JAN-2006', '31-DEC-2006');

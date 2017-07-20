@@ -1,0 +1,87 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.poesys.accounting</groupId>
+        <artifactId>accounting-db</artifactId>
+        <version>1.0</version>
+    </parent>
+    <artifactId>accounting-db-mda</artifactId>
+    <packaging>pom</packaging>
+    <name>PoesysAccounting/DB MDA</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.andromda.profiles.emf.uml2</groupId>
+            <artifactId>andromda-profile-common</artifactId>
+            <type>uml2</type>
+        </dependency>
+        <dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>andromda-java-cartridge</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.andromda.cartridges</groupId>
+            <artifactId>poesys-db-cartridge</artifactId>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
+                <artifactId>andromda-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <configurationUri>${pom.basedir}/src/main/config/andromda.xml</configurationUri>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.andromda.maven.plugins</groupId>
+                <artifactId>andromdapp-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>eclipse</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>app/pom.xml</exclude>
+                        <exclude>mda/pom.xml</exclude>
+                        <exclude>webservice/pom.xml</exclude>
+                    </excludes>
+                    <classpathMerge>
+                        <![CDATA[
+	<classpathentry kind="src" path="target/java/src"/>
+	<classpathentry kind="src" path="target/java/gen/src"/>
+	<classpathentry kind="src" path="target/java/test"/>
+	<classpathentry kind="src" path="target/java/gen/test"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/poesys-bs"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/poesys-db"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="target/classes"/>
+                  ]]>
+                    </classpathMerge>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <src.dir>${pom.basedir}/src</src.dir>
+		<model.uri>file:${src.dir}/main/uml/accounting-db.uml2</model.uri>
+        <filter></filter>
+        <validation>true</validation>
+        <conf.dir>${pom.basedir}/src/main/config</conf.dir>
+        <!-- cartridge output locations -->
+        <java.dir>${pom.basedir}/../target/java</java.dir>
+        <sql.dir>${pom.basedir}/../target/sql</sql.dir>
+    </properties>
+</project>

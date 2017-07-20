@@ -1,0 +1,17 @@
+Use Cases for Data Loader
+
+Agent: DBA
+
+Load existing accounting data into new database for a single entity.
+
+1. Read data from annual accounting dump directories tab-delimited files for all years for an entity.
+   a. Transactions and items
+   b. Accounts and account groups
+   c. Balances from initial year
+   d. AR and AR reimbursement transactions
+
+2. Write data into new database for the entity.
+   a. Entity
+   b. Account Group and Account
+   c. Fiscal Year and Fiscal Year Account
+   d. Transactions and Items

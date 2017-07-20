@@ -1,0 +1,34 @@
+REM Insert the initial set of accounts into the Account table. This script 0hardcodes YEAR1991 as the source of the data.
+REM TODO: Remove this script when conversion is complete.
+
+define year=&1
+
+INSERT INTO Account (accountId, name, description, defaultAccountNumber, defaultSubAccountNumber, debitDefault, accountType, leafType, active) 
+SELECT accountId.NEXTVAL accountid, 
+       description name, 
+       description description,
+       floor(account) defaultAccountNumber,
+       mod(account, 1)*10 defaultSubAccountNumber,
+       decode(defaultDebitOrCredit, 'DR', 1, 'CR', 0, 0) debitDefault,
+       CASE 
+         WHEN account >= 0 AND account <= 199.99 THEN 'Asset'
+         WHEN account >= 200 AND account <= 299.99 THEN 'Liability'
+         WHEN account >= 300 AND account <= 399.99 THEN 'Equity'
+         WHEN account >= 400 AND account <= 599.99 THEN 'Income'
+         WHEN account >= 600 AND account <= 899.99 THEN 'Expense'
+         ELSE 'Other'
+       END accountType,
+       CASE 
+         WHEN account >= 0 AND account <= 109.99 THEN 'Asset'
+         WHEN account >= 110 AND account <= 119.99 THEN 'Receivable'
+         WHEN account >= 129 AND account <= 199.99 THEN 'Asset'
+         WHEN account >= 200 AND account <= 299.99 THEN 'Liability'
+         WHEN account >= 300 AND account <= 399.99 THEN 'Equity'
+         WHEN account >= 400 AND account <= 599.99 THEN 'Income'
+         WHEN account >= 600 AND account <= 899.99 THEN 'Expense'
+         ELSE 'Other'
+       END leafType,
+       1 active
+  FROM &year..account;
+         
+       
