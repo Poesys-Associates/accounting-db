@@ -29,11 +29,39 @@ public abstract class AbstractQueryAccount implements IKeyQuerySql<com.poesys.ac
   private static final Logger logger = Logger.getLogger(AbstractQueryAccount.class);
   /** SQL query statement for Account */
   private static final String SQL =
-    "SELECT entityName, accountName, description, debitDefault, accountType, receivable, active, groupName FROM Account WHERE ";
+    "SELECT Account.entityName, Account.accountName, Account.description, Account.debitDefault, Account.active, CapitalAccount.ownership, CapitalAccount.capitalEntityName, DistributionAccount.capitalEntityName, SimpleAccount.receivable, CASE WHEN CapitalAccount.accountName IS NOT NULL THEN 'CapitalAccount' WHEN CapitalAccount.entityName IS NOT NULL THEN 'CapitalAccount' WHEN DistributionAccount.accountName IS NOT NULL THEN 'DistributionAccount' WHEN DistributionAccount.entityName IS NOT NULL THEN 'DistributionAccount' WHEN SimpleAccount.accountName IS NOT NULL THEN 'SimpleAccount' WHEN SimpleAccount.entityName IS NOT NULL THEN 'SimpleAccount' ELSE NULL END AS discriminant FROM Account LEFT OUTER JOIN CapitalAccount CapitalAccount ON Account.accountName = CapitalAccount.accountName AND Account.entityName = CapitalAccount.entityName LEFT OUTER JOIN DistributionAccount DistributionAccount ON Account.accountName = DistributionAccount.accountName AND Account.entityName = DistributionAccount.entityName LEFT OUTER JOIN SimpleAccount SimpleAccount ON Account.accountName = SimpleAccount.accountName AND Account.entityName = SimpleAccount.entityName WHERE ";
 
   public com.poesys.accounting.db.account.IAccount getData(IPrimaryKey key, ResultSet rs) {
     try {
-    return com.poesys.accounting.db.account.AccountFactory.getAccountData(key, rs);
+      // Account has concrete subclasses, so the query returns an object of the actual
+      // type rather than just of type Account. It uses a discriminant expression
+      // that the result set returns to figure out which class to instantiate.
+    
+      // Get the discriminant from the result set.
+      String discriminant = rs.getString("discriminant");
+    
+      // Check whether the discriminant is null and throw exception.
+      if (discriminant == null) {
+        throw new com.poesys.bs.delegate.DelegateException("Missing subclass for queried object of superclass com.poesys.accounting.db.account.Account");
+      }
+    
+      com.poesys.accounting.db.account.IAccount data = null;
+      // Check for CapitalAccount, set return only if not already set
+      if (discriminant.equals("CapitalAccount") && data == null) {
+        // Use the account factory to get the data.
+        data = com.poesys.accounting.db.account.AccountFactory.getCapitalAccountData(key, rs);
+      }
+      // Check for DistributionAccount, set return only if not already set
+      if (discriminant.equals("DistributionAccount") && data == null) {
+        // Use the account factory to get the data.
+        data = com.poesys.accounting.db.account.AccountFactory.getDistributionAccountData(key, rs);
+      }
+      // Check for SimpleAccount, set return only if not already set
+      if (discriminant.equals("SimpleAccount") && data == null) {
+        // Use the account factory to get the data.
+        data = com.poesys.accounting.db.account.AccountFactory.getSimpleAccountData(key, rs);
+      }
+    return data;
     } catch (com.poesys.db.InvalidParametersException | SQLException e) {
       logger.error("Error getting data", e);
       throw new com.poesys.db.DbErrorException("Error getting data", e);
@@ -42,6 +70,6 @@ public abstract class AbstractQueryAccount implements IKeyQuerySql<com.poesys.ac
 
   @Override
   public String getSql(IPrimaryKey key) {
-    return SQL + key.getSqlWhereExpression("");
+    return SQL + key.getSqlWhereExpression("Account");
   }
 }

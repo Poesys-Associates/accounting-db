@@ -73,17 +73,17 @@ public class Reimbursement extends AbstractReimbursement {
    *
    * @param key the primary key of the Reimbursement
    * @param receivablesObject wraps an associated IItem object
-   * @param reimbursedItemsObject wraps an associated IItem object
+   * @param reimbursingItemsObject wraps an associated IItem object
    * @param receivablesOrderNumber Attribute that is part of the association key
-   * @param reimbursedItemsOrderNumber Attribute that is part of the association key
+   * @param reimbursingItemsOrderNumber Attribute that is part of the association key
    * @param receivablesTransactionId Attribute that is part of the association key
-   * @param reimbursedItemsTransactionId Attribute that is part of the association key
+   * @param reimbursingItemsTransactionId Attribute that is part of the association key
    * @param reimbursedAmount the amount of the receivable item amount that is reimbursed by the reimbursement
 item (must be less than or equal to the reimbursement amount)
    * @param allocatedAmount dollar amount not reimbursed by any reimbursement item; this "writes off" the
 allocated amount when summing up amounts applied against the receivable
    */
-  public Reimbursement(IPrimaryKey key, com.poesys.accounting.db.transaction.IItem receivablesObject, com.poesys.accounting.db.transaction.IItem reimbursedItemsObject, java.lang.Integer receivablesOrderNumber, java.lang.Integer reimbursedItemsOrderNumber, java.math.BigInteger receivablesTransactionId, java.math.BigInteger reimbursedItemsTransactionId, java.lang.Double reimbursedAmount, java.lang.Double allocatedAmount) {
-    super(key, receivablesObject, reimbursedItemsObject, receivablesOrderNumber, reimbursedItemsOrderNumber, receivablesTransactionId, reimbursedItemsTransactionId, reimbursedAmount, allocatedAmount); 
+  public Reimbursement(IPrimaryKey key, com.poesys.accounting.db.transaction.IItem receivablesObject, com.poesys.accounting.db.transaction.IItem reimbursingItemsObject, java.lang.Integer receivablesOrderNumber, java.lang.Integer reimbursingItemsOrderNumber, java.math.BigInteger receivablesTransactionId, java.math.BigInteger reimbursingItemsTransactionId, java.lang.Double reimbursedAmount, java.lang.Double allocatedAmount) {
+    super(key, receivablesObject, reimbursingItemsObject, receivablesOrderNumber, reimbursingItemsOrderNumber, receivablesTransactionId, reimbursingItemsTransactionId, reimbursedAmount, allocatedAmount); 
   }
 }

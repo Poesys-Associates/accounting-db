@@ -6,24 +6,21 @@
 
 package com.poesys.accounting.db.transaction;
 
-
-import java.math.BigInteger;
-
-import com.poesys.db.InvalidParametersException;
 import com.poesys.db.dto.IDbDto;
+
 import com.poesys.db.pk.IPrimaryKey;
 
 
 /**
  * <p>
- * A data-access layer data-transfer-object interface for the Item. The
- * data-transfer-object class and proxy class implement this interface, as does
- * the business-layer data-transfer-object class.
+ * A data-access layer data-transfer-object interface for the Item. 
+ * The data-transfer-object class and proxy class implement this interface, as
+ * does the business-layer data-transfer-object class.
  * </p>
  * <p>
  * A specific amount of value associated with a specific account within a
- * transaction parent; the item debits and credits must cancel each other out
- * for the set of all items belonging to the transaction (the transaction must
+ * transaction parent; the item debits and credits must cancel each other out for
+ * the set of all items belonging to the transaction (the transaction must
  * "balance"); the transaction orders the set of items according to an integer
  * order number, which is part of the primary key
  * </p>
@@ -31,8 +28,8 @@ import com.poesys.db.pk.IPrimaryKey;
  * Stereotypes:
  * </p>
  * <ul>
- * <li>CompositeKey</li>
- * <li>Persistent</li>
+ *     <li>CompositeKey</li>
+ *     <li>Persistent</li>
  * </ul>
  * <p>
  * Class is read/write: true
@@ -54,64 +51,62 @@ public interface IItem extends IDbDto {
   void markChildrenDeleted();
 
   IPrimaryKey getPrimaryKey();
+  
 
   /**
    * <p>
-   * Composite super-key attribute that uniquely identifies child combined with
-   * child sub-key and any other parent super-keys
+   * Composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
    * </p>
    * <p>
-   * Added by AddGeneratedKeyProperties + AddParentKeyAttributes Owning DTO:
-   * ${property.dto.name} Owning package: ${property.dto.packageName} Property
-   * prefix: ${property.prefix}
+   * Added by AddGeneratedKeyProperties + AddParentKeyAttributes
+   * Owning DTO: ${property.dto.name}
+   * Owning package: ${property.dto.packageName}
+   * Property prefix: ${property.prefix}
    * </p>
-   * 
    * @return a java.math.BigInteger transactionId
    */
   public java.math.BigInteger getTransactionId();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not true
-  // Read/Write property: false
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not true
+// Read/Write property: false
 
   /**
    * 
    * <p>
-   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass Owning DTO:
-   * ${property.dto.name} Owning package: ${property.dto.packageName} Property
-   * prefix: orderNumber
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
+   * Owning DTO: ${property.dto.name}
+   * Owning package: ${property.dto.packageName}
+   * Property prefix: orderNumber
    * </p>
-   * 
    * @return a java.lang.Integer orderNumber
    */
   public java.lang.Integer getOrderNumber();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: false
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: false
 
   /**
    * <p>
    * the monetary amount in dollars of the transaction item
    * </p>
    * <p>
-   * Added by AddLocalAttributeProperties Owning DTO: ${property.dto.name}
-   * Owning package: ${property.dto.packageName} Property prefix: amount
+   * Added by AddLocalAttributeProperties
+   * Owning DTO: ${property.dto.name}
+   * Owning package: ${property.dto.packageName}
+   * Property prefix: amount
    * </p>
-   * 
    * @return a java.lang.Double amount
    */
   public java.lang.Double getAmount();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: true
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
 
   /**
    * <p>
@@ -119,13 +114,12 @@ public interface IItem extends IDbDto {
    * </p>
    *
    * @param amount the value to set into the amount
-   * @throws com.poesys.db.InvalidParametersException when the amount value is
-   *           null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set
-   *           to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the amount 
+   *       value is null
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setAmount(java.lang.Double amount)
-      throws com.poesys.db.InvalidParametersException;
+  public void setAmount(java.lang.Double amount) throws com.poesys.db.InvalidParametersException;
+
 
   /**
    * <p>
@@ -133,19 +127,19 @@ public interface IItem extends IDbDto {
    * debit-default value of the account
    * </p>
    * <p>
-   * Added by AddLocalAttributeProperties Owning DTO: ${property.dto.name}
-   * Owning package: ${property.dto.packageName} Property prefix: debit
+   * Added by AddLocalAttributeProperties
+   * Owning DTO: ${property.dto.name}
+   * Owning package: ${property.dto.packageName}
+   * Property prefix: debit
    * </p>
-   * 
    * @return a java.lang.Boolean debit
    */
   public java.lang.Boolean getDebit();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: true
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
 
   /**
    * <p>
@@ -153,33 +147,32 @@ public interface IItem extends IDbDto {
    * </p>
    *
    * @param debit the value to set into the debit
-   * @throws com.poesys.db.InvalidParametersException when the debit value is
-   *           null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set
-   *           to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the debit 
+   *       value is null
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setDebit(java.lang.Boolean debit)
-      throws com.poesys.db.InvalidParametersException;
+  public void setDebit(java.lang.Boolean debit) throws com.poesys.db.InvalidParametersException;
+
 
   /**
    * <p>
-   * whether the value and details of the transaction item have been verified
-   * and reconciled
+   * whether the value and details of the transaction item have been verified and
+   * reconciled
    * </p>
    * <p>
-   * Added by AddLocalAttributeProperties Owning DTO: ${property.dto.name}
-   * Owning package: ${property.dto.packageName} Property prefix: checked
+   * Added by AddLocalAttributeProperties
+   * Owning DTO: ${property.dto.name}
+   * Owning package: ${property.dto.packageName}
+   * Property prefix: checked
    * </p>
-   * 
    * @return a java.lang.Boolean checked
    */
   public java.lang.Boolean getChecked();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: true
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
 
   /**
    * <p>
@@ -187,33 +180,31 @@ public interface IItem extends IDbDto {
    * </p>
    *
    * @param checked the value to set into the checked
-   * @throws com.poesys.db.InvalidParametersException when the checked value is
-   *           null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set
-   *           to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the checked 
+   *       value is null
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setChecked(java.lang.Boolean checked)
-      throws com.poesys.db.InvalidParametersException;
+  public void setChecked(java.lang.Boolean checked) throws com.poesys.db.InvalidParametersException;
+
 
   /**
    * <p>
    * the transaction that owns the item (the parent)
    * </p>
    * <p>
-   * Added by AddToOneAssociationRequiredObjectProperties Owning DTO:
-   * Transaction Owning package: com.poesys.accounting.db.transaction Property
-   * prefix: transaction
+   * Added by AddToOneAssociationRequiredObjectProperties
+   * Owning DTO: Transaction
+   * Owning package: com.poesys.accounting.db.transaction
+   * Property prefix: transaction
    * </p>
-   * 
    * @return a com.poesys.accounting.db.transaction.ITransaction transaction
    */
   public com.poesys.accounting.db.transaction.ITransaction getTransaction();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: true
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
 
   /**
    * <p>
@@ -221,49 +212,31 @@ public interface IItem extends IDbDto {
    * </p>
    *
    * @param transaction the value to set into the transaction
-   * @throws com.poesys.db.InvalidParametersException when the transaction value
-   *           is null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set
-   *           to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the transaction 
+   *       value is null
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setTransaction(com.poesys.accounting.db.transaction.ITransaction transaction)
-      throws com.poesys.db.InvalidParametersException;
+  public void setTransaction(com.poesys.accounting.db.transaction.ITransaction transaction) throws com.poesys.db.InvalidParametersException;
 
-  /**
-   * Set the order number of the item within the transaction.
-   * 
-   * @param orderNumber the ordering number
-   * @throws InvalidParametersException
-   */
-  void setOrderNumber(Integer orderNumber) throws InvalidParametersException;
-
-  /**
-   * Set the entity name.
-   * 
-   * @param entityName the name of the parent entity
-   * @throws InvalidParametersException when there is a problem setting the name
-   */
-  public void setEntityName(String entityName)
-      throws InvalidParametersException;
 
   /**
    * <p>
    * the account to which to associate the flow of funds for the item
    * </p>
    * <p>
-   * Added by AddToOneAssociationRequiredObjectProperties Owning DTO: Account
-   * Owning package: com.poesys.accounting.db.account Property prefix: account
+   * Added by AddToOneAssociationRequiredObjectProperties
+   * Owning DTO: Account
+   * Owning package: com.poesys.accounting.db.account
+   * Property prefix: account
    * </p>
-   * 
    * @return a com.poesys.accounting.db.account.IAccount account
    */
   public com.poesys.accounting.db.account.IAccount getAccount();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: true
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
 
   /**
    * <p>
@@ -271,80 +244,66 @@ public interface IItem extends IDbDto {
    * </p>
    *
    * @param account the value to set into the account
-   * @throws com.poesys.db.InvalidParametersException when the account value is
-   *           null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set
-   *           to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the account 
+   *       value is null
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setAccount(com.poesys.accounting.db.account.IAccount account)
-      throws com.poesys.db.InvalidParametersException;
+  public void setAccount(com.poesys.accounting.db.account.IAccount account) throws com.poesys.db.InvalidParametersException;
 
-  /**
-   * Set the account name.
-   * 
-   * @param accountName the name to set
-   * @throws InvalidParametersException when the name is null
-   */
-  public void setAccountName(java.lang.String accountName)
-      throws InvalidParametersException;
 
   /**
    * <p>
    * Foreign key used by setter to query associated object
    * </p>
    * <p>
-   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass +
-   * AddToOneAssociationAttributeProperties Owning DTO: Account Owning package:
-   * com.poesys.accounting.db.account Property prefix: account
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
+   * Owning DTO: Account
+   * Owning package: com.poesys.accounting.db.account
+   * Property prefix: account
    * </p>
-   * 
    * @return a java.lang.String accountName
    */
   public java.lang.String getAccountName();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: false
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: false
 
   /**
    * <p>
    * Foreign key used by setter to query associated object
    * </p>
    * <p>
-   * Added by AddNaturalKeyProperties + AddParentKeyAttributes +
-   * AddToOneAssociationAttributeProperties Owning DTO: Account Owning package:
-   * com.poesys.accounting.db.account Property prefix: account
+   * Added by AddNaturalKeyProperties + AddParentKeyAttributes + AddToOneAssociationAttributeProperties
+   * Owning DTO: Account
+   * Owning package: com.poesys.accounting.db.account
+   * Property prefix: account
    * </p>
-   * 
    * @return a java.lang.String entityName
    */
   public java.lang.String getEntityName();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: false
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: false
 
   /**
    * <p>
-   * Get the set of reimbursing items, items that reimburse this item (a
-   * receivable).
+   * the set of reimbursed items
    * </p>
    * <p>
    * Added by TransformToProperty + AddToManyAssociationCollectionProperties
-   * Owning DTO: Item Owning package: com.poesys.accounting.db.transaction
+   * Owning DTO: Item
+   * Owning package: com.poesys.accounting.db.transaction
    * Property prefix: reimbursingItems
    * </p>
    * <p>
-   * This property loads lazily on demand rather than when you first query the
+   * This property loads lazily on demand rather than when you first query the 
    * IItem object.
    * </p>
-   * 
-   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IItem>
-   *         reimbursingItems
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IItem> reimbursingItems
    */
   public java.util.Collection<com.poesys.accounting.db.transaction.IItem> getReimbursingItems();
 
@@ -352,40 +311,38 @@ public interface IItem extends IDbDto {
    * Clear the reimbursingItems so that it will lazily reload.
    */
   public void clearReimbursingItems();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: true
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
 
   /**
    * <p>
-   * Set the collection of reimbursing items, items that reimburse this item.
+   * Set the reimbursingItems.
    * </p>
    *
    * @param reimbursingItems the value to set into the reimbursingItems
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set
-   *           to CHANGED
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setReimbursingItems(java.util.Collection<com.poesys.accounting.db.transaction.IItem> reimbursingItems);
+  public void setReimbursingItem(java.util.Collection<com.poesys.accounting.db.transaction.IItem> reimbursingItems) ;
+
 
   /**
    * <p>
-   * Get the set of receivable items, the items that this item reimburses.
+   * the set of receivable items
    * </p>
    * <p>
    * Added by TransformToProperty + AddToManyAssociationCollectionProperties
-   * Owning DTO: Item Owning package: com.poesys.accounting.db.transaction
+   * Owning DTO: Item
+   * Owning package: com.poesys.accounting.db.transaction
    * Property prefix: receivables
    * </p>
    * <p>
-   * This property loads lazily on demand rather than when you first query the
+   * This property loads lazily on demand rather than when you first query the 
    * IItem object.
    * </p>
-   * 
-   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IItem>
-   *         receivables
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IItem> receivables
    */
   public java.util.Collection<com.poesys.accounting.db.transaction.IItem> getReceivables();
 
@@ -393,99 +350,130 @@ public interface IItem extends IDbDto {
    * Clear the receivables so that it will lazily reload.
    */
   public void clearReceivables();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: true
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
 
   /**
    * <p>
-   * Set the receivables collection, the collection of items that this item
-   * reimburses.
+   * Set the receivables.
    * </p>
    *
    * @param receivables the value to set into the receivables
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set
-   *           to CHANGED
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setReceivables(java.util.Collection<com.poesys.accounting.db.transaction.IItem> receivables);
+  public void setReceivable(java.util.Collection<com.poesys.accounting.db.transaction.IItem> receivables) ;
+
 
   /**
    * <p>
-   * Get the collection of reimbursements, the linking objects that link
-   * reimbursements to receivables.
+   * Collection of association class objects (not the associated objects)
    * </p>
    * <p>
-   * Added by AddAssociationClassCollectionProperties Owning DTO: Reimbursement
-   * Owning package: com.poesys.accounting.db.transaction Property prefix:
-   * receivables
+   * Added by AddAssociationClassCollectionProperties
+   * Owning DTO: Reimbursement
+   * Owning package: com.poesys.accounting.db.transaction
+   * Property prefix: reimbursingItems
    * </p>
    * <p>
-   * This property loads lazily on demand rather than when you first query the
+   * This property loads lazily on demand rather than when you first query the 
    * IItem object.
    * </p>
-   * 
-   * @return a
-   *         java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement
-   *         > receivables
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> reimbursingItemsReimbursement
    */
-  public java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getReimbursements();
+  public java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getReimbursingItemsReimbursement();
 
   /**
-   * Clear the reimbursements so that they will lazily reload.
+   * Clear the reimbursingItemsReimbursement so that it will lazily reload.
    */
-  public void clearReimbursements();
-
-  // Setter here if the four conditions below are all true or not false
-  // Read/Write DTO: true
-  // Mutable DTO: not false
-  // Mutable property: not false
-  // Read/Write property: true
+  public void clearReimbursingItemsReimbursement();
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
 
   /**
    * <p>
-   * Set the reimbursements collection, the collection of linking objects that
-   * link receivables to reimbursements.
+   * Set the reimbursingItemsReimbursement.
    * </p>
    *
-   * @param reimbursements the value to set into the receivables
-   * @throws com.poesys.db.InvalidParametersException when the receivables value
-   *           is null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set
-   *           to CHANGED
+   * @param reimbursingItemsReimbursement the value to set into the reimbursingItemsReimbursement
+   * @throws com.poesys.db.InvalidParametersException when the reimbursingItemsReimbursement 
+   *       value is null
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setReimbursements(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> reimbursements)
-      throws com.poesys.db.InvalidParametersException;
+  public void setReimbursingItemsReimbursement(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> reimbursingItemsReimbursement) throws com.poesys.db.InvalidParametersException;
+
+
+  /**
+   * <p>
+   * Collection of association class objects (not the associated objects)
+   * </p>
+   * <p>
+   * Added by AddAssociationClassCollectionProperties
+   * Owning DTO: Reimbursement
+   * Owning package: com.poesys.accounting.db.transaction
+   * Property prefix: receivables
+   * </p>
+   * <p>
+   * This property loads lazily on demand rather than when you first query the 
+   * IItem object.
+   * </p>
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> receivablesReimbursement
+   */
+  public java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getReceivablesReimbursement();
+
+  /**
+   * Clear the receivablesReimbursement so that it will lazily reload.
+   */
+  public void clearReceivablesReimbursement();
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
+
+  /**
+   * <p>
+   * Set the receivablesReimbursement.
+   * </p>
+   *
+   * @param receivablesReimbursement the value to set into the receivablesReimbursement
+   * @throws com.poesys.db.InvalidParametersException when the receivablesReimbursement 
+   *       value is null
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
+   */
+  public void setReceivablesReimbursement(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> receivablesReimbursement) throws com.poesys.db.InvalidParametersException;
+
 
   /**
    * Add a Item object to the reimbursingItems collection.
    *
    * @param object the object to add to the collection
    */
-  public void addReimbursingItem(com.poesys.accounting.db.transaction.IItem object);
+  public void addReimbursingItemsItem(com.poesys.accounting.db.transaction.IItem object);
 
   /**
-   * Add an Item object to the receivables collection.
+   * Add a Item object to the receivables collection.
    *
    * @param object the object to add to the collection
    */
-  public void addReceivableItem(com.poesys.accounting.db.transaction.IItem object);
+  public void addReceivablesItem(com.poesys.accounting.db.transaction.IItem object);
 
   /**
-   * Add a Reimbursement object to the reimbursingItems collection.
+   * Add a Reimbursement object to the reimbursingItemsReimbursement collection.
    *
    * @param object the object to add to the collection
    */
-  public void addReimbursement(com.poesys.accounting.db.transaction.IReimbursement object);
+  public void addReimbursingItemsReimbursementReimbursement(com.poesys.accounting.db.transaction.IReimbursement object);
 
   /**
-   * Set the transaction id for the parent transaction that owns this item.
-   * 
-   * @param transactionId the unique identifier for the transaction
-   * @throws InvalidParametersException when the id is not valid
+   * Add a Reimbursement object to the receivablesReimbursement collection.
+   *
+   * @param object the object to add to the collection
    */
-  void setTransactionId(BigInteger transactionId)
-      throws InvalidParametersException;
+  public void addReceivablesReimbursementReimbursement(com.poesys.accounting.db.transaction.IReimbursement object);
 }

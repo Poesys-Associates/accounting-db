@@ -8,7 +8,7 @@ package com.poesys.accounting.db.account.sql;
 
 /**
  * <p>
- * A query of a collection of Account objects using the primary key of 
+ * A query of a collection of FiscalYearAccount objects using the primary key of 
  * an associated AccountGroup object. This class is the concrete 
  * subclass of the generated abstract class AbstractQueryAccountsBy${query.foriegnTypeName}.
  *</p>
@@ -21,5 +21,12 @@ package com.poesys.accounting.db.account.sql;
  * @author Poesys/DB Cartridge
  */
 public class QueryAccountsByAccountGroup extends AbstractQueryAccountsByAccountGroup {
+  /** SQL query statement for FiscalYearAccount */
+  private static final String SQL =
+    "SELECT FiscalYearAccount.accountName, FiscalYearAccount.entityName, FiscalYearAccount.year, FiscalYearAccount.orderNumber, FiscalYearAccount.accountType, FiscalYearAccount.groupOrderNumber FROM FiscalYearAccount WHERE FiscalYearAccount.accountType = ? AND FiscalYearAccount.groupOrderNumber = ?";
 
+  @Override
+  public String getSql() {
+    return SQL;
+  }
 }

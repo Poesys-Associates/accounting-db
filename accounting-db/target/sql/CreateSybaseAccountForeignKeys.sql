@@ -10,10 +10,29 @@
 -- Foreign keys for FiscalYearAccount
 
 ALTER TABLE FiscalYearAccount ADD CONSTRAINT accounts FOREIGN KEY (accountName, entityName) REFERENCES Account(accountName, entityName);
+ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, orderNumber) REFERENCES AccountGroup(accountType, orderNumber);
+ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, orderNumber) REFERENCES AccountGroup(accountType, orderNumber);
 ALTER TABLE FiscalYearAccount ADD CONSTRAINT years FOREIGN KEY (year) REFERENCES FiscalYear(year);
 
 -- Foreign keys for Account
 
 ALTER TABLE Account ADD CONSTRAINT entity FOREIGN KEY (entityName) REFERENCES Entity(entityName);
-ALTER TABLE Account ADD CONSTRAINT group FOREIGN KEY (groupName) REFERENCES AccountGroup(groupName);
+
+-- Foreign keys for AccountGroup
+
+ALTER TABLE AccountGroup ADD CONSTRAINT type FOREIGN KEY (accountType) REFERENCES AccountType(accountType);
+
+-- Foreign keys for CapitalAccount
+
+ALTER TABLE CapitalAccount ADD CONSTRAINT CapitalAccountPkFk FOREIGN KEY (accountName) REFERENCES Account(accountName);
+ALTER TABLE CapitalAccount ADD CONSTRAINT capitalEntity FOREIGN KEY (capitalEntityName) REFERENCES CapitalEntity(capitalEntityName);
+
+-- Foreign keys for DistributionAccount
+
+ALTER TABLE DistributionAccount ADD CONSTRAINT capitalEntity FOREIGN KEY (capitalEntityName) REFERENCES CapitalEntity(capitalEntityName);
+ALTER TABLE DistributionAccount ADD CONSTRAINT DistributionAccountPkFk FOREIGN KEY (accountName) REFERENCES Account(accountName);
+
+-- Foreign keys for SimpleAccount
+
+ALTER TABLE SimpleAccount ADD CONSTRAINT SimpleAccountPkFk FOREIGN KEY (accountName) REFERENCES Account(accountName);
 

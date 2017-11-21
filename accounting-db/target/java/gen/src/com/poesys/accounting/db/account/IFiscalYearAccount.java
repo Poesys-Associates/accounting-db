@@ -53,7 +53,9 @@ public interface IFiscalYearAccount extends IDbDto {
 
   /**
    * <p>
-   * the integer rank of the account in the list of accounts
+   * the integer rank of the account within the associated account group; there will
+   * be duplicates for the set of accounts in a fiscal year as there are multiple
+   * account groups for the fiscal year
    * </p>
    * <p>
    * Added by AddLocalAttributeProperties
@@ -76,10 +78,82 @@ public interface IFiscalYearAccount extends IDbDto {
    * </p>
    *
    * @param orderNumber the value to set into the orderNumber
+   * @throws com.poesys.db.InvalidParametersException when the orderNumber 
+   *       value is null
    * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setOrderNumber(java.lang.Integer orderNumber) ;
+  public void setOrderNumber(java.lang.Integer orderNumber) throws com.poesys.db.InvalidParametersException;
 
+
+  /**
+   * <p>
+   * the group into which the account is aggregated
+   * </p>
+   * <p>
+   * Added by AddToOneAssociationRequiredObjectProperties
+   * Owning DTO: AccountGroup
+   * Owning package: com.poesys.accounting.db.account
+   * Property prefix: group
+   * </p>
+   * @return a com.poesys.accounting.db.account.IAccountGroup group
+   */
+  public com.poesys.accounting.db.account.IAccountGroup getGroup();
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
+
+  /**
+   * <p>
+   * Set the group.
+   * </p>
+   *
+   * @param group the value to set into the group
+   * @throws com.poesys.db.InvalidParametersException when the group 
+   *       value is null
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
+   */
+  public void setGroup(com.poesys.accounting.db.account.IAccountGroup group) throws com.poesys.db.InvalidParametersException;
+
+
+  /**
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   * <p>
+   * Added by AddNaturalKeyProperties + AddParentKeyAttributes + AddToOneAssociationAttributeProperties
+   * Owning DTO: AccountGroup
+   * Owning package: com.poesys.accounting.db.account
+   * Property prefix: group
+   * </p>
+   * @return a java.lang.String accountType
+   */
+  public java.lang.String getAccountType();
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: false
+
+  /**
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   * <p>
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
+   * Owning DTO: AccountGroup
+   * Owning package: com.poesys.accounting.db.account
+   * Property prefix: group
+   * </p>
+   * @return a java.lang.Integer groupOrderNumber
+   */
+  public java.lang.Integer getGroupOrderNumber();
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: false
 
   /**
    * <p>

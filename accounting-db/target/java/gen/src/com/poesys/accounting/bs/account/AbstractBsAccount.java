@@ -146,23 +146,12 @@ public abstract class AbstractBsAccount
    * @param description text description of the nature of the account
    * @param debitDefault whether the account transaction items default to a debit or credit item; chosen
 as the "usual" value for items in this account
-   * @param accountType the kind of account:
-<ul>
-<li>Asset: a kind of property with a value owned by the accounting entity</li>
-<li>Liability: a kind of debt owed by the accounting entity to another
-entity</li>
-<li>Equity: a kind of fund invested by the accounting entity in the business;
-the difference between value of assets and value of liabilities</li>
-<li>Income: revenues paid to the accounting entity</li>
-<li>Expense: money paid by the accounting entity to another entity</li>
-</ul>
-   * @param receivable whether this account is a receivable account, representing an asset that is a
-debt owed to the accounting entity
-   * @param active whether the account is active at the present time.
-   * @param groupName foreign key used by setter to query associated object
+   * @param active whether the account is active at the present time; an inactive account does not
+appear in lists of accounts available through the user interface but does appear
+in reports where referenced by items
    */
-  public AbstractBsAccount(IPrimaryKey key, java.lang.String entityName, java.lang.String accountName, java.lang.String description, java.lang.Boolean debitDefault, java.lang.String accountType, java.lang.Boolean receivable, java.lang.Boolean active, java.lang.String groupName) {
-    super(new AccountProxy(new Account(key, entityName, accountName, description, debitDefault, accountType, receivable, active, groupName)));
+  public AbstractBsAccount(IPrimaryKey key, java.lang.String entityName, java.lang.String accountName, java.lang.String description, java.lang.Boolean debitDefault, java.lang.Boolean active) {
+    super(new AccountProxy(new Account(key, entityName, accountName, description, debitDefault, active)));
   }
 
   @SuppressWarnings("unchecked")
@@ -314,139 +303,9 @@ debt owed to the accounting entity
 
   /**
    * <p>
-   * the kind of account:
-   * </p>
-   * <p>
-   * <ul>
-   * </p>
-   * <p>
-   * <li>Asset: a kind of property with a value owned by the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Liability: a kind of debt owed by the accounting entity to another
-   * entity</li>
-   * </p>
-   * <p>
-   * <li>Equity: a kind of fund invested by the accounting entity in the business;
-   * the difference between value of assets and value of liabilities</li>
-   * </p>
-   * <p>
-   * <li>Income: revenues paid to the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Expense: money paid by the accounting entity to another entity</li>
-   * </p>
-   * <p>
-   * </ul>
-   * </p>
-   * <p>
-   * Added by AddLocalAttributeProperties as data member
-   * </p>
-   * <ul>
-   * <li>Property is read/write: true</li>
-   * <li>Property is defined in the data-access object Account</li>
-   * </ul>
-   * @return a java.lang.String accountType
-   */
-  public java.lang.String getAccountType() {
-    return dto.getAccountType();
-  }
-
-  /**
-   * <p>
-   * Set the accountType.
-   * </p>
-   * <p>
-   * the kind of account:
-   * </p>
-   * <p>
-   * <ul>
-   * </p>
-   * <p>
-   * <li>Asset: a kind of property with a value owned by the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Liability: a kind of debt owed by the accounting entity to another
-   * entity</li>
-   * </p>
-   * <p>
-   * <li>Equity: a kind of fund invested by the accounting entity in the business;
-   * the difference between value of assets and value of liabilities</li>
-   * </p>
-   * <p>
-   * <li>Income: revenues paid to the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Expense: money paid by the accounting entity to another entity</li>
-   * </p>
-   * <p>
-   * </ul>
-   * </p>
-   * <p>
-   * Added by AddLocalAttributeProperties
-   * </p>
-   * <ul>
-   * <li>Property is read/write: true</li>
-   * <li>Property is defined in the data-access object Account</li>
-   * </ul>
-   * @param accountType the associated business object
-   * @throws com.poesys.db.dto.DtoStatusException when the system can't set
-   *                 the data-access status to CHANGED
-   * @throws com.poesys.db.InvalidParametersException when the property is
-   *                 required but the input parameter accountType is null
-   */
-  public void setAccountType(java.lang.String accountType) 
-      throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
-    dto.setAccountType(accountType);
-  }
-
-  /**
-   * <p>
-   * whether this account is a receivable account, representing an asset that is a
-   * debt owed to the accounting entity
-   * </p>
-   * <p>
-   * Added by AddLocalAttributeProperties as data member
-   * </p>
-   * <ul>
-   * <li>Property is read/write: true</li>
-   * <li>Property is defined in the data-access object Account</li>
-   * </ul>
-   * @return a java.lang.Boolean receivable
-   */
-  public java.lang.Boolean getReceivable() {
-    return dto.getReceivable();
-  }
-
-  /**
-   * <p>
-   * Set the receivable.
-   * </p>
-   * <p>
-   * whether this account is a receivable account, representing an asset that is a
-   * debt owed to the accounting entity
-   * </p>
-   * <p>
-   * Added by AddLocalAttributeProperties
-   * </p>
-   * <ul>
-   * <li>Property is read/write: true</li>
-   * <li>Property is defined in the data-access object Account</li>
-   * </ul>
-   * @param receivable the associated business object
-   * @throws com.poesys.db.dto.DtoStatusException when the system can't set
-   *                 the data-access status to CHANGED
-   * @throws com.poesys.db.InvalidParametersException when the property is
-   *                 required but the input parameter receivable is null
-   */
-  public void setReceivable(java.lang.Boolean receivable) 
-      throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
-    dto.setReceivable(receivable);
-  }
-
-  /**
-   * <p>
-   * whether the account is active at the present time.
+   * whether the account is active at the present time; an inactive account does not
+   * appear in lists of accounts available through the user interface but does appear
+   * in reports where referenced by items
    * </p>
    * <p>
    * Added by AddLocalAttributeProperties as data member
@@ -466,7 +325,9 @@ debt owed to the accounting entity
    * Set the active.
    * </p>
    * <p>
-   * whether the account is active at the present time.
+   * whether the account is active at the present time; an inactive account does not
+   * appear in lists of accounts available through the user interface but does appear
+   * in reports where referenced by items
    * </p>
    * <p>
    * Added by AddLocalAttributeProperties
@@ -484,49 +345,6 @@ debt owed to the accounting entity
   public void setActive(java.lang.Boolean active) 
       throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
     dto.setActive(active);
-  }
-
-  /**
-   * <p>
-   * the group into which the account is aggregated
-   * </p>
-   * <p>
-   * Added by AddToOneAssociationRequiredObjectProperties as data member
-   * </p>
-   * <ul>
-   * <li>Property is read/write: true</li>
-   * <li>Property is defined in the data-access object Account</li>
-   * </ul>
-   * @return a com.poesys.accounting.bs.account.BsAccountGroup group
-   */
-  public com.poesys.accounting.bs.account.BsAccountGroup getGroup() {
-    // Return 4
-    return new com.poesys.accounting.bs.account.BsAccountGroup(dto.getGroup());
-  }
-
-  /**
-   * <p>
-   * Set the group.
-   * </p>
-   * <p>
-   * the group into which the account is aggregated
-   * </p>
-   * <p>
-   * Added by AddToOneAssociationRequiredObjectProperties
-   * </p>
-   * <ul>
-   * <li>Property is read/write: true</li>
-   * <li>Property is defined in the data-access object Account</li>
-   * </ul>
-   * @param group the associated business object
-   * @throws com.poesys.db.dto.DtoStatusException when the system can't set
-   *                 the data-access status to CHANGED
-   * @throws com.poesys.db.InvalidParametersException when the property is
-   *                 required but the input parameter group is null
-   */
-  public void setGroup(com.poesys.accounting.bs.account.BsAccountGroup group) 
-      throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
-    dto.setGroup(group == null ? null : group.toDto());
   }
 
   /**
@@ -570,24 +388,6 @@ debt owed to the accounting entity
 
   /**
    * <p>
-   * Foreign key used by setter to query associated object
-   * </p>
-   * <p>
-   * Added by AddNaturalKeyProperties + AddToOneAssociationAttributeProperties as data member
-   * </p>
-   * <ul>
-   * <li>Property is read/write: false</li>
-   * <li>Property is defined in the data-access object Account</li>
-   * </ul>
-   * @return a java.lang.String groupName
-   */
-  public java.lang.String getGroupName() {
-    // Return 3
-    return dto.getGroupName();
-  }
-
-  /**
-   * <p>
    * the set of fiscal years for which an account is active
    * </p>
    * <p>
@@ -601,7 +401,7 @@ debt owed to the accounting entity
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object Account</li>
    * </ul>
-   * @return a com.poesys.accounting.bs.account.BsFiscalYear groupName
+   * @return a com.poesys.accounting.bs.account.BsFiscalYear entity
    * @throws java.sql.SQLException when the method can't get a SQL connection to 
    *                               load the property lazily
    */
@@ -624,14 +424,14 @@ debt owed to the accounting entity
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object Account</li>
    * </ul>
-   * @param groupName the associated business object
+   * @param entity the associated business object
    * @throws com.poesys.db.dto.DtoStatusException when the system can't set
    *                 the data-access status to CHANGED
    */
-  public void setFiscalYear(java.util.Collection<com.poesys.accounting.bs.account.BsFiscalYear> groupName) 
+  public void setFiscalYear(java.util.Collection<com.poesys.accounting.bs.account.BsFiscalYear> entity) 
       throws com.poesys.db.dto.DtoStatusException{
     YearsCollectionBuilder builder = new YearsCollectionBuilder();
-      dto.setFiscalYear(builder.getCollection(groupName));
+      dto.setFiscalYear(builder.getCollection(entity));
   }
 
   /**
@@ -645,7 +445,7 @@ debt owed to the accounting entity
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object Account</li>
    * </ul>
-   * @return a com.poesys.accounting.bs.transaction.BsItem groupName
+   * @return a com.poesys.accounting.bs.transaction.BsItem entity
    */
   public java.util.List<com.poesys.accounting.bs.transaction.BsItem> getItems() {
     BsItemsListBuilder builder = new BsItemsListBuilder();
@@ -666,14 +466,14 @@ debt owed to the accounting entity
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object Account</li>
    * </ul>
-   * @param groupName the associated business object
+   * @param entity the associated business object
    * @throws com.poesys.db.dto.DtoStatusException when the system can't set
    *                 the data-access status to CHANGED
    */
-  public void setItems(java.util.List<com.poesys.accounting.bs.transaction.BsItem> groupName) 
+  public void setItems(java.util.List<com.poesys.accounting.bs.transaction.BsItem> entity) 
       throws com.poesys.db.dto.DtoStatusException{
     ItemsListBuilder builder = new ItemsListBuilder();
-      dto.setItems(builder.getList(groupName));
+      dto.setItems(builder.getList(entity));
   }
 
   /**
@@ -691,7 +491,7 @@ debt owed to the accounting entity
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object Account</li>
    * </ul>
-   * @return a com.poesys.accounting.bs.account.BsFiscalYearAccount groupName
+   * @return a com.poesys.accounting.bs.account.BsFiscalYearAccount entity
    * @throws java.sql.SQLException when the method can't get a SQL connection to 
    *                               load the property lazily
    */
@@ -714,16 +514,16 @@ debt owed to the accounting entity
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object Account</li>
    * </ul>
-   * @param groupName the associated business object
+   * @param entity the associated business object
    * @throws com.poesys.db.dto.DtoStatusException when the system can't set
    *                 the data-access status to CHANGED
    * @throws com.poesys.db.InvalidParametersException when the property is
-   *                 required but the input parameter groupName is null
+   *                 required but the input parameter entity is null
    */
-  public void setFiscalYearAccount(java.util.Collection<com.poesys.accounting.bs.account.BsFiscalYearAccount> groupName) 
+  public void setFiscalYearAccount(java.util.Collection<com.poesys.accounting.bs.account.BsFiscalYearAccount> entity) 
       throws com.poesys.db.dto.DtoStatusException, com.poesys.db.InvalidParametersException {
     FiscalYearAccountCollectionBuilder builder = new FiscalYearAccountCollectionBuilder();
-      dto.setFiscalYearAccount(builder.getCollection(groupName));
+      dto.setFiscalYearAccount(builder.getCollection(entity));
   }
 
   /**

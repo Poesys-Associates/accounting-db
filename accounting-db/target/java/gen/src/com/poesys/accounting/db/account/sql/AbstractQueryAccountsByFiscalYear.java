@@ -38,7 +38,7 @@ public abstract class AbstractQueryAccountsByFiscalYear
     implements IParameterizedQuerySql<com.poesys.accounting.db.account.IAccount, com.poesys.accounting.db.account.IFiscalYear> {
   /** SQL query statement for Account */
   private static final String SQL =
-    "SELECT a.entityName, a.accountName, a.description, a.debitDefault, a.accountType, a.receivable, a.active, a.groupName FROM Account a JOIN FiscalYearAccount b ON a.accountName = b.accountName AND a.entityName = b.entityName WHERE b.year = ?";
+    "SELECT a.entityName, a.accountName, a.description, a.debitDefault, a.active, CapitalAccount.ownership, CapitalAccount.capitalEntityName, DistributionAccount.capitalEntityName, SimpleAccount.receivable, CASE WHEN CapitalAccount.accountName IS NOT NULL THEN 'CapitalAccount' WHEN CapitalAccount.entityName IS NOT NULL THEN 'CapitalAccount' WHEN DistributionAccount.accountName IS NOT NULL THEN 'DistributionAccount' WHEN DistributionAccount.entityName IS NOT NULL THEN 'DistributionAccount' WHEN SimpleAccount.accountName IS NOT NULL THEN 'SimpleAccount' WHEN SimpleAccount.entityName IS NOT NULL THEN 'SimpleAccount' ELSE NULL END AS discriminant FROM Account a JOIN FiscalYearAccount b ON a.accountName = b.accountName AND a.entityName = b.entityName LEFT OUTER JOIN CapitalAccount CapitalAccount ON a.accountName = CapitalAccount.accountName AND a.entityName = CapitalAccount.entityName LEFT OUTER JOIN DistributionAccount DistributionAccount ON a.accountName = DistributionAccount.accountName AND a.entityName = DistributionAccount.entityName LEFT OUTER JOIN SimpleAccount SimpleAccount ON a.accountName = SimpleAccount.accountName AND a.entityName = SimpleAccount.entityName WHERE b.year = ?";
 
   @Override
   public void bindParameters(PreparedStatement stmt, com.poesys.accounting.db.account.IFiscalYear parameters) {
@@ -54,13 +54,40 @@ public abstract class AbstractQueryAccountsByFiscalYear
 
   @Override
   public com.poesys.accounting.db.account.IAccount getData(ResultSet rs) {
+    com.poesys.accounting.db.account.IAccount data = null;
     try {
-      IPrimaryKey key = 
-        com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(rs, "");
-      return com.poesys.accounting.db.account.AccountFactory.getAccountData(key, rs);
+      // Account has subclasses, so the query returns an object of the actual
+      // type rather than just of type Account. It uses a discriminant expression
+      // that the result set returns to figure out which class to instantiate.
+    
+      // Get the discriminant from the result set.
+      String discriminant = rs.getString("discriminant");
+      // Check for CapitalAccount, set return only if not already set
+      if (discriminant != null && discriminant.equals("CapitalAccount") && data == null) {
+        // Use the account factory to get the data.
+        IPrimaryKey key = 
+          com.poesys.accounting.db.account.AccountFactory.getCapitalAccountPrimaryKey(rs, "");
+        data = com.poesys.accounting.db.account.AccountFactory.getCapitalAccountData(key, rs);
+      }
+      // Check for DistributionAccount, set return only if not already set
+      if (discriminant != null && discriminant.equals("DistributionAccount") && data == null) {
+        // Use the account factory to get the data.
+        IPrimaryKey key = 
+          com.poesys.accounting.db.account.AccountFactory.getDistributionAccountPrimaryKey(rs, "");
+        data = com.poesys.accounting.db.account.AccountFactory.getDistributionAccountData(key, rs);
+      }
+      // Check for SimpleAccount, set return only if not already set
+      if (discriminant != null && discriminant.equals("SimpleAccount") && data == null) {
+        // Use the account factory to get the data.
+        IPrimaryKey key = 
+          com.poesys.accounting.db.account.AccountFactory.getSimpleAccountPrimaryKey(rs, "");
+        data = com.poesys.accounting.db.account.AccountFactory.getSimpleAccountData(key, rs);
+      }
     } catch (com.poesys.db.InvalidParametersException | SQLException e) {
-      throw new com.poesys.db.DbErrorException("Error getting primary key", e);
+      throw new com.poesys.db.DbErrorException("Error getting data", e);
     }
+    
+    return data;
   }
 
   @Override

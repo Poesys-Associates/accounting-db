@@ -7,12 +7,17 @@
 package com.poesys.accounting.db.transaction;
 
 
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.poesys.db.InvalidParametersException;
+import com.poesys.db.col.AbstractColumnValue;
 import com.poesys.db.col.IntegerColumnValue;
 import com.poesys.db.pk.IPrimaryKey;
+import com.poesys.db.pk.PrimaryKeyFactory;
 
 
 /**
@@ -162,6 +167,40 @@ public abstract class AbstractTransactionFactory {
   }
 
   /**
+   * Get the transaction item primary key initialized with an integer id and
+   * order number and with column names prefixed with a specified String value.
+   * This is a custom method that produces keys for recursive associations.
+   * 
+   * @param prefix the column name prefix
+   * @param orderNumber the integer order number
+   * @param transactionId the integer id
+   * @return the primary key
+   * @throws InvalidParametersException
+   */
+  private static IPrimaryKey getPrefixedItemPrimaryKey(String prefix,
+                                                       Integer orderNumber,
+                                                       BigInteger transactionId)
+      throws InvalidParametersException {
+    IPrimaryKey key = null;
+    IPrimaryKey parentKey =
+      getPrefixedTransactionPrimaryKey(prefix, transactionId);
+
+    // Check the parent key; if it is null, the return key should be null.
+    if (parentKey != null) {
+      List<AbstractColumnValue> list = new ArrayList<AbstractColumnValue>();
+      list.add(new IntegerColumnValue(prefix + "OrderNumber", orderNumber));
+      IPrimaryKey subKey =
+        PrimaryKeyFactory.createNaturalKey(list,
+                                           "com.poesys.accounting.db.transaction.Item");
+      key =
+        PrimaryKeyFactory.createCompositeKey(parentKey,
+                                             subKey,
+                                             "com.poesys.accounting.db.transaction.Item");
+    }
+    return key;
+  }
+
+  /**
    * Retrieve the Transaction data from the result set's current row and create
    * a Transaction object.
    * 
@@ -273,6 +312,31 @@ public abstract class AbstractTransactionFactory {
   }
 
   /**
+   * Get the transaction primary key initialized with an integer id and with a
+   * column name prefixed with a specified String value. This is a custom method
+   * that produces keys for recursive associations.
+   * 
+   * @param prefix the column name prefix
+   * @param transactionId the integer id
+   * @return the primary key
+   * @throws InvalidParametersException
+   */
+  private static IPrimaryKey getPrefixedTransactionPrimaryKey(String prefix,
+                                                              BigInteger transactionId)
+      throws InvalidParametersException {
+    IPrimaryKey key = null;
+    // Only create a key if the input value is present.
+    if (transactionId != null) {
+      key =
+        com.poesys.db.pk.PrimaryKeyFactory.createSequenceKey(prefix
+                                                                 + "TransactionId",
+                                                             transactionId,
+                                                             "com.poesys.accounting.db.transaction.Transaction");
+    }
+    return key;
+  }
+
+  /**
    * Retrieve the Reimbursement data from the result set's current row and
    * create a Reimbursement object.
    * 
@@ -356,74 +420,10 @@ public abstract class AbstractTransactionFactory {
   public static IPrimaryKey getReimbursementPrimaryKey(ResultSet rs,
                                                        String prefix)
       throws SQLException, InvalidParametersException {
-    IPrimaryKey key = null;
-    if (prefix == null) {
-      prefix = "";
-    }
-    java.util.ArrayList<IPrimaryKey> list =
-      new java.util.ArrayList<IPrimaryKey>();
-    // Associated key type CompositeKey
-    IPrimaryKey receivablesKey =
-      getTransactionPrimaryKey(rs, prefix + "receivables");
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> receivablesKeys =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
-    // Property source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass +
-    // getAssociatedKeys
-    java.lang.Integer receivablesOrderNumberValue =
-      rs.getInt("receivablesOrderNumber");
-
-    receivablesKeys.add(new com.poesys.db.col.IntegerColumnValue(prefix
-                                                                     + "receivablesOrderNumber",
-                                                                 receivablesOrderNumberValue));
-    // Property source: AddGeneratedKeyProperties + AddParentKeyAttributes +
-    // getAssociatedKeys
-    java.math.BigInteger receivablesTransactionIdValue =
-      rs.getBigDecimal("receivablesTransactionId") == null ? null
-          : rs.getBigDecimal("receivablesTransactionId").toBigInteger();
-    ;
-
-    receivablesKeys.add(new com.poesys.db.col.BigIntegerColumnValue(prefix
-                                                                        + "receivablesTransactionId",
-                                                                    receivablesTransactionIdValue));
-    IPrimaryKey receivablesSubKey =
-      com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(receivablesKeys,
-                                                          "com.poesys.accounting.db.transaction.Reimbursement");
-    list.add(com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(receivablesKey,
-                                                                   receivablesSubKey,
-                                                                   "com.poesys.accounting.db.transaction.Reimbursement"));
-    // Associated key type CompositeKey
-    IPrimaryKey reimbursingItemsKey =
-      getTransactionPrimaryKey(rs, prefix + "reimbursingItems");
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> reimbursingItemsKeys =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
-    // Property source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass +
-    // getAssociatedKeys
-    java.lang.Integer reimbursingItemsOrderNumberValue =
-      rs.getInt("reimbursingItemsOrderNumber");
-
-    reimbursingItemsKeys.add(new com.poesys.db.col.IntegerColumnValue(prefix
-                                                                          + "reimbursingItemsOrderNumber",
-                                                                      reimbursingItemsOrderNumberValue));
-    // Property source: AddGeneratedKeyProperties + AddParentKeyAttributes +
-    // getAssociatedKeys
-    java.math.BigInteger reimbursingItemsTransactionIdValue =
-      rs.getBigDecimal("reimbursingItemsTransactionId") == null ? null
-          : rs.getBigDecimal("reimbursingItemsTransactionId").toBigInteger();
-    ;
-
-    reimbursingItemsKeys.add(new com.poesys.db.col.BigIntegerColumnValue(prefix
-                                                                             + "reimbursingItemsTransactionId",
-                                                                         reimbursingItemsTransactionIdValue));
-    IPrimaryKey reimbursingItemsSubKey =
-      com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(reimbursingItemsKeys,
-                                                          "com.poesys.accounting.db.transaction.Reimbursement");
-    list.add(com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(reimbursingItemsKey,
-                                                                   reimbursingItemsSubKey,
-                                                                   "com.poesys.accounting.db.transaction.Reimbursement"));
-    key =
-      com.poesys.db.pk.PrimaryKeyFactory.createAssociationKey(list,
-                                                              "com.poesys.accounting.db.transaction.Reimbursement");
-    return key;
+    return getReimbursementPrimaryKey(rs.getInt("receivablesOrderNumber"),
+                                      rs.getInt("reimbursingItemsOrderNumber"),
+                                      rs.getBigDecimal("receivablesTransactionId").toBigInteger(),
+                                      rs.getBigDecimal("reimbursingItemsTransactionId").toBigInteger());
   }
 
   /**
@@ -456,51 +456,22 @@ public abstract class AbstractTransactionFactory {
                                                        java.math.BigInteger reimbursingItemsTransactionId)
       throws InvalidParametersException {
     IPrimaryKey key = null;
-    // Track whether any input keys are null.
-    boolean noNulls = true;
+
     java.util.ArrayList<IPrimaryKey> list =
       new java.util.ArrayList<IPrimaryKey>();
-    // Associated key: receivables with type CompositeKey
-    IPrimaryKey receivablesParentKey =
-      com.poesys.db.pk.PrimaryKeyFactory.createSequenceKey("receivablesTransactionId",
-                                                           receivablesTransactionId,
-                                                           "com.poesys.accounting.db.transaction.Transaction");
-    if (receivablesParentKey != null) {
-      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> receivablesItemList =
-        new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
-      receivablesItemList.add(new IntegerColumnValue("receivablesOrderNumber",
-                                                     receivablesOrderNumber));
-      IPrimaryKey receivablesSubKey =
-        com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(receivablesItemList,
-                                                            "com.poesys.accounting.db.transaction.Item");
-      key =
-        com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(receivablesParentKey,
-                                                              receivablesSubKey,
-                                                              "com.poesys.accounting.db.transaction.Item");
-    } else {
-      noNulls = false;
-    }
-    // Associated key: reimbursingItems with type CompositeKey
-    IPrimaryKey reimbursingItemsParentKey =
-      com.poesys.db.pk.PrimaryKeyFactory.createSequenceKey("reimbursingItemsTransactionId",
-                                                           reimbursingItemsTransactionId,
-                                                           "com.poesys.accounting.db.transaction.Transaction");
-    if (reimbursingItemsParentKey != null) {
-      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> reimbursingItemsList =
-        new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
-      reimbursingItemsList.add(new IntegerColumnValue("reimbursingItemsOrderNumber",
-                                                      reimbursingItemsOrderNumber));
-      IPrimaryKey reimbursingItemsSubKey =
-        com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(reimbursingItemsList,
-                                                            "com.poesys.accounting.db.transaction.Item");
-      key =
-        com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(reimbursingItemsParentKey,
-                                                              reimbursingItemsSubKey,
-                                                              "com.poesys.accounting.db.transaction.Item");
-    } else {
-      noNulls = false;
-    }
-    if (noNulls) {
+
+    IPrimaryKey receivablesKey =
+      getPrefixedItemPrimaryKey("receivables",
+                                receivablesOrderNumber,
+                                receivablesTransactionId);
+    IPrimaryKey reimbursingItemsKey =
+      getPrefixedItemPrimaryKey("reimbursingItems",
+                                reimbursingItemsOrderNumber,
+                                reimbursingItemsTransactionId);
+    list.add(receivablesKey);
+    list.add(reimbursingItemsKey);
+
+    if (receivablesKey != null && reimbursingItemsKey != null) {
       key =
         com.poesys.db.pk.PrimaryKeyFactory.createAssociationKey(list,
                                                                 "com.poesys.accounting.db.transaction.Reimbursement");

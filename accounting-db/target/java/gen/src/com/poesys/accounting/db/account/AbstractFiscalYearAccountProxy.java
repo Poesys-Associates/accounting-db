@@ -147,6 +147,55 @@ public abstract class AbstractFiscalYearAccountProxy extends AbstractLazyLoading
   }
 
   /**
+   * Query setter for lazily querying nested group object
+   * (object property)
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   *
+   * @see com.poesys.accounting.db.account.sql.QueryAccountGroup
+   */
+  private class QueryGroupSetter 
+      extends com.poesys.db.dto.AbstractLazyObjectSetter<com.poesys.accounting.db.account.IAccountGroup> {
+    /** Serial version UID for Serializable object */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Create a QueryGroupSetter object.
+     */
+    public QueryGroupSetter() {
+      super("com.poesys.accounting.db.account", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.account.AccountGroup.class.getName();
+    }
+
+    @Override
+    protected com.poesys.db.pk.IPrimaryKey getKey() {
+      // Generate an com.poesys.accounting.db.account.IAccountGroup primary key with the value 
+      // from the com.poesys.accounting.db.account.IFiscalYearAccount object
+      return com.poesys.accounting.db.account.AccountFactory.getAccountGroupPrimaryKey(((IFiscalYearAccount)dto).getAccountType(), ((IFiscalYearAccount)dto).getGroupOrderNumber());
+    }
+
+    @Override
+    protected com.poesys.db.dao.query.IKeyQuerySql<com.poesys.accounting.db.account.IAccountGroup> getSql() {
+      return new com.poesys.accounting.db.account.sql.QueryAccountGroup();
+    }
+
+    @Override
+    protected void set(com.poesys.accounting.db.account.IAccountGroup dto) {
+      setGroup(dto);
+    }
+
+    @Override
+    public boolean isSet() {
+      // Set if proxied DTO group exists
+      return (((FiscalYearAccount)dto).getGroup() != null);
+    }
+  }
+
+  /**
    * Create a FiscalYearAccountProxy. The concrete subclass must call this constructor.
    *
    * @param dto the DTO to proxy
@@ -160,6 +209,7 @@ public abstract class AbstractFiscalYearAccountProxy extends AbstractLazyLoading
     // Add query setters for single-object deserialization.
     readObjectSetters.add(new QueryFiscalYearSetter());
     readObjectSetters.add(new QueryAccountSetter());
+    readObjectSetters.add(new QueryGroupSetter());
   }
 
   /**
@@ -211,10 +261,86 @@ public abstract class AbstractFiscalYearAccountProxy extends AbstractLazyLoading
    * interface does not contain this method.
    *
    * @param orderNumber the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
    */
   public void setOrderNumber(java.lang.Integer orderNumber)
-      {
+      throws com.poesys.db.InvalidParametersException {
     ((FiscalYearAccount)dto).setOrderNumber(orderNumber);
+  }
+
+  /**
+   * Get an object of com.poesys.accounting.db.account.IAccountGroup
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   * Lazy: false
+   * 
+   * @return a com.poesys.accounting.db.account.IAccountGroup
+   */
+  public com.poesys.accounting.db.account.IAccountGroup getGroup() {
+    return ((FiscalYearAccount)dto).getGroup();
+  }
+
+  /**
+   * Set the group from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param group the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  public void setGroup(com.poesys.accounting.db.account.IAccountGroup group)
+      throws com.poesys.db.InvalidParametersException {
+    ((FiscalYearAccount)dto).setGroup(group);
+  }
+
+  /**
+   * Get an object of java.lang.String
+   *
+   * Source: AddNaturalKeyProperties + AddParentKeyAttributes + AddToOneAssociationAttributeProperties
+   * Lazy: false
+   * 
+   * @return a java.lang.String
+   */
+  public java.lang.String getAccountType() {
+    return ((FiscalYearAccount)dto).getAccountType();
+  }
+
+  /**
+   * Set the accountType from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param accountType the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  void setAccountType(java.lang.String accountType)
+      throws com.poesys.db.InvalidParametersException {
+    ((FiscalYearAccount)dto).setAccountType(accountType);
+  }
+
+  /**
+   * Get an object of java.lang.Integer
+   *
+   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
+   * Lazy: false
+   * 
+   * @return a java.lang.Integer
+   */
+  public java.lang.Integer getGroupOrderNumber() {
+    return ((FiscalYearAccount)dto).getGroupOrderNumber();
+  }
+
+  /**
+   * Set the groupOrderNumber from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param groupOrderNumber the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  void setGroupOrderNumber(java.lang.Integer groupOrderNumber)
+      throws com.poesys.db.InvalidParametersException {
+    ((FiscalYearAccount)dto).setGroupOrderNumber(groupOrderNumber);
   }
 
   /**

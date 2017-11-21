@@ -16,16 +16,16 @@ import com.poesys.db.dto.AbstractDto;
 
 /**
  * <p>
- * A data-access layer data-transfer object for the Item. This class is an
- * abstract class that contains AndroMDA generated code; change nothing in this
- * class. Instead, override any methods in the concrete subclass generated in
- * the same package. AndroMDA will overwrite this class each time you run it but
- * will never overwrite the concrete subclass.
+ * A data-access layer data-transfer object for the Item. This class
+ * is an abstract class that contains AndroMDA generated code; change nothing
+ * in this class. Instead, override any methods in the concrete subclass
+ * generated in the same package. AndroMDA will overwrite this class each time
+ * you run it but will never overwrite the concrete subclass.
  * </p>
  * <p>
  * A specific amount of value associated with a specific account within a
- * transaction parent; the item debits and credits must cancel each other out
- * for the set of all items belonging to the transaction (the transaction must
+ * transaction parent; the item debits and credits must cancel each other out for
+ * the set of all items belonging to the transaction (the transaction must
  * "balance"); the transaction orders the set of items according to an integer
  * order number, which is part of the primary key
  * </p>
@@ -33,8 +33,8 @@ import com.poesys.db.dto.AbstractDto;
  * Stereotypes:
  * </p>
  * <ul>
- * <li>CompositeKey</li>
- * <li>Persistent</li>
+ *     <li>CompositeKey</li>
+ *     <li>Persistent</li>
  * </ul>
  * <p>
  * Class is read/write: true
@@ -54,7 +54,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     new com.poesys.db.dto.Deserializer<AbstractItem>();
 
   // Setter strategy nested classes for single-object associations
-
+  
   /**
    * Nested class that manages the transaction association data
    *
@@ -62,11 +62,9 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    *
    * @author Poesys/DB Cartridge
    */
-  private class QueryTransactionSetter
-      extends
-      com.poesys.db.dto.AbstractObjectSetter<com.poesys.accounting.db.transaction.ITransaction> {
+  private class QueryTransactionSetter extends com.poesys.db.dto.AbstractObjectSetter<com.poesys.accounting.db.transaction.ITransaction> {
     private static final long serialVersionUID = 1L;
-
+    
     /**
      * Create a QueryTransactionSetter object.
      */
@@ -105,8 +103,8 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   /**
    * Post-process setter for post-processing nested object property transaction.
    */
-  private class PostProcessTransactionSetter extends
-      com.poesys.db.dto.AbstractPostProcessSetter {
+  private class PostProcessTransactionSetter 
+      extends com.poesys.db.dto.AbstractPostProcessSetter {
     // Property transaction source: AddToOneAssociationRequiredObjectProperties
     private static final long serialVersionUID = 1L;
 
@@ -138,8 +136,8 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   /**
    * Insert setter for inserting nested object property transaction.
    */
-  private class InsertTransactionSetter extends
-      com.poesys.db.dto.AbstractInsertSetter {
+  private class InsertTransactionSetter 
+      extends com.poesys.db.dto.AbstractInsertSetter {
     // Property transaction source: AddToOneAssociationRequiredObjectProperties
     private static final long serialVersionUID = 1L;
 
@@ -173,13 +171,12 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   }
 
   /**
-   * Setter for processing added transaction, updated transaction, and deleted
-   * transaction.
+   * Setter for processing added transaction, updated transaction, and 
+   * deleted transaction. 
    */
-
-  private class UpdateTransactionSetter
-      extends
-      com.poesys.db.dto.AbstractProcessNestedObject<com.poesys.accounting.db.transaction.ITransaction> {
+   
+  private class UpdateTransactionSetter 
+      extends com.poesys.db.dto.AbstractProcessNestedObject<com.poesys.accounting.db.transaction.ITransaction> {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -191,49 +188,43 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
 
     @Override
     protected void doChanged(com.poesys.accounting.db.transaction.ITransaction dto) {
-      // transaction source: AddToOneAssociationRequiredObjectProperties
-      // Immutable: false
-      com.poesys.db.dao.IDaoManager manager =
+        // transaction source: AddToOneAssociationRequiredObjectProperties
+        // Immutable: false
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.ITransaction> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Transaction.class.getName(),
-                           subsystem,
-                           2147483647);
-      com.poesys.db.dao.update.IUpdate<com.poesys.accounting.db.transaction.ITransaction> updater =
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.ITransaction> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Transaction.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.update.IUpdate<com.poesys.accounting.db.transaction.ITransaction> updater = 
         factory.getUpdate(new com.poesys.accounting.db.transaction.sql.UpdateTransaction());
 
       updater.update(dto);
       // Complete the update by setting the DTO to EXISTING status.
       dto.setExisting();
     }
-
+    
     @Override
     protected void doDeleted(com.poesys.accounting.db.transaction.ITransaction dto) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.ITransaction> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Transaction.class.getName(),
-                           subsystem,
-                           2147483647);
-      com.poesys.db.dao.delete.IDelete<com.poesys.accounting.db.transaction.ITransaction> dao =
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.ITransaction> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Transaction.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.delete.IDelete<com.poesys.accounting.db.transaction.ITransaction> dao = 
         factory.getDelete(new com.poesys.accounting.db.transaction.sql.DeleteTransaction());
       dao.delete(dto);
     }
 
     @Override
     protected void doNew(com.poesys.accounting.db.transaction.ITransaction dto) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.ITransaction> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Transaction.class.getName(),
-                           subsystem,
-                           2147483647);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.ITransaction> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Transaction.class.getName(), subsystem, 2147483647);
       com.poesys.db.dao.insert.IInsert<com.poesys.accounting.db.transaction.ITransaction> inserter =
-        factory.getInsert(new com.poesys.accounting.db.transaction.sql.InsertTransaction(),
-                          createKey());
+        factory.getInsert(new com.poesys.accounting.db.transaction.sql.InsertTransaction(), createKey());
+
 
       // Insert the superclass objects from the root down. Suppress nested
-      // inserts for the superclasses, wait until the concrete class. Also set
+      // inserts for the superclasses, wait until the concrete class. Also set 
       // pre-insert suppression off to have the root insert linked, to-one class
       // objects.
       dto.setSuppressNestedInserts(true);
@@ -241,7 +232,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
 
       // Suppress inserts in concrete class.
       dto.setSuppressNestedPreInserts(true);
-
+      
       // Insert the object of the current class after enabling nested inserts,
       // which will allow connecting up linked objects to any of the inserted
       // classes.
@@ -253,7 +244,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     protected com.poesys.accounting.db.transaction.ITransaction getDto() {
       return transaction;
     }
-
+    
     @Override
     protected String getClassName() {
       return com.poesys.accounting.db.transaction.Transaction.class.getName();
@@ -267,15 +258,14 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   }
 
   /**
-   * Foreign key object used by QueryTransactionSetter nested class to query
-   * object
+   * Foreign key object used by QueryTransactionSetter nested class to query object
    */
   private IPrimaryKey transactionKey;
-
+  
   /**
-   * Set the foreign key transactionKey. This has package access to enable the
-   * subsystem factory getData method to call this method to set the key by
-   * creating it from the queried result set.
+   * Set the foreign key transactionKey. This has package access to enable
+   * the subsystem factory getData method to call this method to set the key
+   * by creating it from the queried result set.
    *
    * @param transactionKey the foreign key
    */
@@ -290,11 +280,9 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    *
    * @author Poesys/DB Cartridge
    */
-  private class QueryAccountSetter
-      extends
-      com.poesys.db.dto.AbstractObjectSetter<com.poesys.accounting.db.account.IAccount> {
+  private class QueryAccountSetter extends com.poesys.db.dto.AbstractObjectSetter<com.poesys.accounting.db.account.IAccount> {
     private static final long serialVersionUID = 1L;
-
+    
     /**
      * Create a QueryAccountSetter object.
      */
@@ -333,8 +321,8 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   /**
    * Post-process setter for post-processing nested object property account.
    */
-  private class PostProcessAccountSetter extends
-      com.poesys.db.dto.AbstractPostProcessSetter {
+  private class PostProcessAccountSetter 
+      extends com.poesys.db.dto.AbstractPostProcessSetter {
     // Property account source: AddToOneAssociationRequiredObjectProperties
     private static final long serialVersionUID = 1L;
 
@@ -366,8 +354,8 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   /**
    * Insert setter for inserting nested object property account.
    */
-  private class InsertAccountSetter extends
-      com.poesys.db.dto.AbstractInsertSetter {
+  private class InsertAccountSetter 
+      extends com.poesys.db.dto.AbstractInsertSetter {
     // Property account source: AddToOneAssociationRequiredObjectProperties
     private static final long serialVersionUID = 1L;
 
@@ -401,12 +389,12 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   }
 
   /**
-   * Setter for processing added account, updated account, and deleted account.
+   * Setter for processing added account, updated account, and 
+   * deleted account. 
    */
-
-  private class UpdateAccountSetter
-      extends
-      com.poesys.db.dto.AbstractProcessNestedObject<com.poesys.accounting.db.account.IAccount> {
+   
+  private class UpdateAccountSetter 
+      extends com.poesys.db.dto.AbstractProcessNestedObject<com.poesys.accounting.db.account.IAccount> {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -418,49 +406,43 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
 
     @Override
     protected void doChanged(com.poesys.accounting.db.account.IAccount dto) {
-      // account source: AddToOneAssociationRequiredObjectProperties
-      // Immutable: false
-      com.poesys.db.dao.IDaoManager manager =
+        // account source: AddToOneAssociationRequiredObjectProperties
+        // Immutable: false
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> factory =
-        manager.getFactory(com.poesys.accounting.db.account.Account.class.getName(),
-                           subsystem,
-                           2147483647);
-      com.poesys.db.dao.update.IUpdate<com.poesys.accounting.db.account.IAccount> updater =
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.Account.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.update.IUpdate<com.poesys.accounting.db.account.IAccount> updater = 
         factory.getUpdate(new com.poesys.accounting.db.account.sql.UpdateAccount());
 
       updater.update(dto);
       // Complete the update by setting the DTO to EXISTING status.
       dto.setExisting();
     }
-
+    
     @Override
     protected void doDeleted(com.poesys.accounting.db.account.IAccount dto) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> factory =
-        manager.getFactory(com.poesys.accounting.db.account.Account.class.getName(),
-                           subsystem,
-                           2147483647);
-      com.poesys.db.dao.delete.IDelete<com.poesys.accounting.db.account.IAccount> dao =
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.Account.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.delete.IDelete<com.poesys.accounting.db.account.IAccount> dao = 
         factory.getDelete(new com.poesys.accounting.db.account.sql.DeleteAccount());
       dao.delete(dto);
     }
 
     @Override
     protected void doNew(com.poesys.accounting.db.account.IAccount dto) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> factory =
-        manager.getFactory(com.poesys.accounting.db.account.Account.class.getName(),
-                           subsystem,
-                           2147483647);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.Account.class.getName(), subsystem, 2147483647);
       com.poesys.db.dao.insert.IInsert<com.poesys.accounting.db.account.IAccount> inserter =
-        factory.getInsert(new com.poesys.accounting.db.account.sql.InsertAccount(),
-                          createKey());
+        factory.getInsert(new com.poesys.accounting.db.account.sql.InsertAccount(), createKey());
+
 
       // Insert the superclass objects from the root down. Suppress nested
-      // inserts for the superclasses, wait until the concrete class. Also set
+      // inserts for the superclasses, wait until the concrete class. Also set 
       // pre-insert suppression off to have the root insert linked, to-one class
       // objects.
       dto.setSuppressNestedInserts(true);
@@ -468,7 +450,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
 
       // Suppress inserts in concrete class.
       dto.setSuppressNestedPreInserts(true);
-
+      
       // Insert the object of the current class after enabling nested inserts,
       // which will allow connecting up linked objects to any of the inserted
       // classes.
@@ -480,7 +462,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     protected com.poesys.accounting.db.account.IAccount getDto() {
       return account;
     }
-
+    
     @Override
     protected String getClassName() {
       return com.poesys.accounting.db.account.Account.class.getName();
@@ -497,11 +479,11 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    * Foreign key object used by QueryAccountSetter nested class to query object
    */
   private IPrimaryKey accountKey;
-
+  
   /**
-   * Set the foreign key accountKey. This has package access to enable the
-   * subsystem factory getData method to call this method to set the key by
-   * creating it from the queried result set.
+   * Set the foreign key accountKey. This has package access to enable
+   * the subsystem factory getData method to call this method to set the key
+   * by creating it from the queried result set.
    *
    * @param accountKey the foreign key
    */
@@ -512,18 +494,15 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   // Setter strategy nested classes for multiple-object associations
 
   /**
-   * Post-processing setter for post-processing nested to-many association
-   * reimbursedItem.
+   * Post-processing setter for post-processing nested to-many association reimbursingItem.
    */
-  private class PostProcessReimbursingItemsSetter extends
-      com.poesys.db.dto.AbstractPostProcessSetter {
+  private class PostProcessReimbursingItemsSetter extends com.poesys.db.dto.AbstractPostProcessSetter {
     private static final long serialVersionUID = 1L;
-
-    // Association reimbursingItems source: TransformToProperty +
-    // AddToManyAssociationCollectionProperties
+    
+    // Association reimbursingItems source: TransformToProperty + AddToManyAssociationCollectionProperties
 
     /**
-     * Create an PostProcessreimbursingItemsSetter object.
+     * Create an PostProcessReimbursingItemsSetter object.
      */
     public PostProcessReimbursingItemsSetter() {
       super("com.poesys.accounting.db.transaction", 2147483647);
@@ -537,26 +516,23 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     @SuppressWarnings("unchecked")
     @Override
     protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
-      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos =
-        reimbursingItems;
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = reimbursingItems;
       return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
     }
   }
 
   /**
-   * Insert setter for inserting nested to-many association reimbursedItem.
+   * Insert setter for inserting nested to-many association reimbursingItem.
    *
    * @see com.poesys.accounting.db.transaction.sql.InsertItem
    */
-  private class InsertReimbursingItemsSetter extends
-      com.poesys.db.dto.AbstractInsertSetter {
+  private class InsertReimbursingItemsSetter extends com.poesys.db.dto.AbstractInsertSetter {
     private static final long serialVersionUID = 1L;
-
-    // Association reimbursingItems source: TransformToProperty +
-    // AddToManyAssociationCollectionProperties
+    
+    // Association reimbursingItems source: TransformToProperty + AddToManyAssociationCollectionProperties
 
     /**
-     * Create an InsertreimbursingItemsSetter object.
+     * Create an InsertReimbursingItemsSetter object.
      */
     public InsertReimbursingItemsSetter() {
       super("com.poesys.accounting.db.transaction", 2147483647);
@@ -570,8 +546,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     @SuppressWarnings("unchecked")
     @Override
     protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
-      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos =
-        reimbursingItems;
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = reimbursingItems;
       return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
     }
 
@@ -582,13 +557,12 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   }
 
   /**
-   * Setter for processing added reimbursedItem, updated reimbursedItem, and
-   * deleted reimbursedItem.
+   * Setter for processing added reimbursingItem, updated reimbursingItem, and 
+   * deleted reimbursingItem. 
    */
 
-  private class UpdateReimbursingItemsSetter
-      extends
-      com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.transaction.IItem, java.util.Collection<com.poesys.accounting.db.transaction.IItem>> {
+  private class UpdateReimbursingItemsSetter 
+      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.transaction.IItem, java.util.Collection<com.poesys.accounting.db.transaction.IItem>> {
     private static final long serialVersionUID = 1L;
     private static final int BATCH_SIZE = 100;
 
@@ -601,16 +575,13 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
 
     @Override
     protected void doChanged(java.util.Collection<com.poesys.accounting.db.transaction.IItem> dtos) {
-      // reimbursingItems source: TransformToProperty +
-      // AddToManyAssociationCollectionProperties
+      // reimbursingItems source: TransformToProperty + AddToManyAssociationCollectionProperties
       // Immutable: false
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(),
-                           subsystem,
-                           2147483647);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(), subsystem, 2147483647);
       com.poesys.db.dao.update.IUpdateBatch<com.poesys.accounting.db.transaction.IItem> updater =
         factory.getUpdateBatch(new com.poesys.accounting.db.transaction.sql.UpdateItem());
 
@@ -623,31 +594,29 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
         }
       }
     }
-
+    
     @Override
     protected void doDeleted(java.util.Collection<com.poesys.accounting.db.transaction.IItem> dtos) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(),
-                           subsystem,
-                           2147483647);
-      com.poesys.db.dao.delete.IDeleteBatch<com.poesys.accounting.db.transaction.IItem> dao =
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.delete.IDeleteBatch<com.poesys.accounting.db.transaction.IItem> dao = 
         factory.getDeleteBatch(new com.poesys.accounting.db.transaction.sql.DeleteItem());
       dao.delete(dtos, BATCH_SIZE);
     }
 
     @Override
     protected void doNew(java.util.Collection<com.poesys.accounting.db.transaction.IItem> dtos) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(),
-                           subsystem,
-                           2147483647);
+
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(), subsystem, 2147483647);
       com.poesys.db.dao.insert.IInsertBatch<com.poesys.accounting.db.transaction.IItem> inserter =
         factory.getInsertBatch(new com.poesys.accounting.db.transaction.sql.InsertItem());
+
 
       // Insert the object of the current class after enabling nested inserts,
       // which will allow connecting up linked objects to any of the inserted
@@ -662,41 +631,40 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     protected java.util.Collection<com.poesys.accounting.db.transaction.IItem> getDtos() {
       return reimbursingItems;
     }
-
+    
     @Override
     protected String getClassName() {
       return com.poesys.accounting.db.transaction.Item.class.getName();
     }
   }
 
-  @Override
-  public void addReimbursingItem(com.poesys.accounting.db.transaction.IItem object) {
+  /**
+   * Add com.poesys.accounting.db.transaction.IItem object to reimbursingItems collection.
+   * 
+   * @param object the com.poesys.accounting.db.transaction.IItem object
+   */
+  public void addReimbursingItemsItem(com.poesys.accounting.db.transaction.IItem object) {
     if (reimbursingItems == null) {
       // Association not yet created, create it.
-      reimbursingItems =
-        new java.util.ArrayList<com.poesys.accounting.db.transaction.IItem>();
+      reimbursingItems = new java.util.ArrayList<com.poesys.accounting.db.transaction.IItem>();
     }
     reimbursingItems.add(object);
     // Add the primary key to the primary key array.
-    if (reimbursedItemKeys != null) {
-      reimbursedItemKeys.clear();
+    if (reimbursingItemKeys != null) {
+      reimbursingItemKeys.clear();
     } else {
-      reimbursedItemKeys =
-        new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+      reimbursingItemKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
     }
-    reimbursedItemKeys.add(object.getPrimaryKey());
+    reimbursingItemKeys.add(object.getPrimaryKey());
   }
-
+   
   /**
-   * Post-processing setter for post-processing nested to-many association
-   * receivables.
+   * Post-processing setter for post-processing nested to-many association receivable.
    */
-  private class PostProcessReceivablesSetter extends
-      com.poesys.db.dto.AbstractPostProcessSetter {
+  private class PostProcessReceivablesSetter extends com.poesys.db.dto.AbstractPostProcessSetter {
     private static final long serialVersionUID = 1L;
-
-    // Association receivables source: TransformToProperty +
-    // AddToManyAssociationCollectionProperties
+    
+    // Association receivables source: TransformToProperty + AddToManyAssociationCollectionProperties
 
     /**
      * Create an PostProcessReceivablesSetter object.
@@ -713,23 +681,20 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     @SuppressWarnings("unchecked")
     @Override
     protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
-      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos =
-        receivables;
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = receivables;
       return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
     }
   }
 
   /**
-   * Insert setter for inserting nested to-many association receivables.
+   * Insert setter for inserting nested to-many association receivable.
    *
    * @see com.poesys.accounting.db.transaction.sql.InsertItem
    */
-  private class InsertReceivablesSetter extends
-      com.poesys.db.dto.AbstractInsertSetter {
+  private class InsertReceivablesSetter extends com.poesys.db.dto.AbstractInsertSetter {
     private static final long serialVersionUID = 1L;
-
-    // Association receivables source: TransformToProperty +
-    // AddToManyAssociationCollectionProperties
+    
+    // Association receivables source: TransformToProperty + AddToManyAssociationCollectionProperties
 
     /**
      * Create an InsertReceivablesSetter object.
@@ -746,8 +711,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     @SuppressWarnings("unchecked")
     @Override
     protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
-      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos =
-        receivables;
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = receivables;
       return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
     }
 
@@ -758,13 +722,12 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   }
 
   /**
-   * Setter for processing added receivable, updated receivable, and deleted
-   * receivables.
+   * Setter for processing added receivable, updated receivable, and 
+   * deleted receivable. 
    */
 
-  private class UpdateReceivablesSetter
-      extends
-      com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.transaction.IItem, java.util.Collection<com.poesys.accounting.db.transaction.IItem>> {
+  private class UpdateReceivablesSetter 
+      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.transaction.IItem, java.util.Collection<com.poesys.accounting.db.transaction.IItem>> {
     private static final long serialVersionUID = 1L;
     private static final int BATCH_SIZE = 100;
 
@@ -777,16 +740,13 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
 
     @Override
     protected void doChanged(java.util.Collection<com.poesys.accounting.db.transaction.IItem> dtos) {
-      // receivables source: TransformToProperty +
-      // AddToManyAssociationCollectionProperties
+      // receivables source: TransformToProperty + AddToManyAssociationCollectionProperties
       // Immutable: false
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(),
-                           subsystem,
-                           2147483647);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(), subsystem, 2147483647);
       com.poesys.db.dao.update.IUpdateBatch<com.poesys.accounting.db.transaction.IItem> updater =
         factory.getUpdateBatch(new com.poesys.accounting.db.transaction.sql.UpdateItem());
 
@@ -799,31 +759,29 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
         }
       }
     }
-
+    
     @Override
     protected void doDeleted(java.util.Collection<com.poesys.accounting.db.transaction.IItem> dtos) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(),
-                           subsystem,
-                           2147483647);
-      com.poesys.db.dao.delete.IDeleteBatch<com.poesys.accounting.db.transaction.IItem> dao =
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.delete.IDeleteBatch<com.poesys.accounting.db.transaction.IItem> dao = 
         factory.getDeleteBatch(new com.poesys.accounting.db.transaction.sql.DeleteItem());
       dao.delete(dtos, BATCH_SIZE);
     }
 
     @Override
     protected void doNew(java.util.Collection<com.poesys.accounting.db.transaction.IItem> dtos) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(),
-                           subsystem,
-                           2147483647);
+
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IItem> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Item.class.getName(), subsystem, 2147483647);
       com.poesys.db.dao.insert.IInsertBatch<com.poesys.accounting.db.transaction.IItem> inserter =
         factory.getInsertBatch(new com.poesys.accounting.db.transaction.sql.InsertItem());
+
 
       // Insert the object of the current class after enabling nested inserts,
       // which will allow connecting up linked objects to any of the inserted
@@ -838,19 +796,22 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     protected java.util.Collection<com.poesys.accounting.db.transaction.IItem> getDtos() {
       return receivables;
     }
-
+    
     @Override
     protected String getClassName() {
       return com.poesys.accounting.db.transaction.Item.class.getName();
     }
   }
 
-  @Override
-  public void addReceivableItem(com.poesys.accounting.db.transaction.IItem object) {
+  /**
+   * Add com.poesys.accounting.db.transaction.IItem object to receivables collection.
+   * 
+   * @param object the com.poesys.accounting.db.transaction.IItem object
+   */
+  public void addReceivablesItem(com.poesys.accounting.db.transaction.IItem object) {
     if (receivables == null) {
       // Association not yet created, create it.
-      receivables =
-        new java.util.ArrayList<com.poesys.accounting.db.transaction.IItem>();
+      receivables = new java.util.ArrayList<com.poesys.accounting.db.transaction.IItem>();
     }
     receivables.add(object);
     // Add the primary key to the primary key array.
@@ -861,22 +822,19 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     }
     receivableKeys.add(object.getPrimaryKey());
   }
-
+   
   /**
-   * Post-processing setter for post-processing nested to-many association
-   * reimbursements.
+   * Post-processing setter for post-processing nested to-many association reimbursingItemsReimbursement.
    */
-  private class PostProcessReimbursementsSetter extends
-      com.poesys.db.dto.AbstractPostProcessSetter {
+  private class PostProcessReimbursingItemsReimbursementSetter extends com.poesys.db.dto.AbstractPostProcessSetter {
     private static final long serialVersionUID = 1L;
-
-    // Association reimbursingItems source:
-    // AddAssociationClassCollectionProperties
+    
+    // Association reimbursingItemsReimbursement source: AddAssociationClassCollectionProperties
 
     /**
-     * Create an PostProcessReimbursementsSetter object.
+     * Create an PostProcessReimbursingItemsReimbursementSetter object.
      */
-    public PostProcessReimbursementsSetter() {
+    public PostProcessReimbursingItemsReimbursementSetter() {
       super("com.poesys.accounting.db.transaction", 2147483647);
     }
 
@@ -888,27 +846,25 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     @SuppressWarnings("unchecked")
     @Override
     protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
-      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos =
-        reimbursingItems;
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = reimbursingItemsReimbursement;
       return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
     }
   }
 
   /**
-   * Insert setter for inserting nested to-many association reimbursements.
+   * Insert setter for inserting nested to-many association reimbursingItemsReimbursement.
    *
    * @see com.poesys.accounting.db.transaction.sql.InsertReimbursement
    */
-  private class InsertReimbursementsSetter extends
-      com.poesys.db.dto.AbstractInsertSetter {
+  private class InsertReimbursingItemsReimbursementSetter extends com.poesys.db.dto.AbstractInsertSetter {
     private static final long serialVersionUID = 1L;
-
-    // Association receivables source: AddAssociationClassCollectionProperties
+    
+    // Association reimbursingItemsReimbursement source: AddAssociationClassCollectionProperties
 
     /**
-     * Create an InsertReimbursementsSetter object.
+     * Create an InsertReimbursingItemsReimbursementSetter object.
      */
-    public InsertReimbursementsSetter() {
+    public InsertReimbursingItemsReimbursementSetter() {
       super("com.poesys.accounting.db.transaction", 2147483647);
     }
 
@@ -920,8 +876,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     @SuppressWarnings("unchecked")
     @Override
     protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
-      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos =
-        receivables;
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = reimbursingItemsReimbursement;
       return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
     }
 
@@ -932,34 +887,31 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   }
 
   /**
-   * Setter for processing added reimbursements and updated reimbursements.
-   * Deleted reimbursements are deleted in the database cascade delete.
+   * Setter for processing added reimbursingItemsReimbursement and updated reimbursingItemsReimbursement.
+   * Deleted reimbursingItemsReimbursement are deleted in the database cascade delete.
    */
 
-  private class UpdateReimbursementsSetter
-      extends
-      com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.transaction.IReimbursement, java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>> {
+  private class UpdateReimbursingItemsReimbursementSetter 
+      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.transaction.IReimbursement, java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>> {
     private static final long serialVersionUID = 1L;
     private static final int BATCH_SIZE = 100;
 
     /**
-     * Create an UpdateReimbursementsSetter object.
+     * Create an UpdateReimbursingItemsReimbursementSetter object.
      */
-    public UpdateReimbursementsSetter() {
+    public UpdateReimbursingItemsReimbursementSetter() {
       super("com.poesys.accounting.db.transaction", 2147483647);
     }
 
     @Override
     protected void doChanged(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> dtos) {
-      // receivables source: AddAssociationClassCollectionProperties
+      // reimbursingItemsReimbursement source: AddAssociationClassCollectionProperties
       // Immutable: false
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IReimbursement> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Reimbursement.class.getName(),
-                           subsystem,
-                           2147483647);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IReimbursement> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Reimbursement.class.getName(), subsystem, 2147483647);
       com.poesys.db.dao.update.IUpdateBatch<com.poesys.accounting.db.transaction.IReimbursement> updater =
         factory.getUpdateBatch(new com.poesys.accounting.db.transaction.sql.UpdateReimbursement());
 
@@ -972,31 +924,29 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
         }
       }
     }
-
+    
     @Override
     protected void doDeleted(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> dtos) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IReimbursement> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Reimbursement.class.getName(),
-                           subsystem,
-                           2147483647);
-      com.poesys.db.dao.delete.IDeleteBatch<com.poesys.accounting.db.transaction.IReimbursement> dao =
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IReimbursement> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Reimbursement.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.delete.IDeleteBatch<com.poesys.accounting.db.transaction.IReimbursement> dao = 
         factory.getDeleteBatch(new com.poesys.accounting.db.transaction.sql.DeleteReimbursement());
       dao.delete(dtos, BATCH_SIZE);
     }
 
     @Override
     protected void doNew(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> dtos) {
-      com.poesys.db.dao.IDaoManager manager =
+      com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IReimbursement> factory =
-        manager.getFactory(com.poesys.accounting.db.transaction.Reimbursement.class.getName(),
-                           subsystem,
-                           2147483647);
+
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IReimbursement> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Reimbursement.class.getName(), subsystem, 2147483647);
       com.poesys.db.dao.insert.IInsertBatch<com.poesys.accounting.db.transaction.IReimbursement> inserter =
         factory.getInsertBatch(new com.poesys.accounting.db.transaction.sql.InsertReimbursement());
+
 
       // Insert the object of the current class after enabling nested inserts,
       // which will allow connecting up linked objects to any of the inserted
@@ -1009,36 +959,203 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
 
     @Override
     protected java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getDtos() {
-      return reimbursements;
+      return reimbursingItemsReimbursement;
     }
-
+    
     @Override
     protected String getClassName() {
       return com.poesys.accounting.db.transaction.Reimbursement.class.getName();
     }
   }
 
-  @Override
-  public void addReimbursement(com.poesys.accounting.db.transaction.IReimbursement object) {
-    if (reimbursements == null) {
+  /**
+   * Add com.poesys.accounting.db.transaction.IReimbursement object to reimbursingItemsReimbursement collection.
+   * 
+   * @param object the com.poesys.accounting.db.transaction.IReimbursement object
+   */
+  public void addReimbursingItemsReimbursementReimbursement(com.poesys.accounting.db.transaction.IReimbursement object) {
+    if (reimbursingItemsReimbursement == null) {
       // Association not yet created, create it.
-      reimbursements =
-        new java.util.ArrayList<com.poesys.accounting.db.transaction.IReimbursement>();
+      reimbursingItemsReimbursement = new java.util.ArrayList<com.poesys.accounting.db.transaction.IReimbursement>();
     }
-    reimbursements.add(object);
+    reimbursingItemsReimbursement.add(object);
     // Add the primary key to the primary key array.
-    if (reimbursementsKeys != null) {
-      reimbursementsKeys.clear();
+    if (reimbursingItemsReimbursementKeys != null) {
+      reimbursingItemsReimbursementKeys.clear();
     } else {
-      reimbursementsKeys =
-        new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+      reimbursingItemsReimbursementKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
     }
-    reimbursementsKeys.add(object.getPrimaryKey());
+    reimbursingItemsReimbursementKeys.add(object.getPrimaryKey());
+  }
+   
+  /**
+   * Post-processing setter for post-processing nested to-many association receivablesReimbursement.
+   */
+  private class PostProcessReceivablesReimbursementSetter extends com.poesys.db.dto.AbstractPostProcessSetter {
+    private static final long serialVersionUID = 1L;
+    
+    // Association receivablesReimbursement source: AddAssociationClassCollectionProperties
+
+    /**
+     * Create an PostProcessReceivablesReimbursementSetter object.
+     */
+    public PostProcessReceivablesReimbursementSetter() {
+      super("com.poesys.accounting.db.transaction", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.transaction.Reimbursement.class.getName();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = receivablesReimbursement;
+      return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
+    }
   }
 
   /**
-   * Create an empty Item for use in building a new object. The concrete
-   * subclass must call this constructor.
+   * Insert setter for inserting nested to-many association receivablesReimbursement.
+   *
+   * @see com.poesys.accounting.db.transaction.sql.InsertReimbursement
+   */
+  private class InsertReceivablesReimbursementSetter extends com.poesys.db.dto.AbstractInsertSetter {
+    private static final long serialVersionUID = 1L;
+    
+    // Association receivablesReimbursement source: AddAssociationClassCollectionProperties
+
+    /**
+     * Create an InsertReceivablesReimbursementSetter object.
+     */
+    public InsertReceivablesReimbursementSetter() {
+      super("com.poesys.accounting.db.transaction", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.transaction.Reimbursement.class.getName();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = receivablesReimbursement;
+      return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
+    }
+
+    @Override
+    protected boolean createKey() {
+      return true;
+    }
+  }
+
+  /**
+   * Setter for processing added receivablesReimbursement and updated receivablesReimbursement.
+   * Deleted receivablesReimbursement are deleted in the database cascade delete.
+   */
+
+  private class UpdateReceivablesReimbursementSetter 
+      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.transaction.IReimbursement, java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>> {
+    private static final long serialVersionUID = 1L;
+    private static final int BATCH_SIZE = 100;
+
+    /**
+     * Create an UpdateReceivablesReimbursementSetter object.
+     */
+    public UpdateReceivablesReimbursementSetter() {
+      super("com.poesys.accounting.db.transaction", 2147483647);
+    }
+
+    @Override
+    protected void doChanged(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> dtos) {
+      // receivablesReimbursement source: AddAssociationClassCollectionProperties
+      // Immutable: false
+      com.poesys.db.dao.IDaoManager manager = 
+        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
+
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IReimbursement> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Reimbursement.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.update.IUpdateBatch<com.poesys.accounting.db.transaction.IReimbursement> updater =
+        factory.getUpdateBatch(new com.poesys.accounting.db.transaction.sql.UpdateReimbursement());
+
+      // Update the object of the leaf class.
+      updater.update(dtos, dtos.size() / 2);
+      // Complete the update by setting the DTOs to EXISTING status.
+      for (com.poesys.db.dto.IDbDto dto : dtos) {
+        if (dto.getStatus() == Status.CHANGED) {
+          dto.setExisting();
+        }
+      }
+    }
+    
+    @Override
+    protected void doDeleted(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> dtos) {
+      com.poesys.db.dao.IDaoManager manager = 
+        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IReimbursement> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Reimbursement.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.delete.IDeleteBatch<com.poesys.accounting.db.transaction.IReimbursement> dao = 
+        factory.getDeleteBatch(new com.poesys.accounting.db.transaction.sql.DeleteReimbursement());
+      dao.delete(dtos, BATCH_SIZE);
+    }
+
+    @Override
+    protected void doNew(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> dtos) {
+      com.poesys.db.dao.IDaoManager manager = 
+        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
+
+
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.transaction.IReimbursement> factory = 
+        manager.getFactory(com.poesys.accounting.db.transaction.Reimbursement.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.insert.IInsertBatch<com.poesys.accounting.db.transaction.IReimbursement> inserter =
+        factory.getInsertBatch(new com.poesys.accounting.db.transaction.sql.InsertReimbursement());
+
+
+      // Insert the object of the current class after enabling nested inserts,
+      // which will allow connecting up linked objects to any of the inserted
+      // classes.
+      for (com.poesys.db.dto.IDbDto dto : dtos) {
+        dto.setSuppressNestedInserts(false);
+      }
+      inserter.insert(dtos, dtos.size() / 2);
+    }
+
+    @Override
+    protected java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getDtos() {
+      return receivablesReimbursement;
+    }
+    
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.transaction.Reimbursement.class.getName();
+    }
+  }
+
+  /**
+   * Add com.poesys.accounting.db.transaction.IReimbursement object to receivablesReimbursement collection.
+   * 
+   * @param object the com.poesys.accounting.db.transaction.IReimbursement object
+   */
+  public void addReceivablesReimbursementReimbursement(com.poesys.accounting.db.transaction.IReimbursement object) {
+    if (receivablesReimbursement == null) {
+      // Association not yet created, create it.
+      receivablesReimbursement = new java.util.ArrayList<com.poesys.accounting.db.transaction.IReimbursement>();
+    }
+    receivablesReimbursement.add(object);
+    // Add the primary key to the primary key array.
+    if (receivablesReimbursementKeys != null) {
+      receivablesReimbursementKeys.clear();
+    } else {
+      receivablesReimbursementKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+    }
+    receivablesReimbursementKeys.add(object.getPrimaryKey());
+  }
+   
+  /**
+   * Create an empty Item for use in building a new object. The 
+   * concrete subclass must call this constructor.
    */
   public AbstractItem() {
     abstractClass = false;
@@ -1075,98 +1192,87 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     preSetters.add(new InsertAccountSetter());
     postSetters.add(new UpdateAccountSetter());
     postProcessSetters.add(new PostProcessAccountSetter());
-
-    // Add the many-to-many collection setters for the reimbursingItems
-    // property.
+    
+    // Add the many-to-many collection setters for the reimbursingItems property.
     insertSetters.add(new InsertReimbursingItemsSetter());
     postSetters.add(new UpdateReimbursingItemsSetter());
     postProcessSetters.add(new PostProcessReimbursingItemsSetter());
-
+    
     // Add the many-to-many collection setters for the receivables property.
     insertSetters.add(new InsertReceivablesSetter());
     postSetters.add(new UpdateReceivablesSetter());
     postProcessSetters.add(new PostProcessReceivablesSetter());
-
-    // Add the many-to-many collection setters for the reimbursements property.
-    insertSetters.add(new InsertReimbursementsSetter());
-    postSetters.add(new UpdateReimbursementsSetter());
-    postProcessSetters.add(new PostProcessReimbursementsSetter());
+    
+    // Add the many-to-many collection setters for the reimbursingItemsReimbursement property.
+    insertSetters.add(new InsertReimbursingItemsReimbursementSetter());
+    postSetters.add(new UpdateReimbursingItemsReimbursementSetter());
+    postProcessSetters.add(new PostProcessReimbursingItemsReimbursementSetter());
+    
+    // Add the many-to-many collection setters for the receivablesReimbursement property.
+    insertSetters.add(new InsertReceivablesReimbursementSetter());
+    postSetters.add(new UpdateReceivablesReimbursementSetter());
+    postProcessSetters.add(new PostProcessReceivablesReimbursementSetter());
   }
 
   /**
    * Create a Item. The concrete subclass must call this constructor.
    *
    * @param key the primary key of the Item
-   * @param transactionId composite super-key attribute that uniquely identifies
-   *          child combined with child sub-key and any other parent super-keys
-   * @param orderNumber
+   * @param transactionId composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
+   * @param orderNumber 
    * @param amount the monetary amount in dollars of the transaction item
-   * @param debit whether the item is a debit (true) or credit (false); default
-   *          value is the debit-default value of the account
-   * @param checked whether the value and details of the transaction item have
-   *          been verified and reconciled
+   * @param debit whether the item is a debit (true) or credit (false); default value is the
+debit-default value of the account
+   * @param checked whether the value and details of the transaction item have been verified and
+reconciled
    * @param accountName foreign key used by setter to query associated object
    * @param entityName foreign key used by setter to query associated object
    */
-  public AbstractItem(IPrimaryKey key,
-                      java.math.BigInteger transactionId,
-                      java.lang.Integer orderNumber,
-                      java.lang.Double amount,
-                      java.lang.Boolean debit,
-                      java.lang.Boolean checked,
-                      java.lang.String accountName,
-                      java.lang.String entityName) {
+  public AbstractItem(IPrimaryKey key, java.math.BigInteger transactionId, java.lang.Integer orderNumber, java.lang.Double amount, java.lang.Boolean debit, java.lang.Boolean checked, java.lang.String accountName, java.lang.String entityName) {
     this.key = key;
 
     this.transactionId = transactionId;
 
     if (transactionId == null) {
-      throw new com.poesys.db.InvalidParametersException("transactionId is required for "
-                                                         + key.getValueList());
+      throw new com.poesys.db.InvalidParametersException("transactionId is required for " + key.getValueList());
     }
-
+    
     this.orderNumber = orderNumber;
 
     if (orderNumber == null) {
-      throw new com.poesys.db.InvalidParametersException("orderNumber is required for "
-                                                         + key.getValueList());
+      throw new com.poesys.db.InvalidParametersException("orderNumber is required for " + key.getValueList());
     }
-
+    
     this.amount = amount;
 
     if (amount == null) {
-      throw new com.poesys.db.InvalidParametersException("amount is required for "
-                                                         + key.getValueList());
+      throw new com.poesys.db.InvalidParametersException("amount is required for " + key.getValueList());
     }
-
+    
     this.debit = debit;
 
     if (debit == null) {
-      throw new com.poesys.db.InvalidParametersException("debit is required for "
-                                                         + key.getValueList());
+      throw new com.poesys.db.InvalidParametersException("debit is required for " + key.getValueList());
     }
-
+    
     this.checked = checked;
 
     if (checked == null) {
-      throw new com.poesys.db.InvalidParametersException("checked is required for "
-                                                         + key.getValueList());
+      throw new com.poesys.db.InvalidParametersException("checked is required for " + key.getValueList());
     }
-
+    
     this.accountName = accountName;
 
     if (accountName == null) {
-      throw new com.poesys.db.InvalidParametersException("accountName is required for "
-                                                         + key.getValueList());
+      throw new com.poesys.db.InvalidParametersException("accountName is required for " + key.getValueList());
     }
-
+    
     this.entityName = entityName;
 
     if (entityName == null) {
-      throw new com.poesys.db.InvalidParametersException("entityName is required for "
-                                                         + key.getValueList());
+      throw new com.poesys.db.InvalidParametersException("entityName is required for " + key.getValueList());
     }
-
+    
     // Setter arrays (create if null)
     if (querySetters == null) {
       querySetters = new java.util.ArrayList<com.poesys.db.dto.ISet>();
@@ -1189,50 +1295,50 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     if (readObjectSetters == null) {
       readObjectSetters = new java.util.ArrayList<com.poesys.db.dto.ISet>();
     }
-
+    
     // Add the setters for the transaction property.
     querySetters.add(new QueryTransactionSetter());
     // Set the object property primary key with a factory method.
-    transactionKey =
-      com.poesys.accounting.db.transaction.TransactionFactory.getTransactionPrimaryKey(transactionId);
+    transactionKey = com.poesys.accounting.db.transaction.TransactionFactory.getTransactionPrimaryKey(transactionId);
     insertSetters.add(new InsertTransactionSetter());
     preSetters.add(new InsertTransactionSetter());
     postSetters.add(new UpdateTransactionSetter());
     postProcessSetters.add(new PostProcessTransactionSetter());
-
-    // Add a setter to instantiate the required transaction object before
-    // insert.
+    
+    // Add a setter to instantiate the required transaction object before insert.
     insertQuerySetters.add(new QueryTransactionSetter());
-
+    
     // Add the setters for the account property.
     querySetters.add(new QueryAccountSetter());
     // Set the object property primary key with a factory method.
-    accountKey =
-      com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(accountName,
-                                                                           entityName);
+    accountKey = com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(accountName, entityName);
     insertSetters.add(new InsertAccountSetter());
     preSetters.add(new InsertAccountSetter());
     postSetters.add(new UpdateAccountSetter());
     postProcessSetters.add(new PostProcessAccountSetter());
-
+    
     // Add a setter to instantiate the required account object before insert.
     insertQuerySetters.add(new QueryAccountSetter());
-
-    // Add the many-to-many collection setters for the reimbursedItems property.
+    
+    // Add the many-to-many collection setters for the reimbursingItem property.
     insertSetters.add(new InsertReimbursingItemsSetter());
     postSetters.add(new UpdateReimbursingItemsSetter());
     postProcessSetters.add(new PostProcessReimbursingItemsSetter());
-
-    // Add the many-to-many collection setters for the receivables property.
+    
+    // Add the many-to-many collection setters for the receivable property.
     insertSetters.add(new InsertReceivablesSetter());
     postSetters.add(new UpdateReceivablesSetter());
     postProcessSetters.add(new PostProcessReceivablesSetter());
-
-    // Add the many-to-many collection setters for the reimbursements property.
-    insertSetters.add(new InsertReimbursementsSetter());
-    postSetters.add(new UpdateReimbursementsSetter());
-    postProcessSetters.add(new PostProcessReimbursementsSetter());
-
+    
+    // Add the many-to-many collection setters for the reimbursingItemsReimbursement property.
+    insertSetters.add(new InsertReimbursingItemsReimbursementSetter());
+    postSetters.add(new UpdateReimbursingItemsReimbursementSetter());
+    postProcessSetters.add(new PostProcessReimbursingItemsReimbursementSetter());
+    
+    // Add the many-to-many collection setters for the receivablesReimbursement property.
+    insertSetters.add(new InsertReceivablesReimbursementSetter());
+    postSetters.add(new UpdateReceivablesReimbursementSetter());
+    postProcessSetters.add(new PostProcessReceivablesReimbursementSetter());
     abstractClass = false;
     createInserters();
   }
@@ -1247,14 +1353,14 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    * @throws ClassNotFoundException when a nested object class can't be found
    * @throws IOException when there is an IO problem reading the stream
    */
-  private void readObject(java.io.ObjectInputStream in)
-      throws java.io.IOException, ClassNotFoundException {
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException,
+      ClassNotFoundException {
     logger.debug("Deserializing object of class " + this.getClass().getName()
                  + " with readObject in AbstractItem");
     // Do the read-object deserialization.
     deserializer.doReadObject(in, this);
   }
-
+   
   @Override
   public boolean equals(Object arg0) {
     IItem other = (IItem)arg0;
@@ -1272,7 +1378,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     // Sort on the key. Same semantics as equals and hashCode().
     return other.getPrimaryKey().compareTo(key);
   }
-
+  
   @Override
   public String getSubsystem() {
     return "com.poesys.accounting.db.transaction";
@@ -1281,14 +1387,14 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   @Override
   public void markChildrenDeleted() {
     // Only process deletes if child exists.
-    if (reimbursingItems != null) {
-      for (com.poesys.db.dto.IDbDto dto : reimbursingItems) {
+    if (reimbursingItemsReimbursement != null) {
+      for (com.poesys.db.dto.IDbDto dto : reimbursingItemsReimbursement) {
         dto.cascadeDelete();
       }
     }
     // Only process deletes if child exists.
-    if (receivables != null) {
-      for (com.poesys.db.dto.IDbDto dto : receivables) {
+    if (receivablesReimbursement != null) {
+      for (com.poesys.db.dto.IDbDto dto : receivablesReimbursement) {
         dto.cascadeDelete();
       }
     }
@@ -1298,22 +1404,30 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   public IPrimaryKey getPrimaryKey() {
     return key;
   }
-
+  
   /**
    * Nested property transactionId
    *
    * <p>
-   * Composite super-key attribute that uniquely identifies child combined with
-   * child sub-key and any other parent super-keys
+   * Composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
    * </p>
    *
-   * Added by AddGeneratedKeyProperties + AddParentKeyAttributes Class is
-   * read/write: true Class is immutable: false Property is read/write: false
+   * Added by AddGeneratedKeyProperties + AddParentKeyAttributes
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: false
    * Property is lazy: false
    */
   private java.math.BigInteger transactionId;
+  
+  /**
+   * Get an object of java.math.BigInteger.
+   *
+   * Source: AddGeneratedKeyProperties + AddParentKeyAttributes
+   * 
+   * @return a java.math.BigInteger
+   */
 
-  @Override
   public java.math.BigInteger getTransactionId() {
     return transactionId;
   }
@@ -1326,26 +1440,53 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
-  public void setTransactionId(java.math.BigInteger transactionId)
+  /**
+   * <p>
+   * Set the transactionId.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: false</li>
+   * <li>Immutable property: true</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * Composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
+   * </p>
+   *
+   * @param transactionId the value with which to set the property
+   */
+  void setTransactionId(java.math.BigInteger transactionId)
       throws com.poesys.db.InvalidParametersException {
     if (transactionId == null) {
       throw new com.poesys.db.InvalidParametersException("transactionId is required");
     }
-
+    
     this.transactionId = transactionId;
     setChanged();
   }
   /**
    * Nested property orderNumber
    *
-   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass Class is
-   * read/write: true Class is immutable: false Property is read/write: false
+   * 
+   *
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: false
    * Property is lazy: false
    */
   private java.lang.Integer orderNumber;
+  
+  /**
+   * Get an object of java.lang.Integer.
+   *
+   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
+   * 
+   * @return a java.lang.Integer
+   */
 
-  @Override
   public java.lang.Integer getOrderNumber() {
     return orderNumber;
   }
@@ -1358,17 +1499,30 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
-  public void setOrderNumber(java.lang.Integer orderNumber)
+  /**
+   * <p>
+   * Set the orderNumber.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: false</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * 
+   *
+   * @param orderNumber the value with which to set the property
+   */
+  void setOrderNumber(java.lang.Integer orderNumber)
       throws com.poesys.db.InvalidParametersException {
     if (orderNumber == null) {
       throw new com.poesys.db.InvalidParametersException("orderNumber is required");
     }
-
+    
     this.orderNumber = orderNumber;
     setChanged();
   }
-
   /**
    * Nested property amount
    *
@@ -1376,35 +1530,60 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    * the monetary amount in dollars of the transaction item
    * </p>
    *
-   * Added by AddLocalAttributeProperties Class is read/write: true Class is
-   * immutable: false Property is read/write: true Property is lazy: false
+   * Added by AddLocalAttributeProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: false
    */
   private java.lang.Double amount;
+  
+  /**
+   * Get an object of java.lang.Double.
+   *
+   * Source: AddLocalAttributeProperties
+   * 
+   * @return a java.lang.Double
+   */
 
-  @Override
   public java.lang.Double getAmount() {
     return amount;
   }
 
   /**
-   * Clear the amount data member; override in proxy if lazily loaded, otherwise
-   * this method does nothing.
+   * Clear the amount data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
    */
   public void clearAmount() {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
+  /**
+   * <p>
+   * Set the amount.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * the monetary amount in dollars of the transaction item
+   * </p>
+   *
+   * @param amount the value with which to set the property
+   */
   public void setAmount(java.lang.Double amount)
       throws com.poesys.db.InvalidParametersException {
     if (amount == null) {
       throw new com.poesys.db.InvalidParametersException("amount is required");
     }
-
+    
     this.amount = amount;
     setChanged();
   }
-
   /**
    * Nested property debit
    *
@@ -1413,49 +1592,85 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    * debit-default value of the account
    * </p>
    *
-   * Added by AddLocalAttributeProperties Class is read/write: true Class is
-   * immutable: false Property is read/write: true Property is lazy: false
+   * Added by AddLocalAttributeProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: false
    */
   private java.lang.Boolean debit;
+  
+  /**
+   * Get an object of java.lang.Boolean.
+   *
+   * Source: AddLocalAttributeProperties
+   * 
+   * @return a java.lang.Boolean
+   */
 
-  @Override
   public java.lang.Boolean getDebit() {
     return debit;
   }
 
   /**
-   * Clear the debit data member; override in proxy if lazily loaded, otherwise
-   * this method does nothing.
+   * Clear the debit data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
    */
   public void clearDebit() {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
+  /**
+   * <p>
+   * Set the debit.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * whether the item is a debit (true) or credit (false); default value is the
+   * debit-default value of the account
+   * </p>
+   *
+   * @param debit the value with which to set the property
+   */
   public void setDebit(java.lang.Boolean debit)
       throws com.poesys.db.InvalidParametersException {
     if (debit == null) {
       throw new com.poesys.db.InvalidParametersException("debit is required");
     }
-
+    
     this.debit = debit;
     setChanged();
   }
-
   /**
    * Nested property checked
    *
    * <p>
-   * whether the value and details of the transaction item have been verified
-   * and reconciled
+   * whether the value and details of the transaction item have been verified and
+   * reconciled
    * </p>
    *
-   * Added by AddLocalAttributeProperties Class is read/write: true Class is
-   * immutable: false Property is read/write: true Property is lazy: false
+   * Added by AddLocalAttributeProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: false
    */
   private java.lang.Boolean checked;
+  
+  /**
+   * Get an object of java.lang.Boolean.
+   *
+   * Source: AddLocalAttributeProperties
+   * 
+   * @return a java.lang.Boolean
+   */
 
-  @Override
   public java.lang.Boolean getChecked() {
     return checked;
   }
@@ -1468,17 +1683,33 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
+  /**
+   * <p>
+   * Set the checked.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * whether the value and details of the transaction item have been verified and
+   * reconciled
+   * </p>
+   *
+   * @param checked the value with which to set the property
+   */
   public void setChecked(java.lang.Boolean checked)
       throws com.poesys.db.InvalidParametersException {
     if (checked == null) {
       throw new com.poesys.db.InvalidParametersException("checked is required");
     }
-
+    
     this.checked = checked;
     setChanged();
   }
-
   /**
    * Nested property transaction
    *
@@ -1486,13 +1717,22 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    * the transaction that owns the item (the parent)
    * </p>
    *
-   * Added by AddToOneAssociationRequiredObjectProperties Class is read/write:
-   * true Class is immutable: false Property is read/write: true Property is
-   * lazy: false
+   * Added by AddToOneAssociationRequiredObjectProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: false
    */
   private com.poesys.accounting.db.transaction.ITransaction transaction;
+  
+  /**
+   * Get an object of com.poesys.accounting.db.transaction.ITransaction.
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   * 
+   * @return a com.poesys.accounting.db.transaction.ITransaction
+   */
 
-  @Override
   public com.poesys.accounting.db.transaction.ITransaction getTransaction() {
     return transaction;
   }
@@ -1505,17 +1745,32 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
+  /**
+   * <p>
+   * Set the transaction.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * the transaction that owns the item (the parent)
+   * </p>
+   *
+   * @param transaction the value with which to set the property
+   */
   public void setTransaction(com.poesys.accounting.db.transaction.ITransaction transaction)
       throws com.poesys.db.InvalidParametersException {
     if (transaction == null) {
       throw new com.poesys.db.InvalidParametersException("transaction is required");
     }
-
+    
     this.transaction = transaction;
     setChanged();
   }
-
   /**
    * Nested property account
    *
@@ -1523,13 +1778,22 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    * the account to which to associate the flow of funds for the item
    * </p>
    *
-   * Added by AddToOneAssociationRequiredObjectProperties Class is read/write:
-   * true Class is immutable: false Property is read/write: true Property is
-   * lazy: false
+   * Added by AddToOneAssociationRequiredObjectProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: false
    */
   private com.poesys.accounting.db.account.IAccount account;
+  
+  /**
+   * Get an object of com.poesys.accounting.db.account.IAccount.
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   * 
+   * @return a com.poesys.accounting.db.account.IAccount
+   */
 
-  @Override
   public com.poesys.accounting.db.account.IAccount getAccount() {
     return account;
   }
@@ -1542,17 +1806,32 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
+  /**
+   * <p>
+   * Set the account.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * the account to which to associate the flow of funds for the item
+   * </p>
+   *
+   * @param account the value with which to set the property
+   */
   public void setAccount(com.poesys.accounting.db.account.IAccount account)
       throws com.poesys.db.InvalidParametersException {
     if (account == null) {
       throw new com.poesys.db.InvalidParametersException("account is required");
     }
-
+    
     this.account = account;
     setChanged();
   }
-
   /**
    * Nested property accountName
    *
@@ -1560,13 +1839,22 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    * Foreign key used by setter to query associated object
    * </p>
    *
-   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass +
-   * AddToOneAssociationAttributeProperties Class is read/write: true Class is
-   * immutable: false Property is read/write: false Property is lazy: false
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: false
+   * Property is lazy: false
    */
   private java.lang.String accountName;
+  
+  /**
+   * Get an object of java.lang.String.
+   *
+   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
+   * 
+   * @return a java.lang.String
+   */
 
-  @Override
   public java.lang.String getAccountName() {
     return accountName;
   }
@@ -1579,17 +1867,32 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
-  public void setAccountName(java.lang.String accountName)
+  /**
+   * <p>
+   * Set the accountName.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: false</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   *
+   * @param accountName the value with which to set the property
+   */
+  void setAccountName(java.lang.String accountName)
       throws com.poesys.db.InvalidParametersException {
     if (accountName == null) {
       throw new com.poesys.db.InvalidParametersException("accountName is required");
     }
-
+    
     this.accountName = accountName;
     setChanged();
   }
-
   /**
    * Nested property entityName
    *
@@ -1597,13 +1900,22 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
    * Foreign key used by setter to query associated object
    * </p>
    *
-   * Added by AddNaturalKeyProperties + AddParentKeyAttributes +
-   * AddToOneAssociationAttributeProperties Class is read/write: true Class is
-   * immutable: false Property is read/write: false Property is lazy: false
+   * Added by AddNaturalKeyProperties + AddParentKeyAttributes + AddToOneAssociationAttributeProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: false
+   * Property is lazy: false
    */
   private java.lang.String entityName;
+  
+  /**
+   * Get an object of java.lang.String.
+   *
+   * Source: AddNaturalKeyProperties + AddParentKeyAttributes + AddToOneAssociationAttributeProperties
+   * 
+   * @return a java.lang.String
+   */
 
-  @Override
   public java.lang.String getEntityName() {
     return entityName;
   }
@@ -1616,98 +1928,166 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
-  public void setEntityName(java.lang.String entityName)
+  /**
+   * <p>
+   * Set the entityName.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: false</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   *
+   * @param entityName the value with which to set the property
+   */
+  void setEntityName(java.lang.String entityName)
       throws com.poesys.db.InvalidParametersException {
     if (entityName == null) {
       throw new com.poesys.db.InvalidParametersException("entityName is required");
     }
-
+    
     this.entityName = entityName;
     setChanged();
   }
-
   /**
    * Nested property reimbursingItems
    *
    * <p>
-   * the set of reimbursed items; these are items
+   * the set of reimbursed items
    * </p>
    *
    * Added by TransformToProperty + AddToManyAssociationCollectionProperties
-   * Class is read/write: true Class is immutable: false Property is read/write:
-   * true Property is lazy: true
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: true
    */
   // Doesn't serialize; package access allows proxy to set on readObject()
   transient java.util.Collection<com.poesys.accounting.db.transaction.IItem> reimbursingItems;
   // Ordered list of keys of the objects in the reimbursingItems list
-  transient java.util.List<com.poesys.db.pk.IPrimaryKey> reimbursedItemKeys =
+  transient java.util.List<com.poesys.db.pk.IPrimaryKey> reimbursingItemKeys = 
     new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+  
+  /**
+   * Get a collection of com.poesys.accounting.db.transaction.IItem.
+   *
+   * Source: TransformToProperty + AddToManyAssociationCollectionProperties
+   * 
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IItem>
+   */
 
-  @Override
   public java.util.Collection<com.poesys.accounting.db.transaction.IItem> getReimbursingItems() {
     return reimbursingItems;
   }
 
-  @Override
+  /**
+   * Clear the reimbursingItems data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
   public void clearReimbursingItems() {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
-  public void setReimbursingItems(java.util.Collection<com.poesys.accounting.db.transaction.IItem> reimbursingItems) {
+  /**
+   * <p>
+   * Set the reimbursingItems.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: true (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * the set of reimbursed items
+   * </p>
+   *
+   * @param reimbursingItems the value with which to set the property
+   */
+  public  void setReimbursingItem(java.util.Collection<com.poesys.accounting.db.transaction.IItem> reimbursingItems) {
     this.reimbursingItems = reimbursingItems;
     // Add the primary keys of the new collection to the serialized key list.
-    if (reimbursedItemKeys != null) {
-      reimbursedItemKeys.clear();
+    if (reimbursingItemKeys != null) {
+      reimbursingItemKeys.clear();
     } else {
       // Allocate a new, empty list of primary keys.
-      reimbursedItemKeys =
-        new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+      reimbursingItemKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
     }
     if (reimbursingItems != null) {
-      if (reimbursedItemKeys != null) {
-        reimbursedItemKeys.clear();
-      } else {
-        reimbursedItemKeys =
-          new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
-      }
+    if (reimbursingItemKeys != null) {
+      reimbursingItemKeys.clear();
+    } else {
+      reimbursingItemKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+    }
       for (com.poesys.db.dto.IDbDto object : reimbursingItems) {
-        reimbursedItemKeys.add(object.getPrimaryKey());
+        reimbursingItemKeys.add(object.getPrimaryKey());
       }
     }
     setChanged();
   }
-
   /**
    * Nested property receivables
    *
    * <p>
-   * the set of receivable items reimbursed by this item
+   * the set of receivable items
    * </p>
    *
    * Added by TransformToProperty + AddToManyAssociationCollectionProperties
-   * Class is read/write: true Class is immutable: false Property is read/write:
-   * true Property is lazy: true
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: true
    */
   // Doesn't serialize; package access allows proxy to set on readObject()
   transient java.util.Collection<com.poesys.accounting.db.transaction.IItem> receivables;
   // Ordered list of keys of the objects in the receivables list
-  transient java.util.List<com.poesys.db.pk.IPrimaryKey> receivableKeys =
+  transient java.util.List<com.poesys.db.pk.IPrimaryKey> receivableKeys = 
     new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+  
+  /**
+   * Get a collection of com.poesys.accounting.db.transaction.IItem.
+   *
+   * Source: TransformToProperty + AddToManyAssociationCollectionProperties
+   * 
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IItem>
+   */
 
-  @Override
   public java.util.Collection<com.poesys.accounting.db.transaction.IItem> getReceivables() {
     return receivables;
   }
 
-  @Override
+  /**
+   * Clear the receivables data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
   public void clearReceivables() {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
-  public void setReceivables(java.util.Collection<com.poesys.accounting.db.transaction.IItem> receivables) {
+  /**
+   * <p>
+   * Set the receivables.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: true (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * the set of receivable items
+   * </p>
+   *
+   * @param receivables the value with which to set the property
+   */
+  public  void setReceivable(java.util.Collection<com.poesys.accounting.db.transaction.IItem> receivables) {
     this.receivables = receivables;
     // Add the primary keys of the new collection to the serialized key list.
     if (receivableKeys != null) {
@@ -1717,72 +2097,177 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
       receivableKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
     }
     if (receivables != null) {
-      if (receivableKeys != null) {
-        receivableKeys.clear();
-      } else {
-        receivableKeys =
-          new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
-      }
+    if (receivableKeys != null) {
+      receivableKeys.clear();
+    } else {
+      receivableKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+    }
       for (com.poesys.db.dto.IDbDto object : receivables) {
         receivableKeys.add(object.getPrimaryKey());
       }
     }
     setChanged();
   }
-
   /**
-   * Nested property reimbursements, the collection of association objects as
-   * opposed to the associated objects (receivables and reimbursingItems).
+   * Nested property reimbursingItemsReimbursement
    *
    * <p>
    * Collection of association class objects (not the associated objects)
    * </p>
    *
-   * Added by AddAssociationClassCollectionProperties Class is read/write: true
-   * Class is immutable: false Property is read/write: true Property is lazy:
-   * true
+   * Added by AddAssociationClassCollectionProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: true
    */
   // Doesn't serialize; package access allows proxy to set on readObject()
-  transient java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> reimbursements;
-  // Ordered list of keys of the objects in the reimbursements collection
-  transient java.util.List<com.poesys.db.pk.IPrimaryKey> reimbursementsKeys =
+  transient java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> reimbursingItemsReimbursement;
+  // Ordered list of keys of the objects in the reimbursingItemsReimbursement list
+  transient java.util.List<com.poesys.db.pk.IPrimaryKey> reimbursingItemsReimbursementKeys = 
     new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+  
+  /**
+   * Get a collection of com.poesys.accounting.db.transaction.IReimbursement.
+   *
+   * Source: AddAssociationClassCollectionProperties
+   * 
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>
+   */
 
-  @Override
-  public java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getReimbursements() {
-    return reimbursements;
+  public java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getReimbursingItemsReimbursement() {
+    return reimbursingItemsReimbursement;
   }
 
-  @Override
-  public void clearReimbursements() {
+  /**
+   * Clear the reimbursingItemsReimbursement data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
+  public void clearReimbursingItemsReimbursement() {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
-  @Override
-  public void setReimbursements(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> reimbursements)
+  /**
+   * <p>
+   * Set the reimbursingItemsReimbursement.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: true (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * Collection of association class objects (not the associated objects)
+   * </p>
+   *
+   * @param reimbursingItemsReimbursement the value with which to set the property
+   */
+  public void setReimbursingItemsReimbursement(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> reimbursingItemsReimbursement)
       throws com.poesys.db.InvalidParametersException {
-    if (reimbursements == null) {
-      throw new com.poesys.db.InvalidParametersException("reimbursingItems is required");
+    if (reimbursingItemsReimbursement == null) {
+      throw new com.poesys.db.InvalidParametersException("reimbursingItemsReimbursement is required");
     }
-
-    this.reimbursements = reimbursements;
+    
+    this.reimbursingItemsReimbursement = reimbursingItemsReimbursement;
     // Add the primary keys of the new collection to the serialized key list.
-    if (reimbursementsKeys != null) {
-      reimbursementsKeys.clear();
+    if (reimbursingItemsReimbursementKeys != null) {
+      reimbursingItemsReimbursementKeys.clear();
     } else {
       // Allocate a new, empty list of primary keys.
-      reimbursementsKeys =
-        new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+      reimbursingItemsReimbursementKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
     }
-    if (reimbursements != null) {
-      if (reimbursementsKeys != null) {
-        reimbursementsKeys.clear();
-      } else {
-        reimbursementsKeys =
-          new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+    if (reimbursingItemsReimbursement != null) {
+    if (reimbursingItemsReimbursementKeys != null) {
+      reimbursingItemsReimbursementKeys.clear();
+    } else {
+      reimbursingItemsReimbursementKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+    }
+      for (com.poesys.db.dto.IDbDto object : reimbursingItemsReimbursement) {
+        reimbursingItemsReimbursementKeys.add(object.getPrimaryKey());
       }
-      for (com.poesys.db.dto.IDbDto object : reimbursements) {
-        reimbursementsKeys.add(object.getPrimaryKey());
+    }
+    setChanged();
+  }
+  /**
+   * Nested property receivablesReimbursement
+   *
+   * <p>
+   * Collection of association class objects (not the associated objects)
+   * </p>
+   *
+   * Added by AddAssociationClassCollectionProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: true
+   */
+  // Doesn't serialize; package access allows proxy to set on readObject()
+  transient java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> receivablesReimbursement;
+  // Ordered list of keys of the objects in the receivablesReimbursement list
+  transient java.util.List<com.poesys.db.pk.IPrimaryKey> receivablesReimbursementKeys = 
+    new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+  
+  /**
+   * Get a collection of com.poesys.accounting.db.transaction.IReimbursement.
+   *
+   * Source: AddAssociationClassCollectionProperties
+   * 
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>
+   */
+
+  public java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getReceivablesReimbursement() {
+    return receivablesReimbursement;
+  }
+
+  /**
+   * Clear the receivablesReimbursement data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
+  public void clearReceivablesReimbursement() {
+    // Override in proxy if lazily loaded; otherwise does nothing
+  }
+
+  /**
+   * <p>
+   * Set the receivablesReimbursement.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: true (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * Collection of association class objects (not the associated objects)
+   * </p>
+   *
+   * @param receivablesReimbursement the value with which to set the property
+   */
+  public void setReceivablesReimbursement(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> receivablesReimbursement)
+      throws com.poesys.db.InvalidParametersException {
+    if (receivablesReimbursement == null) {
+      throw new com.poesys.db.InvalidParametersException("receivablesReimbursement is required");
+    }
+    
+    this.receivablesReimbursement = receivablesReimbursement;
+    // Add the primary keys of the new collection to the serialized key list.
+    if (receivablesReimbursementKeys != null) {
+      receivablesReimbursementKeys.clear();
+    } else {
+      // Allocate a new, empty list of primary keys.
+      receivablesReimbursementKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+    }
+    if (receivablesReimbursement != null) {
+    if (receivablesReimbursementKeys != null) {
+      receivablesReimbursementKeys.clear();
+    } else {
+      receivablesReimbursementKeys = new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
+    }
+      for (com.poesys.db.dto.IDbDto object : receivablesReimbursement) {
+        receivablesReimbursementKeys.add(object.getPrimaryKey());
       }
     }
     setChanged();
@@ -1792,34 +2277,33 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   public void update(com.poesys.db.dto.ISubject subject,
                      com.poesys.db.dao.DataEvent event) {
 
-    // Clean up reimbursingItems.
-    if (subject != null
-        && subject instanceof com.poesys.accounting.db.transaction.IReimbursement
-        && event == com.poesys.db.dao.DataEvent.DELETE
-        && reimbursingItems != null) {
-      // Delete to-many reimbursingItems child from collection
-      reimbursingItems.remove(subject);
+    // Clean up reimbursingItemsReimbursement.
+    if (subject != null && subject instanceof com.poesys.accounting.db.transaction.IReimbursement && 
+        event == com.poesys.db.dao.DataEvent.DELETE &&
+        reimbursingItemsReimbursement != null) {
+      // Delete to-many reimbursingItemsReimbursement child from collection
+      reimbursingItemsReimbursement.remove(subject);
       subject.detach(this, com.poesys.db.dao.DataEvent.MARKED_DELETED);
       subject.detach(this, com.poesys.db.dao.DataEvent.DELETE);
     }
 
-    // Clean up receivables.
-    if (subject != null
-        && subject instanceof com.poesys.accounting.db.transaction.IReimbursement
-        && event == com.poesys.db.dao.DataEvent.DELETE && receivables != null) {
-      // Delete to-many receivables child from collection
-      receivables.remove(subject);
+    // Clean up receivablesReimbursement.
+    if (subject != null && subject instanceof com.poesys.accounting.db.transaction.IReimbursement && 
+        event == com.poesys.db.dao.DataEvent.DELETE &&
+        receivablesReimbursement != null) {
+      // Delete to-many receivablesReimbursement child from collection
+      receivablesReimbursement.remove(subject);
       subject.detach(this, com.poesys.db.dao.DataEvent.MARKED_DELETED);
       subject.detach(this, com.poesys.db.dao.DataEvent.DELETE);
     }
 
-    // Cascade delete to reimbursingItems.
-    if (event == com.poesys.db.dao.DataEvent.MARKED_DELETED
-        && reimbursingItems != null) {
-      // Mark reimbursingItems association object cascade-deleted.
-      outer: for (com.poesys.accounting.db.transaction.IReimbursement value : reimbursements) {
-        com.poesys.db.pk.AssociationPrimaryKey keys =
-          (com.poesys.db.pk.AssociationPrimaryKey)value.getPrimaryKey();
+    // Cascade delete to reimbursingItemsReimbursement.
+    if (event == com.poesys.db.dao.DataEvent.MARKED_DELETED &&
+        reimbursingItemsReimbursement != null) {
+      // Mark reimbursingItemsReimbursement association object cascade-deleted.
+      outer: for (com.poesys.accounting.db.transaction.IReimbursement value : reimbursingItemsReimbursement) {
+        com.poesys.db.pk.AssociationPrimaryKey keys = 
+          (com.poesys.db.pk.AssociationPrimaryKey) value.getPrimaryKey();
         for (com.poesys.db.pk.IPrimaryKey key : keys.getKeyListCopy()) {
           if (key.equals(subject.getPrimaryKey())) {
             value.cascadeDelete();
@@ -1829,13 +2313,13 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
       }
     }
 
-    // Cascade delete to receivables.
-    if (event == com.poesys.db.dao.DataEvent.MARKED_DELETED
-        && receivables != null) {
-      // Mark receivables association object cascade-deleted.
-      outer: for (com.poesys.accounting.db.transaction.IReimbursement value : reimbursements) {
-        com.poesys.db.pk.AssociationPrimaryKey keys =
-          (com.poesys.db.pk.AssociationPrimaryKey)value.getPrimaryKey();
+    // Cascade delete to receivablesReimbursement.
+    if (event == com.poesys.db.dao.DataEvent.MARKED_DELETED &&
+        receivablesReimbursement != null) {
+      // Mark receivablesReimbursement association object cascade-deleted.
+      outer: for (com.poesys.accounting.db.transaction.IReimbursement value : receivablesReimbursement) {
+        com.poesys.db.pk.AssociationPrimaryKey keys = 
+          (com.poesys.db.pk.AssociationPrimaryKey) value.getPrimaryKey();
         for (com.poesys.db.pk.IPrimaryKey key : keys.getKeyListCopy()) {
           if (key.equals(subject.getPrimaryKey())) {
             value.cascadeDelete();
@@ -1847,7 +2331,7 @@ public abstract class AbstractItem extends AbstractDto implements IItem {
   }
 
   /**
-   * Create the inserters for the Item.
+   * Create the inserters for the Item and its superclasses.
    */
   private void createInserters() {
     com.poesys.db.dao.IDaoManager manager =

@@ -18,23 +18,23 @@ import com.poesys.db.pk.IPrimaryKey;
 /**
  * <p>
  * A query Command pattern object that implements a SQL query of a collection of 
- * Account objects using the primary key of an associated 
+ * FiscalYearAccount objects using the primary key of an associated 
  * AccountGroup object through the association Accounts. This
- * is a many-to-one association from Account to AccountGroup.
+ * is a many-to-one association from FiscalYearAccount to AccountGroup.
  * </p>
  * <p>
  * This SQL specification contains a SQL statement that queries a collection of
- * Account objects from the database using the foreign key type
+ * FiscalYearAccount objects from the database using the foreign key type
  * AccountGroup.
  * </p>
  * 
  * @author Poesys/DB Cartridge
  */
 public abstract class AbstractQueryAccountsByAccountGroup 
-    implements IParameterizedQuerySql<com.poesys.accounting.db.account.IAccount, com.poesys.accounting.db.account.IAccountGroup> {
-  /** SQL query statement for Account */
+    implements IParameterizedQuerySql<com.poesys.accounting.db.account.IFiscalYearAccount, com.poesys.accounting.db.account.IAccountGroup> {
+  /** SQL query statement for FiscalYearAccount */
   private static final String SQL =
-    "SELECT Account.entityName, Account.accountName, Account.description, Account.debitDefault, Account.accountType, Account.receivable, Account.active, Account.groupName FROM Account WHERE Account.groupName = ?";
+    "SELECT FiscalYearAccount.accountName, FiscalYearAccount.entityName, FiscalYearAccount.year, FiscalYearAccount.orderNumber, FiscalYearAccount.accountType, FiscalYearAccount.groupOrderNumber, FiscalYearAccount.group FROM FiscalYearAccount WHERE FiscalYearAccount.accountType = ? AND FiscalYearAccount.orderNumber = ?";
 
   @Override
   public void bindParameters(PreparedStatement stmt, com.poesys.accounting.db.account.IAccountGroup parameters) {
@@ -49,9 +49,9 @@ public abstract class AbstractQueryAccountsByAccountGroup
   }
 
   @Override
-  public com.poesys.accounting.db.account.IAccount getData(ResultSet rs) {
+  public com.poesys.accounting.db.account.IFiscalYearAccount getData(ResultSet rs) {
     try {
-      return com.poesys.accounting.db.account.AccountFactory.getAccountData(getPrimaryKey(rs), rs);
+      return com.poesys.accounting.db.account.AccountFactory.getFiscalYearAccountData(getPrimaryKey(rs), rs);
     } catch (com.poesys.db.InvalidParametersException | SQLException e) {
       throw new com.poesys.db.DbErrorException("Error getting data", e);
     }
@@ -60,7 +60,7 @@ public abstract class AbstractQueryAccountsByAccountGroup
   @Override
   public IPrimaryKey getPrimaryKey(ResultSet rs) {
     try {
-      return com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(rs, "");
+      return com.poesys.accounting.db.account.AccountFactory.getFiscalYearAccountPrimaryKey(rs, "");
     } catch (com.poesys.db.InvalidParametersException | SQLException e) {
       throw new com.poesys.db.DbErrorException("Error getting primary key", e);
     }

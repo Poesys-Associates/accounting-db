@@ -21,7 +21,7 @@ import com.poesys.db.pk.IPrimaryKey;
  */
 public class AbstractInsertAccount implements IInsertSql<com.poesys.accounting.db.account.IAccount> {
   private static final String SQL =
-    "INSERT INTO Account (accountName, entityName, description, debitDefault, accountType, receivable, active, groupName) VALUES (?,?,?,?,?,?,?,?)";
+    "INSERT INTO Account (accountName, entityName, description, debitDefault, active) VALUES (?,?,?,?,?)";
 
   @Override
   public String getSql(IPrimaryKey key) {
@@ -46,28 +46,7 @@ public class AbstractInsertAccount implements IInsertSql<com.poesys.accounting.d
     }
     index++;
     try {
-      stmt.setString(index, object.getAccountType());
-    } catch (java.sql.SQLException e) {
-      String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
-      throw new com.poesys.db.DbErrorException(message, e);
-    }
-    index++;
-    try {
-      stmt.setInt(index, object.getReceivable() ? 1 : 0);
-    } catch (java.sql.SQLException e) {
-      String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
-      throw new com.poesys.db.DbErrorException(message, e);
-    }
-    index++;
-    try {
       stmt.setInt(index, object.getActive() ? 1 : 0);
-    } catch (java.sql.SQLException e) {
-      String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
-      throw new com.poesys.db.DbErrorException(message, e);
-    }
-    index++;
-    try {
-      stmt.setString(index, object.getGroupName());
     } catch (java.sql.SQLException e) {
       String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
       throw new com.poesys.db.DbErrorException(message, e);
@@ -91,20 +70,8 @@ public class AbstractInsertAccount implements IInsertSql<com.poesys.accounting.d
     builder.append(object.getDebitDefault());
     // Get the non-key attributes.
     builder.append(", ");
-    builder.append("accountType: ");
-    builder.append(object.getAccountType());
-    // Get the non-key attributes.
-    builder.append(", ");
-    builder.append("receivable: ");
-    builder.append(object.getReceivable());
-    // Get the non-key attributes.
-    builder.append(", ");
     builder.append("active: ");
     builder.append(object.getActive());
-    // Get the non-key attributes.
-    builder.append(", ");
-    builder.append("groupName: ");
-    builder.append(object.getGroupName());
     return builder.toString();
   }
 }

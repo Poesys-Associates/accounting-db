@@ -17,7 +17,9 @@ CREATE TABLE FiscalYearAccount (
   accountName VARCHAR2(100) NOT NULL,  
   entityName VARCHAR2(500) NOT NULL,  
   year NUMBER(12)(4) NOT NULL,  
-  orderNumber NUMBER(12),  
+  orderNumber NUMBER(12) NOT NULL,  
+  accountType VARCHAR2(15) NOT NULL,  
+  groupOrderNumber NUMBER(12) NOT NULL,  
   CONSTRAINT FiscalYearAccountPK PRIMARY KEY (accountName, entityName, year)
 );
 
@@ -26,11 +28,15 @@ CREATE TABLE Account (
   accountName VARCHAR2(100) NOT NULL,  
   description VARCHAR2(500) NOT NULL,  
   debitDefault NUMBER(1) NOT NULL,  
-  accountType VARCHAR2(100) NOT NULL,  
-  receivable NUMBER(1) NOT NULL,  
   active NUMBER(1) NOT NULL,  
-  groupName VARCHAR2(200) NOT NULL,  
   CONSTRAINT AccountPK PRIMARY KEY (accountName, entityName)
+);
+
+CREATE TABLE AccountGroup (
+  accountType VARCHAR2(15) NOT NULL,  
+  orderNumber NUMBER(12) NOT NULL,  
+  groupName VARCHAR2(100) NOT NULL,  
+  CONSTRAINT AccountGroupPK PRIMARY KEY (accountType, orderNumber)
 );
 
 CREATE TABLE Entity (
@@ -38,8 +44,35 @@ CREATE TABLE Entity (
   CONSTRAINT EntityPK PRIMARY KEY (entityName)
 );
 
-CREATE TABLE AccountGroup (
-  groupName VARCHAR2(200) NOT NULL,  
-  CONSTRAINT AccountGroupPK PRIMARY KEY (groupName)
+CREATE TABLE CapitalEntity (
+  capitalEntityName VARCHAR2(500) NOT NULL,  
+  CONSTRAINT CapitalEntityPK PRIMARY KEY (capitalEntityName)
+);
+
+CREATE TABLE AccountType (
+  accountType VARCHAR2(15) NOT NULL,  
+  CONSTRAINT AccountTypePK PRIMARY KEY (accountType)
+);
+
+CREATE TABLE CapitalAccount (
+  accountName VARCHAR2(100) NOT NULL,  
+  entityName VARCHAR2(500) NOT NULL,  
+  ownership BINARY_DOUBLE NOT NULL,  
+  capitalEntityName VARCHAR2(500) NOT NULL,  
+  CONSTRAINT CapitalAccountPK PRIMARY KEY (accountName, entityName)
+);
+
+CREATE TABLE DistributionAccount (
+  accountName VARCHAR2(100) NOT NULL,  
+  entityName VARCHAR2(500) NOT NULL,  
+  capitalEntityName VARCHAR2(500) NOT NULL,  
+  CONSTRAINT DistributionAccountPK PRIMARY KEY (accountName, entityName)
+);
+
+CREATE TABLE SimpleAccount (
+  accountName VARCHAR2(100) NOT NULL,  
+  entityName VARCHAR2(500) NOT NULL,  
+  receivable NUMBER(1) NOT NULL,  
+  CONSTRAINT SimpleAccountPK PRIMARY KEY (accountName, entityName)
 );
 

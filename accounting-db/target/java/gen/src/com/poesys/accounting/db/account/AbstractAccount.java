@@ -54,224 +54,6 @@ public abstract class AbstractAccount extends AbstractDto implements IAccount {
   // Setter strategy nested classes for single-object associations
   
   /**
-   * Nested class that manages the group association data
-   *
-   * Source: AddToOneAssociationRequiredObjectProperties
-   *
-   * @author Poesys/DB Cartridge
-   */
-  private class QueryGroupSetter extends com.poesys.db.dto.AbstractObjectSetter<com.poesys.accounting.db.account.IAccountGroup> {
-    private static final long serialVersionUID = 1L;
-    
-    /**
-     * Create a QueryGroupSetter object.
-     */
-    public QueryGroupSetter() {
-      super("com.poesys.accounting.db.account", 2147483647);
-    }
-
-    @Override
-    protected String getClassName() {
-      return com.poesys.accounting.db.account.AccountGroup.class.getName();
-    }
-
-    @Override
-    protected IPrimaryKey getKey() {
-      return groupKey;
-    }
-
-    @Override
-    protected com.poesys.db.dao.query.IKeyQuerySql<com.poesys.accounting.db.account.IAccountGroup> getSql() {
-      return new com.poesys.accounting.db.account.sql.QueryAccountGroup();
-    }
-
-    @Override
-    protected void set(com.poesys.accounting.db.account.IAccountGroup dto) {
-      // No status change, this is just filling in the object data.
-      group = dto;
-    }
-
-    @Override
-    public boolean isSet() {
-      // Object is set if the associated group is not null
-      return group != null;
-    }
-  }
-
-  /**
-   * Post-process setter for post-processing nested object property group.
-   */
-  private class PostProcessGroupSetter 
-      extends com.poesys.db.dto.AbstractPostProcessSetter {
-    // Property group source: AddToOneAssociationRequiredObjectProperties
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Create a PostProcessGroupSetter object.
-     */
-    public PostProcessGroupSetter() {
-      super("com.poesys.accounting.db.account", 2147483647);
-    }
-
-    @Override
-    protected String getClassName() {
-      return com.poesys.accounting.db.account.AccountGroup.class.getName();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
-      java.util.ArrayList<com.poesys.db.dto.IDbDto> array =
-        new java.util.ArrayList<com.poesys.db.dto.IDbDto>(1);
-      if (group != null) {
-        array.add(group);
-      }
-      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = array;
-      return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
-    }
-  }
-
-  /**
-   * Insert setter for inserting nested object property group.
-   */
-  private class InsertGroupSetter 
-      extends com.poesys.db.dto.AbstractInsertSetter {
-    // Property group source: AddToOneAssociationRequiredObjectProperties
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Create an InsertGroupSetter object.
-     */
-    public InsertGroupSetter() {
-      super("com.poesys.accounting.db.account", 2147483647);
-    }
-
-    @Override
-    protected String getClassName() {
-      return com.poesys.accounting.db.account.AccountGroup.class.getName();
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
-      java.util.ArrayList<com.poesys.db.dto.IDbDto> array =
-        new java.util.ArrayList<com.poesys.db.dto.IDbDto>(1);
-      array.add(group);
-      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = array;
-      return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
-    }
-
-    @Override
-    protected boolean createKey() {
-      // Key type: NaturalKey
-      return true;
-    }
-  }
-
-  /**
-   * Setter for processing added group, updated group, and 
-   * deleted group. 
-   */
-   
-  private class UpdateGroupSetter 
-      extends com.poesys.db.dto.AbstractProcessNestedObject<com.poesys.accounting.db.account.IAccountGroup> {
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Create an UpdateGroupSetter object.
-     */
-    public UpdateGroupSetter() {
-      super("com.poesys.accounting.db.account", 2147483647);
-    }
-
-    @Override
-    protected void doChanged(com.poesys.accounting.db.account.IAccountGroup dto) {
-        // group source: AddToOneAssociationRequiredObjectProperties
-        // Immutable: false
-      com.poesys.db.dao.IDaoManager manager = 
-        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountGroup> factory = 
-        manager.getFactory(com.poesys.accounting.db.account.AccountGroup.class.getName(), subsystem, 2147483647);
-      com.poesys.db.dao.update.IUpdate<com.poesys.accounting.db.account.IAccountGroup> updater = 
-        factory.getUpdate(new com.poesys.accounting.db.account.sql.UpdateAccountGroup());
-
-      updater.update(dto);
-      // Complete the update by setting the DTO to EXISTING status.
-      dto.setExisting();
-    }
-    
-    @Override
-    protected void doDeleted(com.poesys.accounting.db.account.IAccountGroup dto) {
-      com.poesys.db.dao.IDaoManager manager = 
-        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountGroup> factory = 
-        manager.getFactory(com.poesys.accounting.db.account.AccountGroup.class.getName(), subsystem, 2147483647);
-      com.poesys.db.dao.delete.IDelete<com.poesys.accounting.db.account.IAccountGroup> dao = 
-        factory.getDelete(new com.poesys.accounting.db.account.sql.DeleteAccountGroup());
-      dao.delete(dto);
-    }
-
-    @Override
-    protected void doNew(com.poesys.accounting.db.account.IAccountGroup dto) {
-      com.poesys.db.dao.IDaoManager manager = 
-        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountGroup> factory = 
-        manager.getFactory(com.poesys.accounting.db.account.AccountGroup.class.getName(), subsystem, 2147483647);
-      com.poesys.db.dao.insert.IInsert<com.poesys.accounting.db.account.IAccountGroup> inserter =
-        factory.getInsert(new com.poesys.accounting.db.account.sql.InsertAccountGroup(), createKey());
-
-
-      // Insert the superclass objects from the root down. Suppress nested
-      // inserts for the superclasses, wait until the concrete class. Also set 
-      // pre-insert suppression off to have the root insert linked, to-one class
-      // objects.
-      dto.setSuppressNestedInserts(true);
-      dto.setSuppressNestedPreInserts(false);
-
-      // Suppress inserts in concrete class.
-      dto.setSuppressNestedPreInserts(true);
-      
-      // Insert the object of the current class after enabling nested inserts,
-      // which will allow connecting up linked objects to any of the inserted
-      // classes.
-      dto.setSuppressNestedInserts(false);
-      inserter.insert(dto);
-    }
-
-    @Override
-    protected com.poesys.accounting.db.account.IAccountGroup getDto() {
-      return group;
-    }
-    
-    @Override
-    protected String getClassName() {
-      return com.poesys.accounting.db.account.AccountGroup.class.getName();
-    }
-
-    @Override
-    protected boolean createKey() {
-      // Key type: NaturalKey
-      return true;
-    }
-  }
-
-  /**
-   * Foreign key object used by QueryGroupSetter nested class to query object
-   */
-  private IPrimaryKey groupKey;
-  
-  /**
-   * Set the foreign key groupKey. This has package access to enable
-   * the subsystem factory getData method to call this method to set the key
-   * by creating it from the queried result set.
-   *
-   * @param groupKey the foreign key
-   */
-  void setGroupKey(IPrimaryKey groupKey) {
-    this.groupKey = groupKey;
-  }
-
-  /**
    * Nested class that manages the entity association data
    *
    * Source: AddToOneAssociationRequiredObjectProperties
@@ -1120,12 +902,6 @@ public abstract class AbstractAccount extends AbstractDto implements IAccount {
       readObjectSetters = new java.util.ArrayList<com.poesys.db.dto.ISet>();
     }
 
-    // Add the setters for the group property.
-    querySetters.add(new QueryGroupSetter());
-    preSetters.add(new InsertGroupSetter());
-    postSetters.add(new UpdateGroupSetter());
-    postProcessSetters.add(new PostProcessGroupSetter());
-
     // Add the setters for the entity property.
     querySetters.add(new QueryEntitySetter());
     preSetters.add(new InsertEntitySetter());
@@ -1158,22 +934,11 @@ public abstract class AbstractAccount extends AbstractDto implements IAccount {
    * @param description text description of the nature of the account
    * @param debitDefault whether the account transaction items default to a debit or credit item; chosen
 as the "usual" value for items in this account
-   * @param accountType the kind of account:
-<ul>
-<li>Asset: a kind of property with a value owned by the accounting entity</li>
-<li>Liability: a kind of debt owed by the accounting entity to another
-entity</li>
-<li>Equity: a kind of fund invested by the accounting entity in the business;
-the difference between value of assets and value of liabilities</li>
-<li>Income: revenues paid to the accounting entity</li>
-<li>Expense: money paid by the accounting entity to another entity</li>
-</ul>
-   * @param receivable whether this account is a receivable account, representing an asset that is a
-debt owed to the accounting entity
-   * @param active whether the account is active at the present time.
-   * @param groupName foreign key used by setter to query associated object
+   * @param active whether the account is active at the present time; an inactive account does not
+appear in lists of accounts available through the user interface but does appear
+in reports where referenced by items
    */
-  public AbstractAccount(IPrimaryKey key, java.lang.String entityName, java.lang.String accountName, java.lang.String description, java.lang.Boolean debitDefault, java.lang.String accountType, java.lang.Boolean receivable, java.lang.Boolean active, java.lang.String groupName) {
+  public AbstractAccount(IPrimaryKey key, java.lang.String entityName, java.lang.String accountName, java.lang.String description, java.lang.Boolean debitDefault, java.lang.Boolean active) {
     this.key = key;
 
     this.entityName = entityName;
@@ -1200,28 +965,10 @@ debt owed to the accounting entity
       throw new com.poesys.db.InvalidParametersException("debitDefault is required for " + key.getValueList());
     }
     
-    this.accountType = accountType;
-
-    if (accountType == null) {
-      throw new com.poesys.db.InvalidParametersException("accountType is required for " + key.getValueList());
-    }
-    
-    this.receivable = receivable;
-
-    if (receivable == null) {
-      throw new com.poesys.db.InvalidParametersException("receivable is required for " + key.getValueList());
-    }
-    
     this.active = active;
 
     if (active == null) {
       throw new com.poesys.db.InvalidParametersException("active is required for " + key.getValueList());
-    }
-    
-    this.groupName = groupName;
-
-    if (groupName == null) {
-      throw new com.poesys.db.InvalidParametersException("groupName is required for " + key.getValueList());
     }
     
     // Setter arrays (create if null)
@@ -1246,18 +993,6 @@ debt owed to the accounting entity
     if (readObjectSetters == null) {
       readObjectSetters = new java.util.ArrayList<com.poesys.db.dto.ISet>();
     }
-    
-    // Add the setters for the group property.
-    querySetters.add(new QueryGroupSetter());
-    // Set the object property primary key with a factory method.
-    groupKey = com.poesys.accounting.db.account.AccountFactory.getAccountGroupPrimaryKey(groupName);
-    insertSetters.add(new InsertGroupSetter());
-    preSetters.add(new InsertGroupSetter());
-    postSetters.add(new UpdateGroupSetter());
-    postProcessSetters.add(new PostProcessGroupSetter());
-    
-    // Add a setter to instantiate the required group object before insert.
-    insertQuerySetters.add(new QueryGroupSetter());
     
     // Add the setters for the entity property.
     querySetters.add(new QueryEntitySetter());
@@ -1593,180 +1328,12 @@ debt owed to the accounting entity
     setChanged();
   }
   /**
-   * Nested property accountType
-   *
-   * <p>
-   * the kind of account:
-   * </p>
-   * <p>
-   * <ul>
-   * </p>
-   * <p>
-   * <li>Asset: a kind of property with a value owned by the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Liability: a kind of debt owed by the accounting entity to another
-   * entity</li>
-   * </p>
-   * <p>
-   * <li>Equity: a kind of fund invested by the accounting entity in the business;
-   * the difference between value of assets and value of liabilities</li>
-   * </p>
-   * <p>
-   * <li>Income: revenues paid to the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Expense: money paid by the accounting entity to another entity</li>
-   * </p>
-   * <p>
-   * </ul>
-   * </p>
-   *
-   * Added by AddLocalAttributeProperties
-   * Class is read/write: true
-   * Class is immutable: false
-   * Property is read/write: true
-   * Property is lazy: false
-   */
-  private java.lang.String accountType;
-  
-  /**
-   * Get an object of java.lang.String.
-   *
-   * Source: AddLocalAttributeProperties
-   * 
-   * @return a java.lang.String
-   */
-
-  public java.lang.String getAccountType() {
-    return accountType;
-  }
-
-  /**
-   * Clear the accountType data member; override in proxy if lazily loaded,
-   * otherwise this method does nothing.
-   */
-  public void clearAccountType() {
-    // Override in proxy if lazily loaded; otherwise does nothing
-  }
-
-  /**
-   * <p>
-   * Set the accountType.
-   * </p>
-   * <ul>
-   * <li>Read/Write DTO: true</li>
-   * <li>Immutable DTO: false</li>
-   * <li>Read/Write property: true</li>
-   * <li>Immutable property: false</li>
-   * <li>Lazy property: false (if true, proxy calls this method)</li>
-   * </ul>
-   * <p>
-   * the kind of account:
-   * </p>
-   * <p>
-   * <ul>
-   * </p>
-   * <p>
-   * <li>Asset: a kind of property with a value owned by the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Liability: a kind of debt owed by the accounting entity to another
-   * entity</li>
-   * </p>
-   * <p>
-   * <li>Equity: a kind of fund invested by the accounting entity in the business;
-   * the difference between value of assets and value of liabilities</li>
-   * </p>
-   * <p>
-   * <li>Income: revenues paid to the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Expense: money paid by the accounting entity to another entity</li>
-   * </p>
-   * <p>
-   * </ul>
-   * </p>
-   *
-   * @param accountType the value with which to set the property
-   */
-  public void setAccountType(java.lang.String accountType)
-      throws com.poesys.db.InvalidParametersException {
-    if (accountType == null) {
-      throw new com.poesys.db.InvalidParametersException("accountType is required");
-    }
-    
-    this.accountType = accountType;
-    setChanged();
-  }
-  /**
-   * Nested property receivable
-   *
-   * <p>
-   * whether this account is a receivable account, representing an asset that is a
-   * debt owed to the accounting entity
-   * </p>
-   *
-   * Added by AddLocalAttributeProperties
-   * Class is read/write: true
-   * Class is immutable: false
-   * Property is read/write: true
-   * Property is lazy: false
-   */
-  private java.lang.Boolean receivable;
-  
-  /**
-   * Get an object of java.lang.Boolean.
-   *
-   * Source: AddLocalAttributeProperties
-   * 
-   * @return a java.lang.Boolean
-   */
-
-  public java.lang.Boolean getReceivable() {
-    return receivable;
-  }
-
-  /**
-   * Clear the receivable data member; override in proxy if lazily loaded,
-   * otherwise this method does nothing.
-   */
-  public void clearReceivable() {
-    // Override in proxy if lazily loaded; otherwise does nothing
-  }
-
-  /**
-   * <p>
-   * Set the receivable.
-   * </p>
-   * <ul>
-   * <li>Read/Write DTO: true</li>
-   * <li>Immutable DTO: false</li>
-   * <li>Read/Write property: true</li>
-   * <li>Immutable property: false</li>
-   * <li>Lazy property: false (if true, proxy calls this method)</li>
-   * </ul>
-   * <p>
-   * whether this account is a receivable account, representing an asset that is a
-   * debt owed to the accounting entity
-   * </p>
-   *
-   * @param receivable the value with which to set the property
-   */
-  public void setReceivable(java.lang.Boolean receivable)
-      throws com.poesys.db.InvalidParametersException {
-    if (receivable == null) {
-      throw new com.poesys.db.InvalidParametersException("receivable is required");
-    }
-    
-    this.receivable = receivable;
-    setChanged();
-  }
-  /**
    * Nested property active
    *
    * <p>
-   * whether the account is active at the present time.
+   * whether the account is active at the present time; an inactive account does not
+   * appear in lists of accounts available through the user interface but does appear
+   * in reports where referenced by items
    * </p>
    *
    * Added by AddLocalAttributeProperties
@@ -1809,7 +1376,9 @@ debt owed to the accounting entity
    * <li>Lazy property: false (if true, proxy calls this method)</li>
    * </ul>
    * <p>
-   * whether the account is active at the present time.
+   * whether the account is active at the present time; an inactive account does not
+   * appear in lists of accounts available through the user interface but does appear
+   * in reports where referenced by items
    * </p>
    *
    * @param active the value with which to set the property
@@ -1821,67 +1390,6 @@ debt owed to the accounting entity
     }
     
     this.active = active;
-    setChanged();
-  }
-  /**
-   * Nested property group
-   *
-   * <p>
-   * the group into which the account is aggregated
-   * </p>
-   *
-   * Added by AddToOneAssociationRequiredObjectProperties
-   * Class is read/write: true
-   * Class is immutable: false
-   * Property is read/write: true
-   * Property is lazy: false
-   */
-  private com.poesys.accounting.db.account.IAccountGroup group;
-  
-  /**
-   * Get an object of com.poesys.accounting.db.account.IAccountGroup.
-   *
-   * Source: AddToOneAssociationRequiredObjectProperties
-   * 
-   * @return a com.poesys.accounting.db.account.IAccountGroup
-   */
-
-  public com.poesys.accounting.db.account.IAccountGroup getGroup() {
-    return group;
-  }
-
-  /**
-   * Clear the group data member; override in proxy if lazily loaded,
-   * otherwise this method does nothing.
-   */
-  public void clearGroup() {
-    // Override in proxy if lazily loaded; otherwise does nothing
-  }
-
-  /**
-   * <p>
-   * Set the group.
-   * </p>
-   * <ul>
-   * <li>Read/Write DTO: true</li>
-   * <li>Immutable DTO: false</li>
-   * <li>Read/Write property: true</li>
-   * <li>Immutable property: false</li>
-   * <li>Lazy property: false (if true, proxy calls this method)</li>
-   * </ul>
-   * <p>
-   * the group into which the account is aggregated
-   * </p>
-   *
-   * @param group the value with which to set the property
-   */
-  public void setGroup(com.poesys.accounting.db.account.IAccountGroup group)
-      throws com.poesys.db.InvalidParametersException {
-    if (group == null) {
-      throw new com.poesys.db.InvalidParametersException("group is required");
-    }
-    
-    this.group = group;
     setChanged();
   }
   /**
@@ -1939,67 +1447,6 @@ debt owed to the accounting entity
     }
     
     this.entity = entity;
-    setChanged();
-  }
-  /**
-   * Nested property groupName
-   *
-   * <p>
-   * Foreign key used by setter to query associated object
-   * </p>
-   *
-   * Added by AddNaturalKeyProperties + AddToOneAssociationAttributeProperties
-   * Class is read/write: true
-   * Class is immutable: false
-   * Property is read/write: false
-   * Property is lazy: false
-   */
-  private java.lang.String groupName;
-  
-  /**
-   * Get an object of java.lang.String.
-   *
-   * Source: AddNaturalKeyProperties + AddToOneAssociationAttributeProperties
-   * 
-   * @return a java.lang.String
-   */
-
-  public java.lang.String getGroupName() {
-    return groupName;
-  }
-
-  /**
-   * Clear the groupName data member; override in proxy if lazily loaded,
-   * otherwise this method does nothing.
-   */
-  public void clearGroupName() {
-    // Override in proxy if lazily loaded; otherwise does nothing
-  }
-
-  /**
-   * <p>
-   * Set the groupName.
-   * </p>
-   * <ul>
-   * <li>Read/Write DTO: true</li>
-   * <li>Immutable DTO: false</li>
-   * <li>Read/Write property: false</li>
-   * <li>Immutable property: false</li>
-   * <li>Lazy property: false (if true, proxy calls this method)</li>
-   * </ul>
-   * <p>
-   * Foreign key used by setter to query associated object
-   * </p>
-   *
-   * @param groupName the value with which to set the property
-   */
-  void setGroupName(java.lang.String groupName)
-      throws com.poesys.db.InvalidParametersException {
-    if (groupName == null) {
-      throw new com.poesys.db.InvalidParametersException("groupName is required");
-    }
-    
-    this.groupName = groupName;
     setChanged();
   }
   /**

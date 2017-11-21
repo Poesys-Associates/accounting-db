@@ -43,55 +43,6 @@ public abstract class AbstractAccountProxy extends AbstractLazyLoadingDtoProxy i
   // single-object associations
   
   /**
-   * Query setter for lazily querying nested group object
-   * (object property)
-   *
-   * Source: AddToOneAssociationRequiredObjectProperties
-   *
-   * @see com.poesys.accounting.db.account.sql.QueryAccountGroup
-   */
-  private class QueryGroupSetter 
-      extends com.poesys.db.dto.AbstractLazyObjectSetter<com.poesys.accounting.db.account.IAccountGroup> {
-    /** Serial version UID for Serializable object */
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Create a QueryGroupSetter object.
-     */
-    public QueryGroupSetter() {
-      super("com.poesys.accounting.db.account", 2147483647);
-    }
-
-    @Override
-    protected String getClassName() {
-      return com.poesys.accounting.db.account.AccountGroup.class.getName();
-    }
-
-    @Override
-    protected com.poesys.db.pk.IPrimaryKey getKey() {
-      // Generate an com.poesys.accounting.db.account.IAccountGroup primary key with the value 
-      // from the com.poesys.accounting.db.account.IAccount object
-      return com.poesys.accounting.db.account.AccountFactory.getAccountGroupPrimaryKey(((IAccount)dto).getGroupName());
-    }
-
-    @Override
-    protected com.poesys.db.dao.query.IKeyQuerySql<com.poesys.accounting.db.account.IAccountGroup> getSql() {
-      return new com.poesys.accounting.db.account.sql.QueryAccountGroup();
-    }
-
-    @Override
-    protected void set(com.poesys.accounting.db.account.IAccountGroup dto) {
-      setGroup(dto);
-    }
-
-    @Override
-    public boolean isSet() {
-      // Set if proxied DTO group exists
-      return (((Account)dto).getGroup() != null);
-    }
-  }
-
-  /**
    * Query setter for lazily querying nested entity object
    * (object property)
    *
@@ -388,7 +339,6 @@ public abstract class AbstractAccountProxy extends AbstractLazyLoadingDtoProxy i
     readObjectSetters.add(new ReadItemsSetter());
 
     // Add query setters for single-object deserialization.
-    readObjectSetters.add(new QueryGroupSetter());
     readObjectSetters.add(new QueryEntitySetter());
   }
 
@@ -524,56 +474,6 @@ public abstract class AbstractAccountProxy extends AbstractLazyLoadingDtoProxy i
   }
 
   /**
-   * Get an object of java.lang.String
-   *
-   * Source: AddLocalAttributeProperties
-   * Lazy: false
-   * 
-   * @return a java.lang.String
-   */
-  public java.lang.String getAccountType() {
-    return ((Account)dto).getAccountType();
-  }
-
-  /**
-   * Set the accountType from a lazy-loading proxy, either for lazily 
-   * loading the data or deserializing nested objects. The IDbDto-derived 
-   * interface does not contain this method.
-   *
-   * @param accountType the lazily loaded value to assign
-   * @throws com.poesys.db.InvalidParametersException when the property value is null
-   */
-  public void setAccountType(java.lang.String accountType)
-      throws com.poesys.db.InvalidParametersException {
-    ((Account)dto).setAccountType(accountType);
-  }
-
-  /**
-   * Get an object of java.lang.Boolean
-   *
-   * Source: AddLocalAttributeProperties
-   * Lazy: false
-   * 
-   * @return a java.lang.Boolean
-   */
-  public java.lang.Boolean getReceivable() {
-    return ((Account)dto).getReceivable();
-  }
-
-  /**
-   * Set the receivable from a lazy-loading proxy, either for lazily 
-   * loading the data or deserializing nested objects. The IDbDto-derived 
-   * interface does not contain this method.
-   *
-   * @param receivable the lazily loaded value to assign
-   * @throws com.poesys.db.InvalidParametersException when the property value is null
-   */
-  public void setReceivable(java.lang.Boolean receivable)
-      throws com.poesys.db.InvalidParametersException {
-    ((Account)dto).setReceivable(receivable);
-  }
-
-  /**
    * Get an object of java.lang.Boolean
    *
    * Source: AddLocalAttributeProperties
@@ -599,31 +499,6 @@ public abstract class AbstractAccountProxy extends AbstractLazyLoadingDtoProxy i
   }
 
   /**
-   * Get an object of com.poesys.accounting.db.account.IAccountGroup
-   *
-   * Source: AddToOneAssociationRequiredObjectProperties
-   * Lazy: false
-   * 
-   * @return a com.poesys.accounting.db.account.IAccountGroup
-   */
-  public com.poesys.accounting.db.account.IAccountGroup getGroup() {
-    return ((Account)dto).getGroup();
-  }
-
-  /**
-   * Set the group from a lazy-loading proxy, either for lazily 
-   * loading the data or deserializing nested objects. The IDbDto-derived 
-   * interface does not contain this method.
-   *
-   * @param group the lazily loaded value to assign
-   * @throws com.poesys.db.InvalidParametersException when the property value is null
-   */
-  public void setGroup(com.poesys.accounting.db.account.IAccountGroup group)
-      throws com.poesys.db.InvalidParametersException {
-    ((Account)dto).setGroup(group);
-  }
-
-  /**
    * Get an object of com.poesys.accounting.db.account.IEntity
    *
    * Source: AddToOneAssociationRequiredObjectProperties
@@ -646,31 +521,6 @@ public abstract class AbstractAccountProxy extends AbstractLazyLoadingDtoProxy i
   public void setEntity(com.poesys.accounting.db.account.IEntity entity)
       throws com.poesys.db.InvalidParametersException {
     ((Account)dto).setEntity(entity);
-  }
-
-  /**
-   * Get an object of java.lang.String
-   *
-   * Source: AddNaturalKeyProperties + AddToOneAssociationAttributeProperties
-   * Lazy: false
-   * 
-   * @return a java.lang.String
-   */
-  public java.lang.String getGroupName() {
-    return ((Account)dto).getGroupName();
-  }
-
-  /**
-   * Set the groupName from a lazy-loading proxy, either for lazily 
-   * loading the data or deserializing nested objects. The IDbDto-derived 
-   * interface does not contain this method.
-   *
-   * @param groupName the lazily loaded value to assign
-   * @throws com.poesys.db.InvalidParametersException when the property value is null
-   */
-  void setGroupName(java.lang.String groupName)
-      throws com.poesys.db.InvalidParametersException {
-    ((Account)dto).setGroupName(groupName);
   }
 
   /**

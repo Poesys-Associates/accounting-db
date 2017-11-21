@@ -6,13 +6,11 @@
 package com.poesys.accounting.bs.account;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-
+import com.poesys.accounting.db.account.AccountFactory;
+import com.poesys.accounting.db.account.IAccount;
+import com.poesys.accounting.db.account.SimpleAccount;
 import com.poesys.cartridges.db.utilities.StringUtilities;
+import com.poesys.db.pk.IPrimaryKey;
 
 
 /**
@@ -28,39 +26,10 @@ import com.poesys.cartridges.db.utilities.StringUtilities;
  */
 public class EntityDelegateTest extends
     com.poesys.accounting.bs.account.AbstractEntityDelegateTest {
-  private static final String INC_GROUP_NAME = "Service Revenue";
-  private static final String INCOME_ACCOUNT_TYPE = "Income";
-  private static BsAccountGroup incomeGroup = null;
-  private static AccountGroupDelegate groupDel =
-      AccountDelegateFactory.getAccountGroupDelegate();
-
-  /**
-   * Before running all the tests in the class, set up an income account group
-   * for use in creating accounts.
-   * 
-   * @throws Exception when there is a problem setting up the group
-   */
-  @BeforeClass
-  public static void setUpBeforeClass() throws Exception {
-    incomeGroup = groupDel.createAccountGroup(INC_GROUP_NAME);
-    groupDel.insert(incomeGroup);
-  }
-
-  /**
-   * After the last test method runs, delete the account group set up in the
-   * setUpBeforeClass() method.
-   * 
-   * @throws Exception when there is a problem deleting the account group
-   */
-  @AfterClass
-  public static void tearDownAfterClass() throws Exception {
-    incomeGroup.delete();
-    groupDel.delete(incomeGroup);
-    groupDel = null;
-  }
 
   @Override
   protected java.util.List<com.poesys.accounting.bs.account.BsFiscalYearAccount> createAccountFiscalYearAccount(java.util.List<com.poesys.accounting.db.account.IAccount> accountsList,
+                                                                                                                java.util.List<com.poesys.accounting.db.account.IAccountGroup> groupList,
                                                                                                                 java.util.List<com.poesys.accounting.db.account.IFiscalYear> yearsList,
                                                                                                                 int count)
       throws com.poesys.bs.delegate.DelegateException,
@@ -76,6 +45,11 @@ public class EntityDelegateTest extends
                             + accountsList.size()
                             + " elements but needs at least " + count);
     }
+    if (groupList.size() < count) {
+      org.junit.Assert.fail("createAccountFiscalYearAccount groupList list has "
+                            + groupList.size()
+                            + " elements but needs at least " + count);
+    }
     if (yearsList.size() < count) {
       org.junit.Assert.fail("createAccountFiscalYearAccount yearsList list has "
                             + yearsList.size()
@@ -88,16 +62,21 @@ public class EntityDelegateTest extends
     EntityDelegate delegate = AccountDelegateFactory.getEntityDelegate();
 
     for (int i = 0; i < count; i++) {
-      BsAccount account = new BsAccount(accountsList.get(i));
-      BsFiscalYear year = new BsFiscalYear(yearsList.get(i));
+      BsAccount accountsObject = new BsAccount(accountsList.get(i));
+      BsAccountGroup groupObject = new BsAccountGroup(groupList.get(i));
+      BsFiscalYear yearsObject = new BsFiscalYear(yearsList.get(i));
 
       BsFiscalYearAccount link =
-        delegate.createFiscalYearAccount(account,
-                                         year,
-                                         account.getAccountName(),
-                                         account.getEntityName(),
-                                         year.getYear(),
-                                         i);
+        delegate.createFiscalYearAccount(accountsObject,
+                                         groupObject,
+                                         yearsObject,
+                                         accountsObject.getAccountName(),
+                                         accountsObject.getEntityName(),
+                                         yearsObject.getYear(),
+                                         i,
+                                         groupObject.getAccountType(),
+                                         groupObject.getOrderNumber(),
+                                         groupList.get(i));
       objects.add(link);
     }
 
@@ -110,26 +89,24 @@ public class EntityDelegateTest extends
       throws com.poesys.bs.delegate.DelegateException,
       com.poesys.db.InvalidParametersException,
       com.poesys.db.dto.DtoStatusException {
-    List<BsAccount> objects =
-      new ArrayList<com.poesys.accounting.bs.account.BsAccount>();
+    java.util.List<com.poesys.accounting.bs.account.BsAccount> objects =
+      new java.util.concurrent.CopyOnWriteArrayList<com.poesys.accounting.bs.account.BsAccount>();
 
     for (int i = 0; i < count; i++) {
-      String accountName = StringUtilities.generateString(50);
-      String description = StringUtilities.generateString(50);
-      BsAccount account =
-        delegate.createAccount(new BsEntity(parent),
-                               parent.getEntityName(),
-                               accountName,
-                               description,
-                               false,
-                               INCOME_ACCOUNT_TYPE,
-                               false,
-                               true,
-                               INC_GROUP_NAME);
-      account.setGroup(incomeGroup);
-      objects.add(account);
+      String accountName = StringUtilities.generateString(100);
+      IPrimaryKey key =
+        AccountFactory.getAccountPrimaryKey(accountName, parent.getEntityName());
+      String description = StringUtilities.generateString(100);
+      IAccount account =
+        new SimpleAccount(key,
+                          parent.getEntityName(),
+                          accountName,
+                          description,
+                          false,
+                          false,
+                          true);
+      objects.add(new BsAccount(account));
     }
-
     return objects;
   }
 

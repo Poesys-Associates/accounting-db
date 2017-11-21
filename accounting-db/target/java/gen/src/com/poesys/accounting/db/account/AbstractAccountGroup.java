@@ -23,14 +23,14 @@ import com.poesys.db.dto.AbstractDto;
  * you run it but will never overwrite the concrete subclass.
  * </p>
  * <p>
- * A named group of accounts, grouping the accounts for presentation and
- * aggregation in financial statements
+ * A named group of fiscal-year accounts, grouping the accounts for presentation
+ * and aggregation in financial statements for the fiscal year
  * </p>
  * <p>
  * Stereotypes:
  * </p>
  * <ul>
- *     <li>NaturalKey</li>
+ *     <li>CompositeKey</li>
  *     <li>Persistent</li>
  * </ul>
  * <p>
@@ -50,7 +50,226 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
   private static final com.poesys.db.dto.Deserializer<AbstractAccountGroup> deserializer =
     new com.poesys.db.dto.Deserializer<AbstractAccountGroup>();
 
+  // Setter strategy nested classes for single-object associations
   
+  /**
+   * Nested class that manages the type association data
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   *
+   * @author Poesys/DB Cartridge
+   */
+  private class QueryTypeSetter extends com.poesys.db.dto.AbstractObjectSetter<com.poesys.accounting.db.account.IAccountType> {
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * Create a QueryTypeSetter object.
+     */
+    public QueryTypeSetter() {
+      super("com.poesys.accounting.db.account", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.account.AccountType.class.getName();
+    }
+
+    @Override
+    protected IPrimaryKey getKey() {
+      return typeKey;
+    }
+
+    @Override
+    protected com.poesys.db.dao.query.IKeyQuerySql<com.poesys.accounting.db.account.IAccountType> getSql() {
+      return new com.poesys.accounting.db.account.sql.QueryAccountType();
+    }
+
+    @Override
+    protected void set(com.poesys.accounting.db.account.IAccountType dto) {
+      // No status change, this is just filling in the object data.
+      type = dto;
+    }
+
+    @Override
+    public boolean isSet() {
+      // Object is set if the associated type is not null
+      return type != null;
+    }
+  }
+
+  /**
+   * Post-process setter for post-processing nested object property type.
+   */
+  private class PostProcessTypeSetter 
+      extends com.poesys.db.dto.AbstractPostProcessSetter {
+    // Property type source: AddToOneAssociationRequiredObjectProperties
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Create a PostProcessTypeSetter object.
+     */
+    public PostProcessTypeSetter() {
+      super("com.poesys.accounting.db.account", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.account.AccountType.class.getName();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
+      java.util.ArrayList<com.poesys.db.dto.IDbDto> array =
+        new java.util.ArrayList<com.poesys.db.dto.IDbDto>(1);
+      if (type != null) {
+        array.add(type);
+      }
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = array;
+      return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
+    }
+  }
+
+  /**
+   * Insert setter for inserting nested object property type.
+   */
+  private class InsertTypeSetter 
+      extends com.poesys.db.dto.AbstractInsertSetter {
+    // Property type source: AddToOneAssociationRequiredObjectProperties
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Create an InsertTypeSetter object.
+     */
+    public InsertTypeSetter() {
+      super("com.poesys.accounting.db.account", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.account.AccountType.class.getName();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
+      java.util.ArrayList<com.poesys.db.dto.IDbDto> array =
+        new java.util.ArrayList<com.poesys.db.dto.IDbDto>(1);
+      array.add(type);
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = array;
+      return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
+    }
+
+    @Override
+    protected boolean createKey() {
+      // Key type: NaturalKey
+      return true;
+    }
+  }
+
+  /**
+   * Setter for processing added type, updated type, and 
+   * deleted type. 
+   */
+   
+  private class UpdateTypeSetter 
+      extends com.poesys.db.dto.AbstractProcessNestedObject<com.poesys.accounting.db.account.IAccountType> {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Create an UpdateTypeSetter object.
+     */
+    public UpdateTypeSetter() {
+      super("com.poesys.accounting.db.account", 2147483647);
+    }
+
+    @Override
+    protected void doChanged(com.poesys.accounting.db.account.IAccountType dto) {
+        // type source: AddToOneAssociationRequiredObjectProperties
+        // Immutable: false
+      com.poesys.db.dao.IDaoManager manager = 
+        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountType> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.AccountType.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.update.IUpdate<com.poesys.accounting.db.account.IAccountType> updater = 
+        factory.getUpdate(new com.poesys.accounting.db.account.sql.UpdateAccountType());
+
+      updater.update(dto);
+      // Complete the update by setting the DTO to EXISTING status.
+      dto.setExisting();
+    }
+    
+    @Override
+    protected void doDeleted(com.poesys.accounting.db.account.IAccountType dto) {
+      com.poesys.db.dao.IDaoManager manager = 
+        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountType> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.AccountType.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.delete.IDelete<com.poesys.accounting.db.account.IAccountType> dao = 
+        factory.getDelete(new com.poesys.accounting.db.account.sql.DeleteAccountType());
+      dao.delete(dto);
+    }
+
+    @Override
+    protected void doNew(com.poesys.accounting.db.account.IAccountType dto) {
+      com.poesys.db.dao.IDaoManager manager = 
+        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountType> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.AccountType.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.insert.IInsert<com.poesys.accounting.db.account.IAccountType> inserter =
+        factory.getInsert(new com.poesys.accounting.db.account.sql.InsertAccountType(), createKey());
+
+
+      // Insert the superclass objects from the root down. Suppress nested
+      // inserts for the superclasses, wait until the concrete class. Also set 
+      // pre-insert suppression off to have the root insert linked, to-one class
+      // objects.
+      dto.setSuppressNestedInserts(true);
+      dto.setSuppressNestedPreInserts(false);
+
+      // Suppress inserts in concrete class.
+      dto.setSuppressNestedPreInserts(true);
+      
+      // Insert the object of the current class after enabling nested inserts,
+      // which will allow connecting up linked objects to any of the inserted
+      // classes.
+      dto.setSuppressNestedInserts(false);
+      inserter.insert(dto);
+    }
+
+    @Override
+    protected com.poesys.accounting.db.account.IAccountType getDto() {
+      return type;
+    }
+    
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.account.AccountType.class.getName();
+    }
+
+    @Override
+    protected boolean createKey() {
+      // Key type: NaturalKey
+      return true;
+    }
+  }
+
+  /**
+   * Foreign key object used by QueryTypeSetter nested class to query object
+   */
+  private IPrimaryKey typeKey;
+  
+  /**
+   * Set the foreign key typeKey. This has package access to enable
+   * the subsystem factory getData method to call this method to set the key
+   * by creating it from the queried result set.
+   *
+   * @param typeKey the foreign key
+   */
+  void setTypeKey(IPrimaryKey typeKey) {
+    this.typeKey = typeKey;
+  }
+
   // Setter strategy nested classes for multiple-object associations
 
   /**
@@ -61,7 +280,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
    * @see com.poesys.accounting.db.account.sql.QueryAccountsByAccountGroup
    */
   private class QueryAccountsSetter 
-      extends com.poesys.db.dto.AbstractListSetter<com.poesys.accounting.db.account.IAccount, IAccountGroup, java.util.Collection<com.poesys.accounting.db.account.IAccount>> {
+      extends com.poesys.db.dto.AbstractListSetter<com.poesys.accounting.db.account.IFiscalYearAccount, IAccountGroup, java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount>> {
     private static final long serialVersionUID = 1L;
     private static final int FETCH_SIZE = 10;
 
@@ -74,7 +293,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
 
     @Override
     protected String getClassName() {
-      return com.poesys.accounting.db.account.Account.class.getName();
+      return com.poesys.accounting.db.account.FiscalYearAccount.class.getName();
     }
 
     @Override
@@ -88,12 +307,12 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected com.poesys.db.dao.query.IParameterizedQuerySql<com.poesys.accounting.db.account.IAccount, IAccountGroup> getSql() {
+    protected com.poesys.db.dao.query.IParameterizedQuerySql<com.poesys.accounting.db.account.IFiscalYearAccount, IAccountGroup> getSql() {
       return new com.poesys.accounting.db.account.sql.QueryAccountsByAccountGroup();
     }
 
     @Override
-    protected void set(java.util.Collection<com.poesys.accounting.db.account.IAccount> list) {
+    protected void set(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> list) {
       // No status change; this is just filling in the object data.
       accounts = list;
       // Add the primary keys to the serialized key list if there are any.
@@ -121,10 +340,10 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
    *
    * Source: TransformToProperty + AddToManyAssociationCollectionProperties
    *
-   * @see com.poesys.accounting.db.account.sql.QueryAccount
+   * @see com.poesys.accounting.db.account.sql.QueryFiscalYearAccount
    */
   private class ReadAccountsSetter 
-      extends com.poesys.db.dto.AbstractCollectionReadSetter<com.poesys.accounting.db.account.IAccount> {
+      extends com.poesys.db.dto.AbstractCollectionReadSetter<com.poesys.accounting.db.account.IFiscalYearAccount> {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -136,11 +355,11 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
 
     @Override
     protected String getClassName() {
-      return com.poesys.accounting.db.account.Account.class.getName();
+      return com.poesys.accounting.db.account.FiscalYearAccount.class.getName();
     }
 
     @Override
-    protected java.util.Collection<com.poesys.accounting.db.account.IAccount> getObjectCollection() {
+    protected java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> getObjectCollection() {
       return accounts;
     }
 
@@ -150,12 +369,12 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected com.poesys.db.dao.query.IKeyQuerySql<com.poesys.accounting.db.account.IAccount> getSql() {
-      return new com.poesys.accounting.db.account.sql.QueryAccount();
+    protected com.poesys.db.dao.query.IKeyQuerySql<com.poesys.accounting.db.account.IFiscalYearAccount> getSql() {
+      return new com.poesys.accounting.db.account.sql.QueryFiscalYearAccount();
     }
 
     @Override
-    protected void set(java.util.Collection<com.poesys.accounting.db.account.IAccount> collection) {
+    protected void set(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> collection) {
      accounts = collection;
     }
   }
@@ -177,7 +396,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
 
     @Override
     protected String getClassName() {
-      return com.poesys.accounting.db.account.Account.class.getName();
+      return com.poesys.accounting.db.account.FiscalYearAccount.class.getName();
     }
 
     @SuppressWarnings("unchecked")
@@ -191,7 +410,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
   /**
    * Insert setter for inserting nested to-many association accounts.
    *
-   * @see com.poesys.accounting.db.account.sql.InsertAccount
+   * @see com.poesys.accounting.db.account.sql.InsertFiscalYearAccount
    */
   private class InsertAccountsSetter extends com.poesys.db.dto.AbstractInsertSetter {
     private static final long serialVersionUID = 1L;
@@ -207,7 +426,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
 
     @Override
     protected String getClassName() {
-      return com.poesys.accounting.db.account.Account.class.getName();
+      return com.poesys.accounting.db.account.FiscalYearAccount.class.getName();
     }
 
     @SuppressWarnings("unchecked")
@@ -229,7 +448,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
    */
 
   private class UpdateAccountsSetter 
-      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.account.IAccount, java.util.Collection<com.poesys.accounting.db.account.IAccount>> {
+      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.account.IFiscalYearAccount, java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount>> {
     private static final long serialVersionUID = 1L;
     private static final int BATCH_SIZE = 100;
 
@@ -241,16 +460,16 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected void doChanged(java.util.Collection<com.poesys.accounting.db.account.IAccount> dtos) {
+    protected void doChanged(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> dtos) {
       // accounts source: TransformToProperty + AddToManyAssociationCollectionProperties
       // Immutable: false
       com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> factory = 
-        manager.getFactory(com.poesys.accounting.db.account.Account.class.getName(), subsystem, 2147483647);
-      com.poesys.db.dao.update.IUpdateBatch<com.poesys.accounting.db.account.IAccount> updater =
-        factory.getUpdateBatch(new com.poesys.accounting.db.account.sql.UpdateAccount());
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IFiscalYearAccount> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.FiscalYearAccount.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.update.IUpdateBatch<com.poesys.accounting.db.account.IFiscalYearAccount> updater =
+        factory.getUpdateBatch(new com.poesys.accounting.db.account.sql.UpdateFiscalYearAccount());
 
       // Update the object of the leaf class.
       updater.update(dtos, dtos.size() / 2);
@@ -263,26 +482,26 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
     
     @Override
-    protected void doDeleted(java.util.Collection<com.poesys.accounting.db.account.IAccount> dtos) {
+    protected void doDeleted(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> dtos) {
       com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> factory = 
-        manager.getFactory(com.poesys.accounting.db.account.Account.class.getName(), subsystem, 2147483647);
-      com.poesys.db.dao.delete.IDeleteBatch<com.poesys.accounting.db.account.IAccount> dao = 
-        factory.getDeleteBatch(new com.poesys.accounting.db.account.sql.DeleteAccount());
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IFiscalYearAccount> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.FiscalYearAccount.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.delete.IDeleteBatch<com.poesys.accounting.db.account.IFiscalYearAccount> dao = 
+        factory.getDeleteBatch(new com.poesys.accounting.db.account.sql.DeleteFiscalYearAccount());
       dao.delete(dtos, BATCH_SIZE);
     }
 
     @Override
-    protected void doNew(java.util.Collection<com.poesys.accounting.db.account.IAccount> dtos) {
+    protected void doNew(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> dtos) {
       com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
 
-      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> factory = 
-        manager.getFactory(com.poesys.accounting.db.account.Account.class.getName(), subsystem, 2147483647);
-      com.poesys.db.dao.insert.IInsertBatch<com.poesys.accounting.db.account.IAccount> inserter =
-        factory.getInsertBatch(new com.poesys.accounting.db.account.sql.InsertAccount());
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IFiscalYearAccount> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.FiscalYearAccount.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.insert.IInsertBatch<com.poesys.accounting.db.account.IFiscalYearAccount> inserter =
+        factory.getInsertBatch(new com.poesys.accounting.db.account.sql.InsertFiscalYearAccount());
 
 
       // Insert the object of the current class after enabling nested inserts,
@@ -295,25 +514,25 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected java.util.Collection<com.poesys.accounting.db.account.IAccount> getDtos() {
+    protected java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> getDtos() {
       return accounts;
     }
     
     @Override
     protected String getClassName() {
-      return com.poesys.accounting.db.account.Account.class.getName();
+      return com.poesys.accounting.db.account.FiscalYearAccount.class.getName();
     }
   }
 
   /**
-   * Add com.poesys.accounting.db.account.IAccount object to accounts collection.
+   * Add com.poesys.accounting.db.account.IFiscalYearAccount object to accounts collection.
    * 
-   * @param object the com.poesys.accounting.db.account.IAccount object
+   * @param object the com.poesys.accounting.db.account.IFiscalYearAccount object
    */
-  public void addAccountsAccount(com.poesys.accounting.db.account.IAccount object) {
+  public void addAccountsFiscalYearAccount(com.poesys.accounting.db.account.IFiscalYearAccount object) {
     if (accounts == null) {
       // Association not yet created, create it.
-      accounts = new java.util.ArrayList<com.poesys.accounting.db.account.IAccount>();
+      accounts = new java.util.ArrayList<com.poesys.accounting.db.account.IFiscalYearAccount>();
     }
     accounts.add(object);
     // Add the primary key to the primary key array.
@@ -352,6 +571,12 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     if (readObjectSetters == null) {
       readObjectSetters = new java.util.ArrayList<com.poesys.db.dto.ISet>();
     }
+
+    // Add the setters for the type property.
+    querySetters.add(new QueryTypeSetter());
+    preSetters.add(new InsertTypeSetter());
+    postSetters.add(new UpdateTypeSetter());
+    postProcessSetters.add(new PostProcessTypeSetter());
     
     // Add the many-to-many collection setters for the accounts property.
     querySetters.add(new QueryAccountsSetter());
@@ -365,12 +590,27 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
    * Create a AccountGroup. The concrete subclass must call this constructor.
    *
    * @param key the primary key of the AccountGroup
+   * @param accountType composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
+   * @param orderNumber the relative position of the account group in the ordered list of groups
+belonging to the account type
    * @param groupName the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
 Payable, Tax-Related Expenses
    */
-  public AbstractAccountGroup(IPrimaryKey key, java.lang.String groupName) {
+  public AbstractAccountGroup(IPrimaryKey key, java.lang.String accountType, java.lang.Integer orderNumber, java.lang.String groupName) {
     this.key = key;
 
+    this.accountType = accountType;
+
+    if (accountType == null) {
+      throw new com.poesys.db.InvalidParametersException("accountType is required for " + key.getValueList());
+    }
+    
+    this.orderNumber = orderNumber;
+
+    if (orderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("orderNumber is required for " + key.getValueList());
+    }
+    
     this.groupName = groupName;
 
     if (groupName == null) {
@@ -399,6 +639,18 @@ Payable, Tax-Related Expenses
     if (readObjectSetters == null) {
       readObjectSetters = new java.util.ArrayList<com.poesys.db.dto.ISet>();
     }
+    
+    // Add the setters for the type property.
+    querySetters.add(new QueryTypeSetter());
+    // Set the object property primary key with a factory method.
+    typeKey = com.poesys.accounting.db.account.AccountFactory.getAccountTypePrimaryKey(accountType);
+    insertSetters.add(new InsertTypeSetter());
+    preSetters.add(new InsertTypeSetter());
+    postSetters.add(new UpdateTypeSetter());
+    postProcessSetters.add(new PostProcessTypeSetter());
+    
+    // Add a setter to instantiate the required type object before insert.
+    insertQuerySetters.add(new QueryTypeSetter());
     
     // Add the many-to-many collection setters for the accounts property.
     querySetters.add(new QueryAccountsSetter());
@@ -461,6 +713,130 @@ Payable, Tax-Related Expenses
   }
   
   /**
+   * Nested property accountType
+   *
+   * <p>
+   * Composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
+   * </p>
+   *
+   * Added by AddNaturalKeyProperties + AddParentKeyAttributes
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: false
+   * Property is lazy: false
+   */
+  private java.lang.String accountType;
+  
+  /**
+   * Get an object of java.lang.String.
+   *
+   * Source: AddNaturalKeyProperties + AddParentKeyAttributes
+   * 
+   * @return a java.lang.String
+   */
+
+  public java.lang.String getAccountType() {
+    return accountType;
+  }
+
+  /**
+   * Clear the accountType data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
+  public void clearAccountType() {
+    // Override in proxy if lazily loaded; otherwise does nothing
+  }
+
+  /**
+   * <p>
+   * Set the accountType.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: false</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * Composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
+   * </p>
+   *
+   * @param accountType the value with which to set the property
+   */
+  void setAccountType(java.lang.String accountType)
+      throws com.poesys.db.InvalidParametersException {
+    if (accountType == null) {
+      throw new com.poesys.db.InvalidParametersException("accountType is required");
+    }
+    
+    this.accountType = accountType;
+    setChanged();
+  }
+  /**
+   * Nested property orderNumber
+   *
+   * <p>
+   * the relative position of the account group in the ordered list of groups
+   * belonging to the account type
+   * </p>
+   *
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: false
+   * Property is lazy: false
+   */
+  private java.lang.Integer orderNumber;
+  
+  /**
+   * Get an object of java.lang.Integer.
+   *
+   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
+   * 
+   * @return a java.lang.Integer
+   */
+
+  public java.lang.Integer getOrderNumber() {
+    return orderNumber;
+  }
+
+  /**
+   * Clear the orderNumber data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
+  public void clearOrderNumber() {
+    // Override in proxy if lazily loaded; otherwise does nothing
+  }
+
+  /**
+   * <p>
+   * Set the orderNumber.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: false</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * the relative position of the account group in the ordered list of groups
+   * belonging to the account type
+   * </p>
+   *
+   * @param orderNumber the value with which to set the property
+   */
+  void setOrderNumber(java.lang.Integer orderNumber)
+      throws com.poesys.db.InvalidParametersException {
+    if (orderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("orderNumber is required");
+    }
+    
+    this.orderNumber = orderNumber;
+    setChanged();
+  }
+  /**
    * Nested property groupName
    *
    * <p>
@@ -468,10 +844,10 @@ Payable, Tax-Related Expenses
    * Payable, Tax-Related Expenses
    * </p>
    *
-   * Added by AddNaturalKeyProperties
+   * Added by AddLocalAttributeProperties
    * Class is read/write: true
    * Class is immutable: false
-   * Property is read/write: false
+   * Property is read/write: true
    * Property is lazy: false
    */
   private java.lang.String groupName;
@@ -479,7 +855,7 @@ Payable, Tax-Related Expenses
   /**
    * Get an object of java.lang.String.
    *
-   * Source: AddNaturalKeyProperties
+   * Source: AddLocalAttributeProperties
    * 
    * @return a java.lang.String
    */
@@ -503,7 +879,7 @@ Payable, Tax-Related Expenses
    * <ul>
    * <li>Read/Write DTO: true</li>
    * <li>Immutable DTO: false</li>
-   * <li>Read/Write property: false</li>
+   * <li>Read/Write property: true</li>
    * <li>Immutable property: false</li>
    * <li>Lazy property: false (if true, proxy calls this method)</li>
    * </ul>
@@ -514,13 +890,70 @@ Payable, Tax-Related Expenses
    *
    * @param groupName the value with which to set the property
    */
-  void setGroupName(java.lang.String groupName)
+  public void setGroupName(java.lang.String groupName)
       throws com.poesys.db.InvalidParametersException {
     if (groupName == null) {
       throw new com.poesys.db.InvalidParametersException("groupName is required");
     }
     
     this.groupName = groupName;
+    setChanged();
+  }
+  /**
+   * Nested property type
+   *
+   * 
+   *
+   * Added by AddToOneAssociationRequiredObjectProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: false
+   */
+  private com.poesys.accounting.db.account.IAccountType type;
+  
+  /**
+   * Get an object of com.poesys.accounting.db.account.IAccountType.
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   * 
+   * @return a com.poesys.accounting.db.account.IAccountType
+   */
+
+  public com.poesys.accounting.db.account.IAccountType getType() {
+    return type;
+  }
+
+  /**
+   * Clear the type data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
+  public void clearType() {
+    // Override in proxy if lazily loaded; otherwise does nothing
+  }
+
+  /**
+   * <p>
+   * Set the type.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * 
+   *
+   * @param type the value with which to set the property
+   */
+  public void setType(com.poesys.accounting.db.account.IAccountType type)
+      throws com.poesys.db.InvalidParametersException {
+    if (type == null) {
+      throw new com.poesys.db.InvalidParametersException("type is required");
+    }
+    
+    this.type = type;
     setChanged();
   }
   /**
@@ -537,20 +970,20 @@ Payable, Tax-Related Expenses
    * Property is lazy: false
    */
   // Doesn't serialize; package access allows proxy to set on readObject()
-  transient java.util.Collection<com.poesys.accounting.db.account.IAccount> accounts;
+  transient java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> accounts;
   // Ordered list of keys of the objects in the accounts list
   transient java.util.List<com.poesys.db.pk.IPrimaryKey> accountsKeys = 
     new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
   
   /**
-   * Get a collection of com.poesys.accounting.db.account.IAccount.
+   * Get a collection of com.poesys.accounting.db.account.IFiscalYearAccount.
    *
    * Source: TransformToProperty + AddToManyAssociationCollectionProperties
    * 
-   * @return a java.util.Collection<com.poesys.accounting.db.account.IAccount>
+   * @return a java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount>
    */
 
-  public java.util.Collection<com.poesys.accounting.db.account.IAccount> getAccounts() {
+  public java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> getAccounts() {
     return accounts;
   }
 
@@ -579,7 +1012,7 @@ Payable, Tax-Related Expenses
    *
    * @param accounts the value with which to set the property
    */
-  public  void setAccounts(java.util.Collection<com.poesys.accounting.db.account.IAccount> accounts) {
+  public  void setAccounts(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> accounts) {
     this.accounts = accounts;
     // Add the primary keys of the new collection to the serialized key list.
     if (accountsKeys != null) {
@@ -604,6 +1037,22 @@ Payable, Tax-Related Expenses
   @Override
   public void update(com.poesys.db.dto.ISubject subject,
                      com.poesys.db.dao.DataEvent event) {
+
+    // Cascade delete to accounts.
+    if (event == com.poesys.db.dao.DataEvent.MARKED_DELETED &&
+        accounts != null) {
+      // Mark accounts association object cascade-deleted.
+      outer: for (com.poesys.accounting.db.account.IFiscalYearAccount value : accounts) {
+        com.poesys.db.pk.AssociationPrimaryKey keys = 
+          (com.poesys.db.pk.AssociationPrimaryKey) value.getPrimaryKey();
+        for (com.poesys.db.pk.IPrimaryKey key : keys.getKeyListCopy()) {
+          if (key.equals(subject.getPrimaryKey())) {
+            value.cascadeDelete();
+            break outer;
+          }
+        }
+      }
+    }
   }
 
   /**

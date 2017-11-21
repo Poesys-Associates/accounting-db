@@ -19,14 +19,14 @@ import com.poesys.bs.delegate.DelegateException;
  * never overwrite this concrete subclass.
  * </p>
  * <p>
- * A named group of accounts, grouping the accounts for presentation and
- * aggregation in financial statements
+ * A named group of fiscal-year accounts, grouping the accounts for presentation
+ * and aggregation in financial statements for the fiscal year
  * </p>
  * <p>
  * Stereotypes:
  * </p>
  * <ul>
- *     <li>NaturalKey</li>
+ *     <li>CompositeKey</li>
  *     <li>Persistent</li>
  * </ul>
  * 
@@ -50,10 +50,13 @@ public class BsAccountGroup extends com.poesys.accounting.bs.account.AbstractBsA
    * </p>
    *
    * @param key the primary key of the AccountGroup
+   * @param name composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
+   * @param orderNumber the relative position of the account group in the ordered list of groups
+belonging to the account type
    * @param groupName the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
 Payable, Tax-Related Expenses
    */
-  public BsAccountGroup(IPrimaryKey key, java.lang.String groupName) {
-    super(key, groupName); 
+  public BsAccountGroup(IPrimaryKey key, java.lang.String name, java.lang.Integer orderNumber, java.lang.String groupName) {
+    super(key, name, orderNumber, groupName); 
   }
 }

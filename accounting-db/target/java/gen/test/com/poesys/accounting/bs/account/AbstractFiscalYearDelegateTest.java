@@ -140,6 +140,8 @@ public abstract class AbstractFiscalYearDelegateTest {
    * </p>
    * @param accountsList a list of source objects to link with at least the number
    *                 of objects required by count
+   * @param groupList a list of source objects to link with at least the number
+   *                 of objects required by count
    * @param yearsList a list of source objects to link with at least the number
    *                 of objects required by count
    * @param count the number of objects to create
@@ -148,7 +150,7 @@ public abstract class AbstractFiscalYearDelegateTest {
    * @throws InvalidParametersException when there is some problem with the 
    *                                    input parameters for creating an object
    */
-  abstract protected List<com.poesys.accounting.bs.account.BsFiscalYearAccount> createAccountFiscalYearAccount(List<com.poesys.accounting.db.account.IAccount> accountsList, List<com.poesys.accounting.db.account.IFiscalYear> yearsList, int count) 
+  abstract protected List<com.poesys.accounting.bs.account.BsFiscalYearAccount> createAccountFiscalYearAccount(List<com.poesys.accounting.db.account.IAccount> accountsList, List<com.poesys.accounting.db.account.IAccountGroup> groupList, List<com.poesys.accounting.db.account.IFiscalYear> yearsList, int count) 
       throws DelegateException, InvalidParametersException; // create 1
 
   /**

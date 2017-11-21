@@ -64,14 +64,20 @@ public abstract class AbstractBsFiscalYearAccount
    *
    * @param key the primary key of the FiscalYearAccount
    * @param accountsObject associated Account object
+   * @param groupObject associated AccountGroup object
    * @param yearsObject associated FiscalYear object
    * @param accountName Attribute that is part of the association key
    * @param entityName Attribute that is part of the association key
    * @param year Attribute that is part of the association key
-   * @param orderNumber the integer rank of the account in the list of accounts
+   * @param orderNumber the integer rank of the account within the associated account group; there will
+be duplicates for the set of accounts in a fiscal year as there are multiple
+account groups for the fiscal year
+   * @param accountType foreign key used by setter to query associated object
+   * @param groupOrderNumber foreign key used by setter to query associated object
+   * @param group the group into which the account is aggregated
    */
-  public AbstractBsFiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber) {
-    super(new FiscalYearAccountProxy(new FiscalYearAccount(key, accountsObject, yearsObject, accountName, entityName, year, orderNumber)));
+  public AbstractBsFiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IAccountGroup groupObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber, java.lang.String accountType, java.lang.Integer groupOrderNumber, com.poesys.accounting.db.account.IAccountGroup group) {
+    super(new FiscalYearAccountProxy(new FiscalYearAccount(key, accountsObject, groupObject, yearsObject, accountName, entityName, year, orderNumber, accountType, groupOrderNumber, group)));
   }
 
   @SuppressWarnings("unchecked")
@@ -103,7 +109,9 @@ public abstract class AbstractBsFiscalYearAccount
 
   /**
    * <p>
-   * the integer rank of the account in the list of accounts
+   * the integer rank of the account within the associated account group; there will
+   * be duplicates for the set of accounts in a fiscal year as there are multiple
+   * account groups for the fiscal year
    * </p>
    * <p>
    * Added by AddLocalAttributeProperties as data member
@@ -123,7 +131,9 @@ public abstract class AbstractBsFiscalYearAccount
    * Set the orderNumber.
    * </p>
    * <p>
-   * the integer rank of the account in the list of accounts
+   * the integer rank of the account within the associated account group; there will
+   * be duplicates for the set of accounts in a fiscal year as there are multiple
+   * account groups for the fiscal year
    * </p>
    * <p>
    * Added by AddLocalAttributeProperties
@@ -135,10 +145,91 @@ public abstract class AbstractBsFiscalYearAccount
    * @param orderNumber the associated business object
    * @throws com.poesys.db.dto.DtoStatusException when the system can't set
    *                 the data-access status to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the property is
+   *                 required but the input parameter orderNumber is null
    */
   public void setOrderNumber(java.lang.Integer orderNumber) 
-      throws com.poesys.db.dto.DtoStatusException {
+      throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
     dto.setOrderNumber(orderNumber);
+  }
+
+  /**
+   * <p>
+   * the group into which the account is aggregated
+   * </p>
+   * <p>
+   * Added by AddToOneAssociationRequiredObjectProperties as data member
+   * </p>
+   * <ul>
+   * <li>Property is read/write: true</li>
+   * <li>Property is defined in the data-access object FiscalYearAccount</li>
+   * </ul>
+   * @return a com.poesys.accounting.bs.account.BsAccountGroup group
+   */
+  public com.poesys.accounting.bs.account.BsAccountGroup getGroup() {
+    // Return 4
+    return new com.poesys.accounting.bs.account.BsAccountGroup(dto.getGroup());
+  }
+
+  /**
+   * <p>
+   * Set the group.
+   * </p>
+   * <p>
+   * the group into which the account is aggregated
+   * </p>
+   * <p>
+   * Added by AddToOneAssociationRequiredObjectProperties
+   * </p>
+   * <ul>
+   * <li>Property is read/write: true</li>
+   * <li>Property is defined in the data-access object FiscalYearAccount</li>
+   * </ul>
+   * @param group the associated business object
+   * @throws com.poesys.db.dto.DtoStatusException when the system can't set
+   *                 the data-access status to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the property is
+   *                 required but the input parameter group is null
+   */
+  public void setGroup(com.poesys.accounting.bs.account.BsAccountGroup group) 
+      throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
+    dto.setGroup(group == null ? null : group.toDto());
+  }
+
+  /**
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   * <p>
+   * Added by AddNaturalKeyProperties + AddParentKeyAttributes + AddToOneAssociationAttributeProperties as data member
+   * </p>
+   * <ul>
+   * <li>Property is read/write: false</li>
+   * <li>Property is defined in the data-access object FiscalYearAccount</li>
+   * </ul>
+   * @return a java.lang.String accountType
+   */
+  public java.lang.String getAccountType() {
+    // Return 3
+    return dto.getAccountType();
+  }
+
+  /**
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   * <p>
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties as data member
+   * </p>
+   * <ul>
+   * <li>Property is read/write: false</li>
+   * <li>Property is defined in the data-access object FiscalYearAccount</li>
+   * </ul>
+   * @return a java.lang.Integer groupOrderNumber
+   */
+  public java.lang.Integer getGroupOrderNumber() {
+    // Return 3
+    return dto.getGroupOrderNumber();
   }
 
   /**

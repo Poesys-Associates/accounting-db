@@ -24,11 +24,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.junit.Test;
 
 import com.poesys.accounting.bs.account.AccountDelegateFactory;
-import com.poesys.accounting.bs.account.AccountGroupDelegate;
 import com.poesys.accounting.bs.account.BsAccount;
-import com.poesys.accounting.bs.account.BsAccountGroup;
 import com.poesys.accounting.bs.account.BsEntity;
+import com.poesys.accounting.bs.account.BsSimpleAccount;
 import com.poesys.accounting.bs.account.EntityDelegate;
+import com.poesys.accounting.bs.account.SimpleAccountDelegate;
+import com.poesys.accounting.db.account.ISimpleAccount;
 import com.poesys.accounting.db.transaction.IItem;
 import com.poesys.accounting.db.transaction.ITransaction;
 import com.poesys.bs.delegate.DelegateException;
@@ -71,7 +72,6 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
 
   private static final Boolean CHECKED = Boolean.TRUE;
   private static final Boolean BALANCE = Boolean.TRUE;
-  private static final String ENTITY_NAME = "Accounting Entity";
   private static final String REC_ACCOUNT_NAME = "AR";
   private static final String INC_ACCOUNT_NAME = "Revenue";
   private static final String CHK_ACCOUNT_NAME = "Checking";
@@ -79,22 +79,14 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
   private static final String INC_ACCOUNT_DESC = "Revenue from customers";
   private static final String CHK_ACCOUNT_DESC = "Bank checking account";
   private static final Boolean DEBIT = Boolean.TRUE;
-  private static final String ASSET_ACCOUNT_TYPE = "Asset";
-  private static final String INCOME_ACCOUNT_TYPE = "Income";
   private static final Boolean RECEIVABLE = Boolean.TRUE;
   private static final Boolean ACTIVE = Boolean.TRUE;
-  private static final String REC_GROUP_NAME = "Accounts Receivable";
-  private static final String INC_GROUP_NAME = "Service Revenue";
-  private static final String CASH_GROUP_NAME = "Cash";
   private static final Double AMOUNT = 100.00D;
   private static final Double ALLOCATED_AMOUNT = 0.00D;
 
   private BsEntity entity = null;
-  private BsAccountGroup receivableGroup = null;
-  private BsAccountGroup incomeGroup = null;
-  private BsAccountGroup cashGroup = null;
-  private List<BsAccountGroup> groups = new ArrayList<BsAccountGroup>();
 
+  // Accounts as superclass Account
   private BsAccount receivableAccount = null;
   private BsAccount incomeAccount = null;
   private BsAccount checkingAccount = null;
@@ -109,64 +101,45 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    *           objects
    */
   private void createAccounts() {
+    // Create entity and store it.
     EntityDelegate entDel = AccountDelegateFactory.getEntityDelegate();
-    AccountGroupDelegate groupDel =
-      AccountDelegateFactory.getAccountGroupDelegate();
+    entity = entDel.createEntity(StringUtilities.generateString(100));
+    entDel.insert(entity);
 
-    // Create and insert groups.
-    receivableGroup = groupDel.createAccountGroup(REC_GROUP_NAME);
-    incomeGroup = groupDel.createAccountGroup(INC_GROUP_NAME);
-    cashGroup = groupDel.createAccountGroup(CASH_GROUP_NAME);
-
-    groups.add(receivableGroup);
-    groups.add(incomeGroup);
-    groups.add(cashGroup);
-
-    groupDel.process(groups);
-
-    // Create entity and accounts.
-    entity = entDel.createEntity(ENTITY_NAME);
+    // Create simple accounts.
+    SimpleAccountDelegate accDel =
+      AccountDelegateFactory.getSimpleAccountDelegate();
 
     receivableAccount =
-      entDel.createAccount(entity,
-                           ENTITY_NAME,
-                           REC_ACCOUNT_NAME,
-                           REC_DESC,
-                           DEBIT,
-                           ASSET_ACCOUNT_TYPE,
-                           RECEIVABLE,
-                           ACTIVE,
-                           REC_GROUP_NAME);
-    receivableAccount.setGroup(receivableGroup);
-
+      new BsAccount(accDel.createSimpleAccount(REC_ACCOUNT_NAME,
+                                               entity.getEntityName(),
+                                               REC_DESC,
+                                               DEBIT,
+                                               ACTIVE,
+                                               RECEIVABLE).toDto());
+    receivableAccount.setEntity(entity);
     incomeAccount =
-      entDel.createAccount(entity,
-                           ENTITY_NAME,
-                           INC_ACCOUNT_NAME,
-                           INC_ACCOUNT_DESC,
-                           !DEBIT,
-                           INCOME_ACCOUNT_TYPE,
-                           !RECEIVABLE,
-                           ACTIVE,
-                           INC_GROUP_NAME);
-    incomeAccount.setGroup(incomeGroup);
-
+      new BsAccount(accDel.createSimpleAccount(INC_ACCOUNT_NAME,
+                                               entity.getEntityName(),
+                                               INC_ACCOUNT_DESC,
+                                               !DEBIT,
+                                               ACTIVE,
+                                               !RECEIVABLE).toDto());
+    incomeAccount.setEntity(entity);
     checkingAccount =
-      entDel.createAccount(entity,
-                           ENTITY_NAME,
-                           CHK_ACCOUNT_NAME,
-                           CHK_ACCOUNT_DESC,
-                           DEBIT,
-                           ASSET_ACCOUNT_TYPE,
-                           !RECEIVABLE,
-                           ACTIVE,
-                           CASH_GROUP_NAME);
-    checkingAccount.setGroup(cashGroup);
+      new BsAccount(accDel.createSimpleAccount(CHK_ACCOUNT_NAME,
+                                               entity.getEntityName(),
+                                               CHK_ACCOUNT_DESC,
+                                               DEBIT,
+                                               ACTIVE,
+                                               !RECEIVABLE).toDto());
+    checkingAccount.setEntity(entity);
 
     // Add the accounts to the entity's list of accounts, then insert all.
     entity.addAccountsAccount(incomeAccount);
     entity.addAccountsAccount(receivableAccount);
     entity.addAccountsAccount(checkingAccount);
+
     entDel.process(entity);
   }
 
@@ -178,21 +151,12 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    */
   private void deleteAccounts() {
     EntityDelegate entDel = AccountDelegateFactory.getEntityDelegate();
-    AccountGroupDelegate groupDel =
-      AccountDelegateFactory.getAccountGroupDelegate();
 
     // Mark the entity for deletion and delete it.
 
     entity.delete();
     entDel.process(entity);
     entDel = null;
-
-    // Mark the groups for deletion and delete them.
-    for (BsAccountGroup group : groups) {
-      group.delete();
-    }
-    groupDel.process(groups);
-
   }
 
   // Create a specified number of Transaction objects with Item children, all
@@ -234,9 +198,10 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
                               !DEBIT,
                               !CHECKED,
                               INC_ACCOUNT_NAME,
-                              ENTITY_NAME);
-        incomeItem.setAccount(incomeAccount);
-        incomeAccount.addItemsItem(incomeItem);
+                              entity.getEntityName());
+        BsAccount account = new BsAccount(incomeAccount.toDto());
+        incomeItem.setAccount(account);
+        account.addItemsItem(incomeItem);
         // tests addItemsItem()
         int itemCount = transaction.getItems().size();
         transaction.addItemsItem(incomeItem);
@@ -253,7 +218,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
                               DEBIT,
                               !CHECKED,
                               CHK_ACCOUNT_NAME,
-                              ENTITY_NAME);
+                              entity.getEntityName());
         incomeItem.setAccount(checkingAccount);
         checkingAccount.addItemsItem(incomeItem);
         // tests addItemsItem()
@@ -315,7 +280,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
                             !DEBIT,
                             !CHECKED,
                             INC_ACCOUNT_NAME,
-                            ENTITY_NAME);
+                            entity.getEntityName());
       incomeItem.setAccount(incomeAccount);
       // tests addItemsItem()
       int itemCount = transaction.getItems().size();
@@ -333,7 +298,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
                             DEBIT,
                             !CHECKED,
                             REC_ACCOUNT_NAME,
-                            ENTITY_NAME);
+                            entity.getEntityName());
       incomeItem.setAccount(receivableAccount);
       // tests addItemsItem()
       itemCount = transaction.getItems().size();
@@ -345,6 +310,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       // Validate the transaction, should be complete now
       // tests base isValid() function branch on BsTransaction
       assertTrue("transaction not valid, see log", transaction.isValid());
+      logger.debug("Processing valid receivable transaction with two items");
     } catch (InvalidParametersException e) {
       Object[] args = e.getParameters().toArray();
       String message = Message.getMessage(e.getMessage(), args);
@@ -357,14 +323,12 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
   }
 
   /**
-   * Create a Reimbursement transaction with a credit Receivable item against a
-   * receivable account and a debit Reimbursement against a checking account.
-   * This test also tests the createItem() methods on the ReceivableDelegate and
-   * the ReimbursementDelegate.
+   * Create a Reimbursement transaction against the account of a receivable
+   * item.
    * 
    * @return a reimbursement transaction
    */
-  protected BsTransaction createReimbursementTransaction(BsItem receivable) {
+  protected BsTransaction createReimbursementTransaction() {
     String description = StringUtilities.generateString(4000);
     Timestamp transactionDate = new Timestamp(System.currentTimeMillis());
 
@@ -392,7 +356,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
                             !DEBIT,
                             !CHECKED,
                             REC_ACCOUNT_NAME,
-                            ENTITY_NAME);
+                            entity.getEntityName());
       receivableReimbursement.setAccount(receivableAccount);
       // tests addItemsItem()
       int itemCount = transaction.getItems().size();
@@ -410,7 +374,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
                             DEBIT,
                             !CHECKED,
                             CHK_ACCOUNT_NAME,
-                            ENTITY_NAME);
+                            entity.getEntityName());
       checkingReimbursement.setAccount(checkingAccount);
       // tests addItemsItem()
       itemCount = transaction.getItems().size();
@@ -422,24 +386,12 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       // Validate the transaction, should be complete now
       // tests base isValid() function branch on BsTransaction
       assertTrue("transaction not valid, see log", transaction.isValid());
-
-      // Process the transaction here to make sure all items are in the db.
-      delegate.process(transaction);
-
-      // Now link the reimbursement to the receivable item.
-      List<IItem> receivables = new ArrayList<IItem>();
-      List<IItem> reimbursingItems = new ArrayList<IItem>();
-      receivables.add(receivable.toDto());
-      reimbursingItems.add(receivableReimbursement.toDto());
-      List<BsReimbursement> reimbursements =
-        createTransactionReimbursement(receivables, reimbursingItems, 1);
-      assertTrue("Did not create reimbursements list", reimbursements != null);
-      assertTrue("Did not create reimbursement", reimbursements.size() > 0);
     } catch (InvalidParametersException e) {
       Object[] args = e.getParameters().toArray();
       String message = Message.getMessage(e.getMessage(), args);
       throw new RuntimeException(message, e);
     } catch (DelegateException e) {
+      logger.error("Delegate exception from reimbursement transaction process()");
       throw new RuntimeException(e.getMessage(), e);
     }
 
@@ -473,16 +425,18 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
                                      reimbursingItem.getTransactionId(),
                                      AMOUNT,
                                      ALLOCATED_AMOUNT);
+      logger.debug("Created reimbursement object "
+                   + reimbursement.getPrimaryKey().getStringKey());
       reimbursements.add(reimbursement);
       try {
-        receivable.addReimbursingItem(reimbursingItem);
-        receivable.addReimbursement(reimbursement);
+        receivable.addReimbursingItemsItem(reimbursingItem);
+        receivable.addReimbursingItemsReimbursementReimbursement(reimbursement);
       } catch (SQLException e) {
         fail("SQL exception adding reimbursement to receivable item");
       }
       try {
-        reimbursingItem.addReceivableItem(receivable);
-        reimbursingItem.addReimbursement(reimbursement);
+        reimbursingItem.addReceivablesItem(receivable);
+        reimbursingItem.addReceivablesReimbursementReimbursement(reimbursement);
       } catch (SQLException e) {
         fail("SQL exception adding reimbursement to reimbursing item");
       }
@@ -839,21 +793,29 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
     // Extract the receivable item from the receivable transaction.
     BsItem receivableItem = null;
     for (BsItem item : receivableTransaction.getItems()) {
-      if (item.getAccount().getReceivable()) {
-        receivableItem = item;
-        break;
+      // Test whether the account is a SimpleAccount, then test for receivable.
+      if (item.getAccount().toDto() instanceof ISimpleAccount) {
+        BsSimpleAccount account =
+          new BsSimpleAccount((ISimpleAccount)item.getAccount().toDto());
+        if (account.getReceivable()) {
+          receivableItem = item;
+          break;
+        }
       }
     }
     assertTrue("no receivable item in receivable transaction",
                receivableItem != null);
-    BsTransaction reimbursementTransaction =
-      createReimbursementTransaction(receivableItem);
-    // Extract the reimbursing item from the receivable transaction.
+    BsTransaction reimbursementTransaction = createReimbursementTransaction();
+    // Extract the reimbursing item from the reimbursement transaction.
     BsItem reimbursingItem = null;
     for (BsItem item : reimbursementTransaction.getItems()) {
-      if (item.getAccount().getReceivable()) {
-        reimbursingItem = item;
-        break;
+      if (item.getAccount().toDto() instanceof ISimpleAccount) {
+        BsSimpleAccount account =
+          new BsSimpleAccount((ISimpleAccount)item.getAccount().toDto());
+        if (account.getReceivable()) {
+          reimbursingItem = item;
+          break;
+        }
       }
     }
 
@@ -864,6 +826,23 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       transactions.add(receivableTransaction);
       transactions.add(reimbursementTransaction);
       delegate.process(transactions);
+
+      // Now create and link the reimbursement.
+      BsReimbursement reimbursement =
+        delegate.createReimbursement(receivableItem,
+                                     reimbursingItem,
+                                     receivableItem.getOrderNumber(),
+                                     reimbursingItem.getOrderNumber(),
+                                     receivableItem.getTransactionId(),
+                                     reimbursingItem.getTransactionId(),
+                                     receivableItem.getAmount(),
+                                     0.00D);
+
+      reimbursingItem.addReceivablesReimbursementReimbursement(reimbursement);
+
+      // Process the change.
+      logger.info("Processing reimbursement transaction");
+      delegate.process(reimbursementTransaction);
 
       // check whether the reimbursement is there.
       connection =

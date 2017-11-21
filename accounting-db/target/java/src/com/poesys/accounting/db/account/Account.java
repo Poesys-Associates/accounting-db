@@ -59,22 +59,11 @@ public class Account extends AbstractAccount {
    * @param description text description of the nature of the account
    * @param debitDefault whether the account transaction items default to a debit or credit item; chosen
 as the "usual" value for items in this account
-   * @param accountType the kind of account:
-<ul>
-<li>Asset: a kind of property with a value owned by the accounting entity</li>
-<li>Liability: a kind of debt owed by the accounting entity to another
-entity</li>
-<li>Equity: a kind of fund invested by the accounting entity in the business;
-the difference between value of assets and value of liabilities</li>
-<li>Income: revenues paid to the accounting entity</li>
-<li>Expense: money paid by the accounting entity to another entity</li>
-</ul>
-   * @param receivable whether this account is a receivable account, representing an asset that is a
-debt owed to the accounting entity
-   * @param active whether the account is active at the present time.
-   * @param groupName foreign key used by setter to query associated object
+   * @param active whether the account is active at the present time; an inactive account does not
+appear in lists of accounts available through the user interface but does appear
+in reports where referenced by items
    */
-  public Account(IPrimaryKey key, java.lang.String entityName, java.lang.String accountName, java.lang.String description, java.lang.Boolean debitDefault, java.lang.String accountType, java.lang.Boolean receivable, java.lang.Boolean active, java.lang.String groupName) {
-    super(key, entityName, accountName, description, debitDefault, accountType, receivable, active, groupName); 
+  public Account(IPrimaryKey key, java.lang.String entityName, java.lang.String accountName, java.lang.String description, java.lang.Boolean debitDefault, java.lang.Boolean active) {
+    super(key, entityName, accountName, description, debitDefault, active); 
   }
 }

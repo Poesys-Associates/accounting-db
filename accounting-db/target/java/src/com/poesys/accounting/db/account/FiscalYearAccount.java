@@ -55,13 +55,19 @@ public class FiscalYearAccount extends AbstractFiscalYearAccount {
    *
    * @param key the primary key of the FiscalYearAccount
    * @param accountsObject wraps an associated IAccount object
+   * @param groupObject wraps an associated IAccountGroup object
    * @param yearsObject wraps an associated IFiscalYear object
    * @param accountName Attribute that is part of the association key
    * @param entityName Attribute that is part of the association key
    * @param year Attribute that is part of the association key
-   * @param orderNumber the integer rank of the account in the list of accounts
+   * @param orderNumber the integer rank of the account within the associated account group; there will
+be duplicates for the set of accounts in a fiscal year as there are multiple
+account groups for the fiscal year
+   * @param name foreign key used by setter to query associated object
+   * @param groupOrderNumber foreign key used by setter to query associated object
+   * @param group the group into which the account is aggregated
    */
-  public FiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber) {
-    super(key, accountsObject, yearsObject, accountName, entityName, year, orderNumber); 
+  public FiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IAccountGroup groupObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber, java.lang.String name, java.lang.Integer groupOrderNumber, com.poesys.accounting.db.account.IAccountGroup group) {
+    super(key, accountsObject, groupObject, yearsObject, accountName, entityName, year, orderNumber, name, groupOrderNumber, group); 
   }
 }

@@ -9,5 +9,10 @@
 DROP TABLE FiscalYear;
 DROP TABLE FiscalYearAccount;
 DROP TABLE Account;
-DROP TABLE Entity;
 DROP TABLE AccountGroup;
+DROP TABLE Entity;
+DROP TABLE CapitalEntity;
+DROP TABLE AccountType;
+DROP TABLE CapitalAccount;
+DROP TABLE DistributionAccount;
+DROP TABLE SimpleAccount;

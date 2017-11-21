@@ -49,6 +49,11 @@
 
    <!-- debugging for Poesys/DB -->
     <category name="com.poesys">
+        <priority value="DEBUG" />
+    </category>
+
+   <!-- debugging for Poesys/DB tracking thread-->
+    <category name="com.poesys.db.dao.PoesysTrackingThread">
         <priority value="INFO" />
     </category>
 
@@ -59,7 +64,7 @@
 
    <!-- debugging for caching subsystem -->
    <category name="com.poesys.db.dto">
-        <priority value="DEBUG" />
+        <priority value="INFO" />
     </category>
 
    <category name="com.poesys.db.dao.DaoCacheFactory">

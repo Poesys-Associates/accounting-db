@@ -21,7 +21,7 @@ import com.poesys.db.pk.IPrimaryKey;
 public class AbstractUpdateAccount implements IUpdateSql<com.poesys.accounting.db.account.IAccount> {
   /** SQL UPDATE statement for Account */
   private static final String SQL =
-    "UPDATE Account SET description = ?, debitDefault = ?, accountType = ?, receivable = ?, active = ?, groupName = ? WHERE ";
+    "UPDATE Account SET description = ?, debitDefault = ?, active = ? WHERE ";
 
   @Override
   public String getSql(IPrimaryKey key) {
@@ -45,25 +45,11 @@ public class AbstractUpdateAccount implements IUpdateSql<com.poesys.accounting.d
     }
       index++;
     try{
-      stmt.setString(index, object.getAccountType());
-    } catch (java.sql.SQLException e) {
-      throw new com.poesys.db.DbErrorException("SQL error setting parameters", e);
-    }
-      index++;
-    try{
-      stmt.setInt(index, object.getReceivable() ? 1 : 0);
-    } catch (java.sql.SQLException e) {
-      throw new com.poesys.db.DbErrorException("SQL error setting parameters", e);
-    }
-      index++;
-    try{
       stmt.setInt(index, object.getActive() ? 1 : 0);
     } catch (java.sql.SQLException e) {
       throw new com.poesys.db.DbErrorException("SQL error setting parameters", e);
     }
       index++;
-    // sets key params for required group object
-    index = object.getGroup().getPrimaryKey().setParams(stmt, index);
     // sets primary key in where clause
     index = object.getPrimaryKey().setParams(stmt, index);
     return index;
@@ -76,10 +62,6 @@ public class AbstractUpdateAccount implements IUpdateSql<com.poesys.accounting.d
     builder.append(dto.getDescription());
     builder.append("\", ");
     builder.append(dto.getDebitDefault());
-    builder.append("\", ");
-    builder.append(dto.getAccountType());
-    builder.append("\", ");
-    builder.append(dto.getReceivable());
     builder.append("\", ");
     builder.append(dto.getActive());
     builder.append("\"");

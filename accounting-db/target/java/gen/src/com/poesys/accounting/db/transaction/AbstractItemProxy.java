@@ -7,8 +7,6 @@
 package com.poesys.accounting.db.transaction;
 
 
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
 
 import com.poesys.db.dto.AbstractLazyLoadingDtoProxy;
@@ -16,49 +14,46 @@ import com.poesys.db.dto.AbstractLazyLoadingDtoProxy;
 
 /**
  * <p>
- * A data-access layer data-transfer object (DTO) lazy-loading proxy for the
- * Item. This class is an abstract class that contains AndroMDA generated code;
- * change nothing in this class. Instead, override any methods in the concrete
- * subclass generated in the same package. AndroMDA will overwrite this class
- * each time you run it but will never overwrite the concrete subclass.
+ * A data-access layer data-transfer object (DTO) lazy-loading proxy for the 
+ * Item. This class is an abstract class that contains AndroMDA 
+ * generated code; change nothing in this class. Instead, override any methods 
+ * in the concrete subclass generated in the same package. AndroMDA will 
+ * overwrite this class each time you run it but will never overwrite the concrete subclass.
  * </p>
  * <p>
  * A specific amount of value associated with a specific account within a
- * transaction parent; the item debits and credits must cancel each other out
- * for the set of all items belonging to the transaction (the transaction must
+ * transaction parent; the item debits and credits must cancel each other out for
+ * the set of all items belonging to the transaction (the transaction must
  * "balance"); the transaction orders the set of items according to an integer
  * order number, which is part of the primary key
  * </p>
  *
  * @author Poesys/DB Cartridge
  */
-public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
-    implements IItem {
+public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy implements IItem {
   /** Default serial version UID for the Serializable DTO */
   private static final long serialVersionUID = 1L;
 
   /** Logger for this class */
-  private static final Logger logger =
-    Logger.getLogger(AbstractItemProxy.class);
+  private static final Logger logger = Logger.getLogger(AbstractItemProxy.class);
 
   /** the deserializer used by the readObject method */
   private static final com.poesys.db.dto.Deserializer<AbstractItemProxy> deserializer =
     new com.poesys.db.dto.Deserializer<AbstractItemProxy>();
 
-  // Lazy-loading/deserialization query setter strategy nested classes for
+  // Lazy-loading/deserialization query setter strategy nested classes for 
   // single-object associations
-
+  
   /**
-   * Query setter for lazily querying nested transaction object (object
-   * property)
+   * Query setter for lazily querying nested transaction object
+   * (object property)
    *
    * Source: AddToOneAssociationRequiredObjectProperties
    *
    * @see com.poesys.accounting.db.transaction.sql.QueryTransaction
    */
-  private class QueryTransactionSetter
-      extends
-      com.poesys.db.dto.AbstractLazyObjectSetter<com.poesys.accounting.db.transaction.ITransaction> {
+  private class QueryTransactionSetter 
+      extends com.poesys.db.dto.AbstractLazyObjectSetter<com.poesys.accounting.db.transaction.ITransaction> {
     /** Serial version UID for Serializable object */
     private static final long serialVersionUID = 1L;
 
@@ -76,8 +71,7 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
 
     @Override
     protected com.poesys.db.pk.IPrimaryKey getKey() {
-      // Generate an com.poesys.accounting.db.transaction.ITransaction primary
-      // key with the value
+      // Generate an com.poesys.accounting.db.transaction.ITransaction primary key with the value 
       // from the com.poesys.accounting.db.transaction.IItem object
       return com.poesys.accounting.db.transaction.TransactionFactory.getTransactionPrimaryKey(((IItem)dto).getTransactionId());
     }
@@ -100,15 +94,15 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
   }
 
   /**
-   * Query setter for lazily querying nested account object (object property)
+   * Query setter for lazily querying nested account object
+   * (object property)
    *
    * Source: AddToOneAssociationRequiredObjectProperties
    *
    * @see com.poesys.accounting.db.account.sql.QueryAccount
    */
-  private class QueryAccountSetter
-      extends
-      com.poesys.db.dto.AbstractLazyObjectSetter<com.poesys.accounting.db.account.IAccount> {
+  private class QueryAccountSetter 
+      extends com.poesys.db.dto.AbstractLazyObjectSetter<com.poesys.accounting.db.account.IAccount> {
     /** Serial version UID for Serializable object */
     private static final long serialVersionUID = 1L;
 
@@ -126,11 +120,9 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
 
     @Override
     protected com.poesys.db.pk.IPrimaryKey getKey() {
-      // Generate an com.poesys.accounting.db.account.IAccount primary key with
-      // the value
+      // Generate an com.poesys.accounting.db.account.IAccount primary key with the value 
       // from the com.poesys.accounting.db.transaction.IItem object
-      return com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(((IItem)dto).getAccountName(),
-                                                                                  ((IItem)dto).getEntityName());
+      return com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(((IItem)dto).getAccountName(), ((IItem)dto).getEntityName());
     }
 
     @Override
@@ -150,7 +142,7 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
     }
   }
 
-  // Setter strategy nested classes for multiple-object associations
+    // Setter strategy nested classes for multiple-object associations
 
   /** Flag indicating whether the reimbursingItems property has been loaded */
   transient boolean reimbursingItemsLoaded = false;
@@ -163,9 +155,8 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
    *
    * @see com.poesys.accounting.db.transaction.sql.QueryReimbursingItemsByItem
    */
-  private class QueryReimbursingItemsSetter
-      extends
-      com.poesys.db.dto.AbstractLazyListSetter<com.poesys.accounting.db.transaction.IItem, IItem, java.util.Collection<com.poesys.accounting.db.transaction.IItem>> {
+  private class QueryReimbursingItemsSetter 
+      extends com.poesys.db.dto.AbstractLazyListSetter<com.poesys.accounting.db.transaction.IItem, IItem, java.util.Collection<com.poesys.accounting.db.transaction.IItem>> {
     /** Serial version UID for Serializable object */
     private static final long serialVersionUID = 1L;
     private static final int FETCH_SIZE = 10;
@@ -203,13 +194,12 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
         // Register the observer parent with the subject children.
         for (com.poesys.accounting.db.transaction.IItem child : collection) {
           child.attach(AbstractItemProxy.this.dto,
-                       com.poesys.db.dao.DataEvent.MARKED_DELETED);
-          child.attach(AbstractItemProxy.this.dto,
-                       com.poesys.db.dao.DataEvent.DELETE);
+                              com.poesys.db.dao.DataEvent.MARKED_DELETED);
+          child.attach(AbstractItemProxy.this.dto, com.poesys.db.dao.DataEvent.DELETE);
         }
-        setReimbursingItems(collection);
+        setReimbursingItem(collection);
       } catch (com.poesys.db.dto.DtoStatusException e) {
-        // Just lazy loading here, not actually setting. Ignore this exception.
+        // Just lazy loading here, not actually setting. Ignore this exception.        
       }
     }
 
@@ -220,29 +210,40 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
     }
   }
 
-  @Override
-  public void addReimbursingItem(com.poesys.accounting.db.transaction.IItem object) {
+
+  /**
+   * Add a com.poesys.accounting.db.transaction.IItem object to the ReimbursingItems collection. The method
+   * loads the collection if it is not already in memory.
+   *
+   * add method #1 (collection property)
+   *
+   * Source: TransformToProperty + AddToManyAssociationCollectionProperties
+   * 
+   * @param object the com.poesys.accounting.db.transaction.IItem object to add to the collection
+   */
+  public void addReimbursingItemsItem(com.poesys.accounting.db.transaction.IItem object) {
     // Collection is lazily loaded, check and load if necessary.
     if (!reimbursingItemsLoaded) {
       getReimbursingItems();
     }
-    ((Item)dto).addReimbursingItem(object);
+    ((Item)dto).addReimbursingItemsItem(object);
   }
+
+  
 
   /** Flag indicating whether the receivables property has been loaded */
   transient boolean receivablesLoaded = false;
 
   /**
-   * Query setter for lazily querying nested receivables collection (collection
-   * property)
+   * Query setter for lazily querying nested receivables collection
+   * (collection property)
    *
    * Source: TransformToProperty + AddToManyAssociationCollectionProperties
    *
    * @see com.poesys.accounting.db.transaction.sql.QueryReceivablesByItem
    */
-  private class QueryReceivablesSetter
-      extends
-      com.poesys.db.dto.AbstractLazyListSetter<com.poesys.accounting.db.transaction.IItem, IItem, java.util.Collection<com.poesys.accounting.db.transaction.IItem>> {
+  private class QueryReceivablesSetter 
+      extends com.poesys.db.dto.AbstractLazyListSetter<com.poesys.accounting.db.transaction.IItem, IItem, java.util.Collection<com.poesys.accounting.db.transaction.IItem>> {
     /** Serial version UID for Serializable object */
     private static final long serialVersionUID = 1L;
     private static final int FETCH_SIZE = 10;
@@ -280,13 +281,12 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
         // Register the observer parent with the subject children.
         for (com.poesys.accounting.db.transaction.IItem child : collection) {
           child.attach(AbstractItemProxy.this.dto,
-                       com.poesys.db.dao.DataEvent.MARKED_DELETED);
-          child.attach(AbstractItemProxy.this.dto,
-                       com.poesys.db.dao.DataEvent.DELETE);
+                              com.poesys.db.dao.DataEvent.MARKED_DELETED);
+          child.attach(AbstractItemProxy.this.dto, com.poesys.db.dao.DataEvent.DELETE);
         }
-        setReceivables(collection);
+        setReceivable(collection);
       } catch (com.poesys.db.dto.DtoStatusException e) {
-        // Just lazy loading here, not actually setting. Ignore this exception.
+        // Just lazy loading here, not actually setting. Ignore this exception.        
       }
     }
 
@@ -297,37 +297,48 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
     }
   }
 
-  @Override
-  public void addReceivableItem(com.poesys.accounting.db.transaction.IItem object) {
+
+  /**
+   * Add a com.poesys.accounting.db.transaction.IItem object to the Receivables collection. The method
+   * loads the collection if it is not already in memory.
+   *
+   * add method #1 (collection property)
+   *
+   * Source: TransformToProperty + AddToManyAssociationCollectionProperties
+   * 
+   * @param object the com.poesys.accounting.db.transaction.IItem object to add to the collection
+   */
+  public void addReceivablesItem(com.poesys.accounting.db.transaction.IItem object) {
     // Collection is lazily loaded, check and load if necessary.
     if (!receivablesLoaded) {
       getReceivables();
     }
-    ((Item)dto).addReceivableItem(object);
+    ((Item)dto).addReceivablesItem(object);
   }
 
-  /** Flag indicating whether the reimbursements property has been loaded */
-  transient boolean reimbursementsLoaded = false;
+  
+
+  /** Flag indicating whether the reimbursingItemsReimbursement property has been loaded */
+  transient boolean reimbursingItemsReimbursementLoaded = false;
 
   /**
-   * Query setter for lazily querying nested reimbursingItems collection
+   * Query setter for lazily querying nested reimbursingItemsReimbursement collection
    * (collection property)
    *
    * Source: AddAssociationClassCollectionProperties
    *
-   * @see com.poesys.accounting.db.transaction.sql.QueryReimbursingItemsByItem
+   * @see com.poesys.accounting.db.transaction.sql.QueryReimbursingItemsReimbursementByItem
    */
-  private class QueryReimbursementsSetter
-      extends
-      com.poesys.db.dto.AbstractLazyListSetter<com.poesys.accounting.db.transaction.IReimbursement, IItem, java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>> {
+  private class QueryReimbursingItemsReimbursementSetter 
+      extends com.poesys.db.dto.AbstractLazyListSetter<com.poesys.accounting.db.transaction.IReimbursement, IItem, java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>> {
     /** Serial version UID for Serializable object */
     private static final long serialVersionUID = 1L;
     private static final int FETCH_SIZE = 10;
 
     /**
-     * Create a QueryReimbursementsSetter object.
+     * Create a QueryReimbursingItemsReimbursementSetter object.
      */
-    public QueryReimbursementsSetter() {
+    public QueryReimbursingItemsReimbursementSetter() {
       super("com.poesys.accounting.db.transaction", 2147483647);
     }
 
@@ -357,35 +368,130 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
         // Register the observer parent with the subject children.
         for (com.poesys.accounting.db.transaction.IReimbursement child : collection) {
           child.attach(AbstractItemProxy.this.dto,
-                       com.poesys.db.dao.DataEvent.MARKED_DELETED);
-          child.attach(AbstractItemProxy.this.dto,
-                       com.poesys.db.dao.DataEvent.DELETE);
+                              com.poesys.db.dao.DataEvent.MARKED_DELETED);
+          child.attach(AbstractItemProxy.this.dto, com.poesys.db.dao.DataEvent.DELETE);
         }
-        setReimbursements(collection);
+        setReimbursingItemsReimbursement(collection);
       } catch (com.poesys.db.dto.DtoStatusException e) {
-        // Just lazy loading here, not actually setting. Ignore this exception.
+        // Just lazy loading here, not actually setting. Ignore this exception.        
       }
     }
 
     @Override
     public boolean isSet() {
-      // Set if proxy has lazily loaded reimbursingItems
-      return reimbursingItemsLoaded;
+      // Set if proxy has lazily loaded reimbursingItemsReimbursement
+      return reimbursingItemsReimbursementLoaded;
     }
   }
 
-  @Override
-  public void addReimbursement(com.poesys.accounting.db.transaction.IReimbursement object) {
+
+  /**
+   * Add a com.poesys.accounting.db.transaction.IReimbursement object to the ReimbursingItemsReimbursement collection. The method
+   * loads the collection if it is not already in memory.
+   *
+   * add method #1 (collection property)
+   *
+   * Source: AddAssociationClassCollectionProperties
+   * 
+   * @param object the com.poesys.accounting.db.transaction.IReimbursement object to add to the collection
+   */
+  public void addReimbursingItemsReimbursementReimbursement(com.poesys.accounting.db.transaction.IReimbursement object) {
     // Collection is lazily loaded, check and load if necessary.
-    if (!reimbursingItemsLoaded) {
-      getReimbursingItems();
+    if (!reimbursingItemsReimbursementLoaded) {
+      getReimbursingItemsReimbursement();
     }
-    ((Item)dto).addReimbursement(object);
+    ((Item)dto).addReimbursingItemsReimbursementReimbursement(object);
+  }
+
+  
+
+  /** Flag indicating whether the receivablesReimbursement property has been loaded */
+  transient boolean receivablesReimbursementLoaded = false;
+
+  /**
+   * Query setter for lazily querying nested receivablesReimbursement collection
+   * (collection property)
+   *
+   * Source: AddAssociationClassCollectionProperties
+   *
+   * @see com.poesys.accounting.db.transaction.sql.QueryReceivablesReimbursementByItem
+   */
+  private class QueryReceivablesReimbursementSetter 
+      extends com.poesys.db.dto.AbstractLazyListSetter<com.poesys.accounting.db.transaction.IReimbursement, IItem, java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>> {
+    /** Serial version UID for Serializable object */
+    private static final long serialVersionUID = 1L;
+    private static final int FETCH_SIZE = 10;
+
+    /**
+     * Create a QueryReceivablesReimbursementSetter object.
+     */
+    public QueryReceivablesReimbursementSetter() {
+      super("com.poesys.accounting.db.transaction", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.transaction.Reimbursement.class.getName();
+    }
+
+    @Override
+    protected int getFetchSize() {
+      return FETCH_SIZE;
+    }
+
+    @Override
+    protected IItem getParametersDto() {
+      return AbstractItemProxy.this;
+    }
+
+    @Override
+    protected com.poesys.db.dao.query.IParameterizedQuerySql<com.poesys.accounting.db.transaction.IReimbursement, IItem> getSql() {
+      return new com.poesys.accounting.db.transaction.sql.QueryReceivablesReimbursementByItem();
+    }
+
+    @Override
+    protected void set(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> collection) {
+      try {
+        // Register the observer parent with the subject children.
+        for (com.poesys.accounting.db.transaction.IReimbursement child : collection) {
+          child.attach(AbstractItemProxy.this.dto,
+                              com.poesys.db.dao.DataEvent.MARKED_DELETED);
+          child.attach(AbstractItemProxy.this.dto, com.poesys.db.dao.DataEvent.DELETE);
+        }
+        setReceivablesReimbursement(collection);
+      } catch (com.poesys.db.dto.DtoStatusException e) {
+        // Just lazy loading here, not actually setting. Ignore this exception.        
+      }
+    }
+
+    @Override
+    public boolean isSet() {
+      // Set if proxy has lazily loaded receivablesReimbursement
+      return receivablesReimbursementLoaded;
+    }
+  }
+
+
+  /**
+   * Add a com.poesys.accounting.db.transaction.IReimbursement object to the ReceivablesReimbursement collection. The method
+   * loads the collection if it is not already in memory.
+   *
+   * add method #1 (collection property)
+   *
+   * Source: AddAssociationClassCollectionProperties
+   * 
+   * @param object the com.poesys.accounting.db.transaction.IReimbursement object to add to the collection
+   */
+  public void addReceivablesReimbursementReimbursement(com.poesys.accounting.db.transaction.IReimbursement object) {
+    // Collection is lazily loaded, check and load if necessary.
+    if (!receivablesReimbursementLoaded) {
+      getReceivablesReimbursement();
+    }
+    ((Item)dto).addReceivablesReimbursementReimbursement(object);
   }
 
   /**
-   * Create an AbstractItemProxy. The concrete subclass must call this
-   * constructor.
+   * Create a ItemProxy. The concrete subclass must call this constructor.
    *
    * @param dto the DTO to proxy
    */
@@ -410,8 +516,8 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
    * @throws ClassNotFoundException when a nested object class can't be found
    * @throws IOException when there is an IO problem reading the stream
    */
-  private void readObject(java.io.ObjectInputStream in)
-      throws java.io.IOException, ClassNotFoundException {
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException,
+    ClassNotFoundException {
     logger.debug("Deserializing object of class " + this.getClass().getName()
                  + " with readObject in AbstractItemProxy");
     // Do the read-object deserialization.
@@ -431,106 +537,240 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
 
   // Local properties (attributes, associations, and association classes)
 
-  @Override
+  /**
+   * Get an object of java.math.BigInteger
+   *
+   * Source: AddGeneratedKeyProperties + AddParentKeyAttributes
+   * Lazy: false
+   * 
+   * @return a java.math.BigInteger
+   */
   public java.math.BigInteger getTransactionId() {
     return ((Item)dto).getTransactionId();
   }
 
-  @Override
-  public void setTransactionId(java.math.BigInteger transactionId)
+  /**
+   * Set the transactionId from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param transactionId the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  void setTransactionId(java.math.BigInteger transactionId)
       throws com.poesys.db.InvalidParametersException {
     ((Item)dto).setTransactionId(transactionId);
   }
 
-  @Override
+  /**
+   * Get an object of java.lang.Integer
+   *
+   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
+   * Lazy: false
+   * 
+   * @return a java.lang.Integer
+   */
   public java.lang.Integer getOrderNumber() {
     return ((Item)dto).getOrderNumber();
   }
 
-  @Override
-  public void setOrderNumber(java.lang.Integer orderNumber)
+  /**
+   * Set the orderNumber from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param orderNumber the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  void setOrderNumber(java.lang.Integer orderNumber)
       throws com.poesys.db.InvalidParametersException {
     ((Item)dto).setOrderNumber(orderNumber);
   }
 
-  @Override
+  /**
+   * Get an object of java.lang.Double
+   *
+   * Source: AddLocalAttributeProperties
+   * Lazy: false
+   * 
+   * @return a java.lang.Double
+   */
   public java.lang.Double getAmount() {
     return ((Item)dto).getAmount();
   }
 
-  @Override
+  /**
+   * Set the amount from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param amount the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
   public void setAmount(java.lang.Double amount)
       throws com.poesys.db.InvalidParametersException {
     ((Item)dto).setAmount(amount);
   }
 
-  @Override
+  /**
+   * Get an object of java.lang.Boolean
+   *
+   * Source: AddLocalAttributeProperties
+   * Lazy: false
+   * 
+   * @return a java.lang.Boolean
+   */
   public java.lang.Boolean getDebit() {
     return ((Item)dto).getDebit();
   }
 
-  @Override
+  /**
+   * Set the debit from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param debit the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
   public void setDebit(java.lang.Boolean debit)
       throws com.poesys.db.InvalidParametersException {
     ((Item)dto).setDebit(debit);
   }
 
-  @Override
+  /**
+   * Get an object of java.lang.Boolean
+   *
+   * Source: AddLocalAttributeProperties
+   * Lazy: false
+   * 
+   * @return a java.lang.Boolean
+   */
   public java.lang.Boolean getChecked() {
     return ((Item)dto).getChecked();
   }
 
-  @Override
+  /**
+   * Set the checked from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param checked the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
   public void setChecked(java.lang.Boolean checked)
       throws com.poesys.db.InvalidParametersException {
     ((Item)dto).setChecked(checked);
   }
 
-  @Override
+  /**
+   * Get an object of com.poesys.accounting.db.transaction.ITransaction
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   * Lazy: false
+   * 
+   * @return a com.poesys.accounting.db.transaction.ITransaction
+   */
   public com.poesys.accounting.db.transaction.ITransaction getTransaction() {
     return ((Item)dto).getTransaction();
   }
 
-  @Override
+  /**
+   * Set the transaction from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param transaction the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
   public void setTransaction(com.poesys.accounting.db.transaction.ITransaction transaction)
       throws com.poesys.db.InvalidParametersException {
     ((Item)dto).setTransaction(transaction);
   }
 
-  @Override
+  /**
+   * Get an object of com.poesys.accounting.db.account.IAccount
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   * Lazy: false
+   * 
+   * @return a com.poesys.accounting.db.account.IAccount
+   */
   public com.poesys.accounting.db.account.IAccount getAccount() {
     return ((Item)dto).getAccount();
   }
 
-  @Override
+  /**
+   * Set the account from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param account the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
   public void setAccount(com.poesys.accounting.db.account.IAccount account)
       throws com.poesys.db.InvalidParametersException {
     ((Item)dto).setAccount(account);
   }
 
-  @Override
+  /**
+   * Get an object of java.lang.String
+   *
+   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
+   * Lazy: false
+   * 
+   * @return a java.lang.String
+   */
   public java.lang.String getAccountName() {
     return ((Item)dto).getAccountName();
   }
 
-  @Override
-  public void setAccountName(java.lang.String accountName)
+  /**
+   * Set the accountName from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param accountName the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  void setAccountName(java.lang.String accountName)
       throws com.poesys.db.InvalidParametersException {
     ((Item)dto).setAccountName(accountName);
   }
 
-  @Override
+  /**
+   * Get an object of java.lang.String
+   *
+   * Source: AddNaturalKeyProperties + AddParentKeyAttributes + AddToOneAssociationAttributeProperties
+   * Lazy: false
+   * 
+   * @return a java.lang.String
+   */
   public java.lang.String getEntityName() {
     return ((Item)dto).getEntityName();
   }
 
-  @Override
-  public void setEntityName(java.lang.String entityName)
+  /**
+   * Set the entityName from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param entityName the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  void setEntityName(java.lang.String entityName)
       throws com.poesys.db.InvalidParametersException {
     ((Item)dto).setEntityName(entityName);
   }
 
-  @Override
+  /**
+   * Get a collection of com.poesys.accounting.db.transaction.IItem
+   * loading the reimbursingItems association if it is not already in memory.
+   *
+   * Source: TransformToProperty + AddToManyAssociationCollectionProperties
+   * Lazy: true
+   * 
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IItem>
+   */
   public java.util.Collection<com.poesys.accounting.db.transaction.IItem> getReimbursingItems() {
     // Lazy-load the local property reimbursingItems if not loaded.
     if (!reimbursingItemsLoaded) {
@@ -542,13 +782,16 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
     return ((Item)dto).getReimbursingItems();
   }
 
-  @Override
+
+  /**
+   * Clear the lazily loaded property reimbursingItems if it is loaded.
+   */
   public void clearReimbursingItems() {
     // Only clear if loaded already.
     if (reimbursingItemsLoaded) {
       try {
         // Call the local lazy property setter to clear the property.
-        ((Item)dto).setReimbursingItems(null);
+        ((Item)dto).setReimbursingItem(null);
         ((Item)dto).undoStatus();
         reimbursingItemsLoaded = false;
       } catch (com.poesys.db.dto.DtoStatusException e) {
@@ -557,15 +800,30 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
     }
   }
 
-  @Override
-  public void setReimbursingItems(java.util.Collection<com.poesys.accounting.db.transaction.IItem> reimbursingItems) {
-    ((Item)dto).setReimbursingItems(reimbursingItems);
+  /**
+   * Set the reimbursingItems from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param reimbursingItems the lazily loaded value to assign
+   */
+  public void setReimbursingItem(java.util.Collection<com.poesys.accounting.db.transaction.IItem> reimbursingItems)
+      {
+    ((Item)dto).setReimbursingItem(reimbursingItems);
     // Mark the property loaded and undo the status change.
     dto.undoStatus();
     reimbursingItemsLoaded = true;
   }
 
-  @Override
+  /**
+   * Get a collection of com.poesys.accounting.db.transaction.IItem
+   * loading the receivables association if it is not already in memory.
+   *
+   * Source: TransformToProperty + AddToManyAssociationCollectionProperties
+   * Lazy: true
+   * 
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IItem>
+   */
   public java.util.Collection<com.poesys.accounting.db.transaction.IItem> getReceivables() {
     // Lazy-load the local property receivables if not loaded.
     if (!receivablesLoaded) {
@@ -577,13 +835,16 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
     return ((Item)dto).getReceivables();
   }
 
-  @Override
+
+  /**
+   * Clear the lazily loaded property receivables if it is loaded.
+   */
   public void clearReceivables() {
     // Only clear if loaded already.
     if (receivablesLoaded) {
       try {
         // Call the local lazy property setter to clear the property.
-        ((Item)dto).setReceivables(null);
+        ((Item)dto).setReceivable(null);
         ((Item)dto).undoStatus();
         receivablesLoaded = false;
       } catch (com.poesys.db.dto.DtoStatusException e) {
@@ -592,52 +853,130 @@ public abstract class AbstractItemProxy extends AbstractLazyLoadingDtoProxy
     }
   }
 
-  @Override
-  public void setReceivables(java.util.Collection<com.poesys.accounting.db.transaction.IItem> receivables) {
-    ((Item)dto).setReceivables(receivables);
+  /**
+   * Set the receivables from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param receivables the lazily loaded value to assign
+   */
+  public void setReceivable(java.util.Collection<com.poesys.accounting.db.transaction.IItem> receivables)
+      {
+    ((Item)dto).setReceivable(receivables);
     // Mark the property loaded and undo the status change.
     dto.undoStatus();
     receivablesLoaded = true;
   }
 
-  @Override
-  public java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getReimbursements() {
-    // Lazy-load the local property reimbursingItems if not loaded.
-    if (!reimbursementsLoaded) {
-      com.poesys.db.dto.ISet setter = new QueryReimbursementsSetter();
+  /**
+   * Get a collection of com.poesys.accounting.db.transaction.IReimbursement
+   * loading the reimbursingItemsReimbursement association if it is not already in memory.
+   *
+   * Source: AddAssociationClassCollectionProperties
+   * Lazy: true
+   * 
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>
+   */
+  public java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getReimbursingItemsReimbursement() {
+    // Lazy-load the local property reimbursingItemsReimbursement if not loaded.
+    if (!reimbursingItemsReimbursementLoaded) {
+      com.poesys.db.dto.ISet setter = new QueryReimbursingItemsReimbursementSetter();
       setter.set();
       // Mark the field as loaded once the query setter has run.
-      reimbursementsLoaded = true;
+      reimbursingItemsReimbursementLoaded = true;
     }
-    return ((Item)dto).getReimbursements();
+    return ((Item)dto).getReimbursingItemsReimbursement();
   }
 
-  @Override
-  public void clearReimbursements() {
+
+  /**
+   * Clear the lazily loaded property reimbursingItemsReimbursement if it is loaded.
+   */
+  public void clearReimbursingItemsReimbursement() {
     // Only clear if loaded already.
-    if (reimbursingItemsLoaded) {
+    if (reimbursingItemsReimbursementLoaded) {
       try {
         // Call the local lazy property setter to clear the property.
-        ((Item)dto).setReimbursingItems(null);
+        ((Item)dto).setReimbursingItemsReimbursement(null);
         ((Item)dto).undoStatus();
-        reimbursingItemsLoaded = false;
+        reimbursingItemsReimbursementLoaded = false;
       } catch (com.poesys.db.dto.DtoStatusException e) {
         // Couldn't set status to CHANGED, ignore because we don't want it set
       }
     }
   }
 
-  @Override
-  public void setReimbursements(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> reimbursements)
+  /**
+   * Set the reimbursingItemsReimbursement from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param reimbursingItemsReimbursement the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  public void setReimbursingItemsReimbursement(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> reimbursingItemsReimbursement)
       throws com.poesys.db.InvalidParametersException {
-    ((Item)dto).setReimbursements(reimbursements);
+    ((Item)dto).setReimbursingItemsReimbursement(reimbursingItemsReimbursement);
     // Mark the property loaded and undo the status change.
     dto.undoStatus();
-    reimbursingItemsLoaded = true;
+    reimbursingItemsReimbursementLoaded = true;
   }
 
-  @Override
+  /**
+   * Get a collection of com.poesys.accounting.db.transaction.IReimbursement
+   * loading the receivablesReimbursement association if it is not already in memory.
+   *
+   * Source: AddAssociationClassCollectionProperties
+   * Lazy: true
+   * 
+   * @return a java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement>
+   */
+  public java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> getReceivablesReimbursement() {
+    // Lazy-load the local property receivablesReimbursement if not loaded.
+    if (!receivablesReimbursementLoaded) {
+      com.poesys.db.dto.ISet setter = new QueryReceivablesReimbursementSetter();
+      setter.set();
+      // Mark the field as loaded once the query setter has run.
+      receivablesReimbursementLoaded = true;
+    }
+    return ((Item)dto).getReceivablesReimbursement();
+  }
+
+
+  /**
+   * Clear the lazily loaded property receivablesReimbursement if it is loaded.
+   */
+  public void clearReceivablesReimbursement() {
+    // Only clear if loaded already.
+    if (receivablesReimbursementLoaded) {
+      try {
+        // Call the local lazy property setter to clear the property.
+        ((Item)dto).setReceivablesReimbursement(null);
+        ((Item)dto).undoStatus();
+        receivablesReimbursementLoaded = false;
+      } catch (com.poesys.db.dto.DtoStatusException e) {
+        // Couldn't set status to CHANGED, ignore because we don't want it set
+      }
+    }
+  }
+
+  /**
+   * Set the receivablesReimbursement from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param receivablesReimbursement the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  public void setReceivablesReimbursement(java.util.Collection<com.poesys.accounting.db.transaction.IReimbursement> receivablesReimbursement)
+      throws com.poesys.db.InvalidParametersException {
+    ((Item)dto).setReceivablesReimbursement(receivablesReimbursement);
+    // Mark the property loaded and undo the status change.
+    dto.undoStatus();
+    receivablesReimbursementLoaded = true;
+  }
+
   public void markChildrenDeleted() {
-    ((Item)dto).markChildrenDeleted();
+  	((Item)dto).markChildrenDeleted();
   }
 }

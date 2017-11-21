@@ -29,14 +29,14 @@ import com.poesys.accounting.db.account.AccountGroup;
  * you run it but will never overwrite the concrete subclass.
  * </p>
  * <p>
- * A named group of accounts, grouping the accounts for presentation and
- * aggregation in financial statements
+ * A named group of fiscal-year accounts, grouping the accounts for presentation
+ * and aggregation in financial statements for the fiscal year
  * </p>
  * <p>
  * Stereotypes:
  * </p>
  * <ul>
- *     <li>NaturalKey</li>
+ *     <li>CompositeKey</li>
  *     <li>Persistent</li>
  * </ul>
  * <p>
@@ -50,26 +50,26 @@ public abstract class AbstractBsAccountGroup
 
   /**
    * A Collection builder helper class for building a business-layer Collection 
-   * of BsAccount objects from a Collection accounts of data-access-layer 
-   * com.poesys.accounting.db.account.IAccount objects
+   * of BsFiscalYearAccount objects from a Collection accounts of data-access-layer 
+   * com.poesys.accounting.db.account.IFiscalYearAccount objects
    */
   private class BsAccountsCollectionBuilder 
-      extends com.poesys.bs.dto.CollectionBuilder<com.poesys.accounting.db.account.IAccount, com.poesys.accounting.bs.account.BsAccount> {
+      extends com.poesys.bs.dto.CollectionBuilder<com.poesys.accounting.db.account.IFiscalYearAccount, com.poesys.accounting.bs.account.BsFiscalYearAccount> {
     @Override
-    public com.poesys.accounting.bs.account.BsAccount get(com.poesys.accounting.db.account.IAccount dto) {
-      return new com.poesys.accounting.bs.account.BsAccount(dto);
+    public com.poesys.accounting.bs.account.BsFiscalYearAccount get(com.poesys.accounting.db.account.IFiscalYearAccount dto) {
+      return new com.poesys.accounting.bs.account.BsFiscalYearAccount(dto);
     }
   }
 
   /**
    * A Collection builder helper class for building a data-access-layer Collection 
-   * of Account objects from an input Collection accounts of 
-   * business-layer BsAccount objects
+   * of FiscalYearAccount objects from an input Collection accounts of 
+   * business-layer BsFiscalYearAccount objects
    */
   private class AccountsCollectionBuilder 
-      extends com.poesys.bs.dto.CollectionBuilder<com.poesys.accounting.bs.account.BsAccount, com.poesys.accounting.db.account.IAccount> {
+      extends com.poesys.bs.dto.CollectionBuilder<com.poesys.accounting.bs.account.BsFiscalYearAccount, com.poesys.accounting.db.account.IFiscalYearAccount> {
     @Override
-    public com.poesys.accounting.db.account.IAccount get(com.poesys.accounting.bs.account.BsAccount dto) {
+    public com.poesys.accounting.db.account.IFiscalYearAccount get(com.poesys.accounting.bs.account.BsFiscalYearAccount dto) {
       return dto.toDto();
     }
   }
@@ -88,11 +88,14 @@ public abstract class AbstractBsAccountGroup
    * Create a AccountGroup from new data.
    *
    * @param key the primary key of the AccountGroup
+   * @param accountType composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
+   * @param orderNumber the relative position of the account group in the ordered list of groups
+belonging to the account type
    * @param groupName the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
 Payable, Tax-Related Expenses
    */
-  public AbstractBsAccountGroup(IPrimaryKey key, java.lang.String groupName) {
-    super(new AccountGroupProxy(new AccountGroup(key, groupName)));
+  public AbstractBsAccountGroup(IPrimaryKey key, java.lang.String accountType, java.lang.Integer orderNumber, java.lang.String groupName) {
+    super(new AccountGroupProxy(new AccountGroup(key, accountType, orderNumber, groupName)));
   }
 
   @SuppressWarnings("unchecked")
@@ -124,20 +127,120 @@ Payable, Tax-Related Expenses
 
   /**
    * <p>
+   * Composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
+   * </p>
+   * <p>
+   * Added by AddNaturalKeyProperties + AddParentKeyAttributes as data member
+   * </p>
+   * <ul>
+   * <li>Property is read/write: false</li>
+   * <li>Property is defined in the data-access object AccountGroup</li>
+   * </ul>
+   * @return a java.lang.String accountType
+   */
+  public java.lang.String getAccountType() {
+    return dto.getAccountType();
+  }
+
+  /**
+   * <p>
+   * the relative position of the account group in the ordered list of groups
+   * belonging to the account type
+   * </p>
+   * <p>
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass as data member
+   * </p>
+   * <ul>
+   * <li>Property is read/write: false</li>
+   * <li>Property is defined in the data-access object AccountGroup</li>
+   * </ul>
+   * @return a java.lang.Integer orderNumber
+   */
+  public java.lang.Integer getOrderNumber() {
+    return dto.getOrderNumber();
+  }
+
+  /**
+   * <p>
    * the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
    * Payable, Tax-Related Expenses
    * </p>
    * <p>
-   * Added by AddNaturalKeyProperties as data member
+   * Added by AddLocalAttributeProperties as data member
    * </p>
    * <ul>
-   * <li>Property is read/write: false</li>
+   * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object AccountGroup</li>
    * </ul>
    * @return a java.lang.String groupName
    */
   public java.lang.String getGroupName() {
     return dto.getGroupName();
+  }
+
+  /**
+   * <p>
+   * Set the groupName.
+   * </p>
+   * <p>
+   * the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
+   * Payable, Tax-Related Expenses
+   * </p>
+   * <p>
+   * Added by AddLocalAttributeProperties
+   * </p>
+   * <ul>
+   * <li>Property is read/write: true</li>
+   * <li>Property is defined in the data-access object AccountGroup</li>
+   * </ul>
+   * @param groupName the associated business object
+   * @throws com.poesys.db.dto.DtoStatusException when the system can't set
+   *                 the data-access status to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the property is
+   *                 required but the input parameter groupName is null
+   */
+  public void setGroupName(java.lang.String groupName) 
+      throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
+    dto.setGroupName(groupName);
+  }
+
+  /**
+   * 
+   * <p>
+   * Added by AddToOneAssociationRequiredObjectProperties as data member
+   * </p>
+   * <ul>
+   * <li>Property is read/write: true</li>
+   * <li>Property is defined in the data-access object AccountGroup</li>
+   * </ul>
+   * @return a com.poesys.accounting.bs.account.BsAccountType type
+   */
+  public com.poesys.accounting.bs.account.BsAccountType getType() {
+    // Return 4
+    return new com.poesys.accounting.bs.account.BsAccountType(dto.getType());
+  }
+
+  /**
+   * <p>
+   * Set the type.
+   * </p>
+   * 
+   * <p>
+   * Added by AddToOneAssociationRequiredObjectProperties
+   * </p>
+   * <ul>
+   * <li>Property is read/write: true</li>
+   * <li>Property is defined in the data-access object AccountGroup</li>
+   * </ul>
+   * @param type the associated business object
+   * @throws com.poesys.db.dto.DtoStatusException when the system can't set
+   *                 the data-access status to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the property is
+   *                 required but the input parameter type is null
+   */
+  public void setType(com.poesys.accounting.bs.account.BsAccountType type) 
+      throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
+    dto.setType(type == null ? null : type.toDto());
   }
 
   /**
@@ -151,9 +254,9 @@ Payable, Tax-Related Expenses
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object AccountGroup</li>
    * </ul>
-   * @return a com.poesys.accounting.bs.account.BsAccount groupName
+   * @return a com.poesys.accounting.bs.account.BsFiscalYearAccount type
    */
-  public java.util.Collection<com.poesys.accounting.bs.account.BsAccount> getAccounts() {
+  public java.util.Collection<com.poesys.accounting.bs.account.BsFiscalYearAccount> getAccounts() {
     BsAccountsCollectionBuilder builder = new BsAccountsCollectionBuilder();
     return builder.getCollection(dto.getAccounts());
   }
@@ -172,26 +275,26 @@ Payable, Tax-Related Expenses
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object AccountGroup</li>
    * </ul>
-   * @param groupName the associated business object
+   * @param type the associated business object
    * @throws com.poesys.db.dto.DtoStatusException when the system can't set
    *                 the data-access status to CHANGED
    */
-  public void setAccounts(java.util.Collection<com.poesys.accounting.bs.account.BsAccount> groupName) 
+  public void setAccounts(java.util.Collection<com.poesys.accounting.bs.account.BsFiscalYearAccount> type) 
       throws com.poesys.db.dto.DtoStatusException{
     AccountsCollectionBuilder builder = new AccountsCollectionBuilder();
-      dto.setAccounts(builder.getCollection(groupName));
+      dto.setAccounts(builder.getCollection(type));
   }
 
   /**
-   * Add a Account object to the accounts collection.
+   * Add a FiscalYearAccount object to the accounts collection.
    *
    * @param object the object to add to the collection
    */
-  public void addAccountsAccount(com.poesys.accounting.bs.account.BsAccount object) {
+  public void addAccountsFiscalYearAccount(com.poesys.accounting.bs.account.BsFiscalYearAccount object) {
     if (object == null) {
       throw new com.poesys.db.InvalidParametersException(com.poesys.db.Message.getMessage("com.poesys.db.dao.msg.no_dto", null));
     }
     
-    dto.addAccountsAccount(object.toDto());
+    dto.addAccountsFiscalYearAccount(object.toDto());
   }
 }

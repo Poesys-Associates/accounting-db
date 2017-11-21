@@ -17,7 +17,9 @@ CREATE TABLE FiscalYearAccount (
   accountName VARCHAR(100) NOT NULL,  
   entityName VARCHAR(500) NOT NULL,  
   year INTEGER(4) NOT NULL,  
-  orderNumber INTEGER,  
+  orderNumber INTEGER NOT NULL,  
+  accountType VARCHAR(15) NOT NULL,  
+  groupOrderNumber INTEGER NOT NULL,  
   CONSTRAINT FiscalYearAccountPK PRIMARY KEY (accountName, entityName, year)
 );
 
@@ -26,11 +28,15 @@ CREATE TABLE Account (
   accountName VARCHAR(100) NOT NULL,  
   description VARCHAR(500) NOT NULL,  
   debitDefault BOOLEAN NOT NULL,  
-  accountType VARCHAR(100) NOT NULL,  
-  receivable BOOLEAN NOT NULL,  
   active BOOLEAN NOT NULL,  
-  groupName VARCHAR(200) NOT NULL,  
   CONSTRAINT AccountPK PRIMARY KEY (accountName, entityName)
+);
+
+CREATE TABLE AccountGroup (
+  accountType VARCHAR(15) NOT NULL,  
+  orderNumber INTEGER NOT NULL,  
+  groupName VARCHAR(100) NOT NULL,  
+  CONSTRAINT AccountGroupPK PRIMARY KEY (accountType, orderNumber)
 );
 
 CREATE TABLE Entity (
@@ -38,8 +44,35 @@ CREATE TABLE Entity (
   CONSTRAINT EntityPK PRIMARY KEY (entityName)
 );
 
-CREATE TABLE AccountGroup (
-  groupName VARCHAR(200) NOT NULL,  
-  CONSTRAINT AccountGroupPK PRIMARY KEY (groupName)
+CREATE TABLE CapitalEntity (
+  capitalEntityName VARCHAR(500) NOT NULL,  
+  CONSTRAINT CapitalEntityPK PRIMARY KEY (capitalEntityName)
+);
+
+CREATE TABLE AccountType (
+  accountType VARCHAR(15) NOT NULL,  
+  CONSTRAINT AccountTypePK PRIMARY KEY (accountType)
+);
+
+CREATE TABLE CapitalAccount (
+  accountName VARCHAR(100) NOT NULL,  
+  entityName VARCHAR(500) NOT NULL,  
+  ownership NUMERIC NOT NULL,  
+  capitalEntityName VARCHAR(500) NOT NULL,  
+  CONSTRAINT CapitalAccountPK PRIMARY KEY (accountName, entityName)
+);
+
+CREATE TABLE DistributionAccount (
+  accountName VARCHAR(100) NOT NULL,  
+  entityName VARCHAR(500) NOT NULL,  
+  capitalEntityName VARCHAR(500) NOT NULL,  
+  CONSTRAINT DistributionAccountPK PRIMARY KEY (accountName, entityName)
+);
+
+CREATE TABLE SimpleAccount (
+  accountName VARCHAR(100) NOT NULL,  
+  entityName VARCHAR(500) NOT NULL,  
+  receivable BOOLEAN NOT NULL,  
+  CONSTRAINT SimpleAccountPK PRIMARY KEY (accountName, entityName)
 );
 

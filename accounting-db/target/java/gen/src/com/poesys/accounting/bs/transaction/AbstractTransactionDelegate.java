@@ -15,7 +15,6 @@ import com.poesys.db.dao.update.IUpdateSql;
 import com.poesys.db.dao.delete.IDeleteSql;
 import com.poesys.db.dao.query.IKeyQuerySql;
 import com.poesys.db.dao.query.IQuerySql;
-import com.poesys.db.pk.AssociationKeyMapping;
 
 
 /**
@@ -190,13 +189,8 @@ allocated amount when summing up amounts applied against the receivable
         new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
       list.add(receivablesObject.getPrimaryKey());
       list.add(reimbursingItemsObject.getPrimaryKey());
-      AssociationKeyMapping mapping = new AssociationKeyMapping(2);
-      mapping.map(0, "orderNumber", "receivablesOrderNumber");
-      mapping.map(0, "transactionId", "receivablesTransactionId");
-      mapping.map(1, "orderNumber", "reimbursingItemsOrderNumber");
-      mapping.map(1, "transactionId", "reimbursingItemsTransactionId");
       key = 
-        com.poesys.db.pk.PrimaryKeyFactory.createAssociationKey(list, mapping, "com.poesys.accounting.db.transaction.Reimbursement");
+        com.poesys.db.pk.PrimaryKeyFactory.createAssociationKey(list, "com.poesys.accounting.db.transaction.Reimbursement");
     } catch (com.poesys.db.InvalidParametersException e) {
       Object[] args = e.getParameters().toArray();
       String message = com.poesys.db.Message.getMessage(e.getMessage(), args);

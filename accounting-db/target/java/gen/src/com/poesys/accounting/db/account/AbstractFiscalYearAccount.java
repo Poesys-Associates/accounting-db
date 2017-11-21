@@ -121,6 +121,224 @@ public abstract class AbstractFiscalYearAccount extends AbstractDto implements I
   }
 
 
+  /**
+   * Nested class that manages the group association data
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   *
+   * @author Poesys/DB Cartridge
+   */
+  private class QueryGroupSetter extends com.poesys.db.dto.AbstractObjectSetter<com.poesys.accounting.db.account.IAccountGroup> {
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * Create a QueryGroupSetter object.
+     */
+    public QueryGroupSetter() {
+      super("com.poesys.accounting.db.account", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.account.AccountGroup.class.getName();
+    }
+
+    @Override
+    protected IPrimaryKey getKey() {
+      return groupKey;
+    }
+
+    @Override
+    protected com.poesys.db.dao.query.IKeyQuerySql<com.poesys.accounting.db.account.IAccountGroup> getSql() {
+      return new com.poesys.accounting.db.account.sql.QueryAccountGroup();
+    }
+
+    @Override
+    protected void set(com.poesys.accounting.db.account.IAccountGroup dto) {
+      // No status change, this is just filling in the object data.
+      group = dto;
+    }
+
+    @Override
+    public boolean isSet() {
+      // Object is set if the associated group is not null
+      return group != null;
+    }
+  }
+
+  /**
+   * Post-process setter for post-processing nested object property group.
+   */
+  private class PostProcessGroupSetter 
+      extends com.poesys.db.dto.AbstractPostProcessSetter {
+    // Property group source: AddToOneAssociationRequiredObjectProperties
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Create a PostProcessGroupSetter object.
+     */
+    public PostProcessGroupSetter() {
+      super("com.poesys.accounting.db.account", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.account.AccountGroup.class.getName();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
+      java.util.ArrayList<com.poesys.db.dto.IDbDto> array =
+        new java.util.ArrayList<com.poesys.db.dto.IDbDto>(1);
+      if (group != null) {
+        array.add(group);
+      }
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = array;
+      return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
+    }
+  }
+
+  /**
+   * Insert setter for inserting nested object property group.
+   */
+  private class InsertGroupSetter 
+      extends com.poesys.db.dto.AbstractInsertSetter {
+    // Property group source: AddToOneAssociationRequiredObjectProperties
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Create an InsertGroupSetter object.
+     */
+    public InsertGroupSetter() {
+      super("com.poesys.accounting.db.account", 2147483647);
+    }
+
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.account.AccountGroup.class.getName();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected java.util.Collection<com.poesys.db.dto.IDbDto> getDtos() {
+      java.util.ArrayList<com.poesys.db.dto.IDbDto> array =
+        new java.util.ArrayList<com.poesys.db.dto.IDbDto>(1);
+      array.add(group);
+      java.util.Collection<? extends com.poesys.db.dto.IDbDto> dtos = array;
+      return (java.util.Collection<com.poesys.db.dto.IDbDto>)dtos;
+    }
+
+    @Override
+    protected boolean createKey() {
+      // Key type: CompositeKey
+      return true;
+    }
+  }
+
+  /**
+   * Setter for processing added group, updated group, and 
+   * deleted group. 
+   */
+   
+  private class UpdateGroupSetter 
+      extends com.poesys.db.dto.AbstractProcessNestedObject<com.poesys.accounting.db.account.IAccountGroup> {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Create an UpdateGroupSetter object.
+     */
+    public UpdateGroupSetter() {
+      super("com.poesys.accounting.db.account", 2147483647);
+    }
+
+    @Override
+    protected void doChanged(com.poesys.accounting.db.account.IAccountGroup dto) {
+        // group source: AddToOneAssociationRequiredObjectProperties
+        // Immutable: false
+      com.poesys.db.dao.IDaoManager manager = 
+        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountGroup> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.AccountGroup.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.update.IUpdate<com.poesys.accounting.db.account.IAccountGroup> updater = 
+        factory.getUpdate(new com.poesys.accounting.db.account.sql.UpdateAccountGroup());
+
+      updater.update(dto);
+      // Complete the update by setting the DTO to EXISTING status.
+      dto.setExisting();
+    }
+    
+    @Override
+    protected void doDeleted(com.poesys.accounting.db.account.IAccountGroup dto) {
+      com.poesys.db.dao.IDaoManager manager = 
+        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountGroup> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.AccountGroup.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.delete.IDelete<com.poesys.accounting.db.account.IAccountGroup> dao = 
+        factory.getDelete(new com.poesys.accounting.db.account.sql.DeleteAccountGroup());
+      dao.delete(dto);
+    }
+
+    @Override
+    protected void doNew(com.poesys.accounting.db.account.IAccountGroup dto) {
+      com.poesys.db.dao.IDaoManager manager = 
+        com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
+      com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountGroup> factory = 
+        manager.getFactory(com.poesys.accounting.db.account.AccountGroup.class.getName(), subsystem, 2147483647);
+      com.poesys.db.dao.insert.IInsert<com.poesys.accounting.db.account.IAccountGroup> inserter =
+        factory.getInsert(new com.poesys.accounting.db.account.sql.InsertAccountGroup(), createKey());
+
+
+      // Insert the superclass objects from the root down. Suppress nested
+      // inserts for the superclasses, wait until the concrete class. Also set 
+      // pre-insert suppression off to have the root insert linked, to-one class
+      // objects.
+      dto.setSuppressNestedInserts(true);
+      dto.setSuppressNestedPreInserts(false);
+
+      // Suppress inserts in concrete class.
+      dto.setSuppressNestedPreInserts(true);
+      
+      // Insert the object of the current class after enabling nested inserts,
+      // which will allow connecting up linked objects to any of the inserted
+      // classes.
+      dto.setSuppressNestedInserts(false);
+      inserter.insert(dto);
+    }
+
+    @Override
+    protected com.poesys.accounting.db.account.IAccountGroup getDto() {
+      return group;
+    }
+    
+    @Override
+    protected String getClassName() {
+      return com.poesys.accounting.db.account.AccountGroup.class.getName();
+    }
+
+    @Override
+    protected boolean createKey() {
+      // Key type: CompositeKey
+      return true;
+    }
+  }
+
+  /**
+   * Foreign key object used by QueryGroupSetter nested class to query object
+   */
+  private IPrimaryKey groupKey;
+  
+  /**
+   * Set the foreign key groupKey. This has package access to enable
+   * the subsystem factory getData method to call this method to set the key
+   * by creating it from the queried result set.
+   *
+   * @param groupKey the foreign key
+   */
+  void setGroupKey(IPrimaryKey groupKey) {
+    this.groupKey = groupKey;
+  }
+
 
   /**
    * Create an empty FiscalYearAccount for use in building a new object. The 
@@ -155,6 +373,12 @@ public abstract class AbstractFiscalYearAccount extends AbstractDto implements I
 
     // Add the setters for the account property.
     postProcessSetters.add(new PostProcessAccountSetter());
+
+    // Add the setters for the group property.
+    querySetters.add(new QueryGroupSetter());
+    preSetters.add(new InsertGroupSetter());
+    postSetters.add(new UpdateGroupSetter());
+    postProcessSetters.add(new PostProcessGroupSetter());
   }
 
   /**
@@ -162,13 +386,19 @@ public abstract class AbstractFiscalYearAccount extends AbstractDto implements I
    *
    * @param key the primary key of the FiscalYearAccount
    * @param accountsObject wraps an associated IAccount object
+   * @param groupObject wraps an associated IAccountGroup object
    * @param yearsObject wraps an associated IFiscalYear object
    * @param accountName Attribute that is part of the association key
    * @param entityName Attribute that is part of the association key
    * @param year Attribute that is part of the association key
-   * @param orderNumber the integer rank of the account in the list of accounts
+   * @param orderNumber the integer rank of the account within the associated account group; there will
+be duplicates for the set of accounts in a fiscal year as there are multiple
+account groups for the fiscal year
+   * @param accountType foreign key used by setter to query associated object
+   * @param groupOrderNumber foreign key used by setter to query associated object
+   * @param group the group into which the account is aggregated
    */
-  public AbstractFiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber) {
+  public AbstractFiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IAccountGroup groupObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber, java.lang.String accountType, java.lang.Integer groupOrderNumber, com.poesys.accounting.db.account.IAccountGroup group) {
     this.key = key;
 
     this.accountName = accountName;
@@ -191,8 +421,29 @@ public abstract class AbstractFiscalYearAccount extends AbstractDto implements I
     
     this.orderNumber = orderNumber;
 
+    if (orderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("orderNumber is required for " + key.getValueList());
+    }
+    
+    this.accountType = accountType;
+
+    if (accountType == null) {
+      throw new com.poesys.db.InvalidParametersException("accountType is required for " + key.getValueList());
+    }
+    
+    this.groupOrderNumber = groupOrderNumber;
+
+    if (groupOrderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("groupOrderNumber is required for " + key.getValueList());
+    }
+    
+    this.group = group;
+
     // Associated key object
     account = accountsObject;
+    
+    // Associated key object
+    group = groupObject;
     
     // Associated key object
     fiscalYear = yearsObject;
@@ -227,6 +478,18 @@ public abstract class AbstractFiscalYearAccount extends AbstractDto implements I
     // Add the setters for the account property.
     postProcessSetters.add(new PostProcessAccountSetter());
     
+    
+    // Add the setters for the group property.
+    querySetters.add(new QueryGroupSetter());
+    // Set the object property primary key with a factory method.
+    groupKey = com.poesys.accounting.db.account.AccountFactory.getAccountGroupPrimaryKey(accountType, groupOrderNumber);
+    insertSetters.add(new InsertGroupSetter());
+    preSetters.add(new InsertGroupSetter());
+    postSetters.add(new UpdateGroupSetter());
+    postProcessSetters.add(new PostProcessGroupSetter());
+    
+    // Add a setter to instantiate the required group object before insert.
+    insertQuerySetters.add(new QueryGroupSetter());
     abstractClass = false;
     createInserters();
   }
@@ -285,7 +548,9 @@ public abstract class AbstractFiscalYearAccount extends AbstractDto implements I
    * Nested property orderNumber
    *
    * <p>
-   * the integer rank of the account in the list of accounts
+   * the integer rank of the account within the associated account group; there will
+   * be duplicates for the set of accounts in a fiscal year as there are multiple
+   * account groups for the fiscal year
    * </p>
    *
    * Added by AddLocalAttributeProperties
@@ -328,13 +593,203 @@ public abstract class AbstractFiscalYearAccount extends AbstractDto implements I
    * <li>Lazy property: false (if true, proxy calls this method)</li>
    * </ul>
    * <p>
-   * the integer rank of the account in the list of accounts
+   * the integer rank of the account within the associated account group; there will
+   * be duplicates for the set of accounts in a fiscal year as there are multiple
+   * account groups for the fiscal year
    * </p>
    *
    * @param orderNumber the value with which to set the property
    */
-  public  void setOrderNumber(java.lang.Integer orderNumber) {
+  public void setOrderNumber(java.lang.Integer orderNumber)
+      throws com.poesys.db.InvalidParametersException {
+    if (orderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("orderNumber is required");
+    }
+    
     this.orderNumber = orderNumber;
+    setChanged();
+  }
+  /**
+   * Nested property group
+   *
+   * <p>
+   * the group into which the account is aggregated
+   * </p>
+   *
+   * Added by AddToOneAssociationRequiredObjectProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: false
+   */
+  private com.poesys.accounting.db.account.IAccountGroup group;
+  
+  /**
+   * Get an object of com.poesys.accounting.db.account.IAccountGroup.
+   *
+   * Source: AddToOneAssociationRequiredObjectProperties
+   * 
+   * @return a com.poesys.accounting.db.account.IAccountGroup
+   */
+
+  public com.poesys.accounting.db.account.IAccountGroup getGroup() {
+    return group;
+  }
+
+  /**
+   * Clear the group data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
+  public void clearGroup() {
+    // Override in proxy if lazily loaded; otherwise does nothing
+  }
+
+  /**
+   * <p>
+   * Set the group.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * the group into which the account is aggregated
+   * </p>
+   *
+   * @param group the value with which to set the property
+   */
+  public void setGroup(com.poesys.accounting.db.account.IAccountGroup group)
+      throws com.poesys.db.InvalidParametersException {
+    if (group == null) {
+      throw new com.poesys.db.InvalidParametersException("group is required");
+    }
+    
+    this.group = group;
+    setChanged();
+  }
+  /**
+   * Nested property accountType
+   *
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   *
+   * Added by AddNaturalKeyProperties + AddParentKeyAttributes + AddToOneAssociationAttributeProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: false
+   * Property is lazy: false
+   */
+  private java.lang.String accountType;
+  
+  /**
+   * Get an object of java.lang.String.
+   *
+   * Source: AddNaturalKeyProperties + AddParentKeyAttributes + AddToOneAssociationAttributeProperties
+   * 
+   * @return a java.lang.String
+   */
+
+  public java.lang.String getAccountType() {
+    return accountType;
+  }
+
+  /**
+   * Clear the accountType data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
+  public void clearAccountType() {
+    // Override in proxy if lazily loaded; otherwise does nothing
+  }
+
+  /**
+   * <p>
+   * Set the accountType.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: false</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   *
+   * @param accountType the value with which to set the property
+   */
+  void setAccountType(java.lang.String accountType)
+      throws com.poesys.db.InvalidParametersException {
+    if (accountType == null) {
+      throw new com.poesys.db.InvalidParametersException("accountType is required");
+    }
+    
+    this.accountType = accountType;
+    setChanged();
+  }
+  /**
+   * Nested property groupOrderNumber
+   *
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   *
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: false
+   * Property is lazy: false
+   */
+  private java.lang.Integer groupOrderNumber;
+  
+  /**
+   * Get an object of java.lang.Integer.
+   *
+   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
+   * 
+   * @return a java.lang.Integer
+   */
+
+  public java.lang.Integer getGroupOrderNumber() {
+    return groupOrderNumber;
+  }
+
+  /**
+   * Clear the groupOrderNumber data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
+  public void clearGroupOrderNumber() {
+    // Override in proxy if lazily loaded; otherwise does nothing
+  }
+
+  /**
+   * <p>
+   * Set the groupOrderNumber.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: false</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * Foreign key used by setter to query associated object
+   * </p>
+   *
+   * @param groupOrderNumber the value with which to set the property
+   */
+  void setGroupOrderNumber(java.lang.Integer groupOrderNumber)
+      throws com.poesys.db.InvalidParametersException {
+    if (groupOrderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("groupOrderNumber is required");
+    }
+    
+    this.groupOrderNumber = groupOrderNumber;
     setChanged();
   }
   /**

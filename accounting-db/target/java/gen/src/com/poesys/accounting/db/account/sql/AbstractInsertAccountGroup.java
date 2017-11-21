@@ -21,7 +21,7 @@ import com.poesys.db.pk.IPrimaryKey;
  */
 public class AbstractInsertAccountGroup implements IInsertSql<com.poesys.accounting.db.account.IAccountGroup> {
   private static final String SQL =
-    "INSERT INTO AccountGroup (groupName) VALUES (?)";
+    "INSERT INTO AccountGroup (accountType, orderNumber, groupName) VALUES (?,?,?)";
 
   @Override
   public String getSql(IPrimaryKey key) {
@@ -31,6 +31,13 @@ public class AbstractInsertAccountGroup implements IInsertSql<com.poesys.account
   @Override
   public void setParams(PreparedStatement stmt, int index, 
                         com.poesys.accounting.db.account.IAccountGroup object) {
+    try {
+      stmt.setString(index, object.getGroupName());
+    } catch (java.sql.SQLException e) {
+      String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
+      throw new com.poesys.db.DbErrorException(message, e);
+    }
+    index++;
   }
   
   @Override
@@ -39,6 +46,10 @@ public class AbstractInsertAccountGroup implements IInsertSql<com.poesys.account
 
     // Get the primary key string
     builder.append(object.getPrimaryKey().getStringKey());
+    // Get the non-key attributes.
+    builder.append(", ");
+    builder.append("groupName: ");
+    builder.append(object.getGroupName());
     return builder.toString();
   }
 }

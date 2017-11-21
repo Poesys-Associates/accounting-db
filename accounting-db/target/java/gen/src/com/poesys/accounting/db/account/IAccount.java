@@ -156,95 +156,9 @@ public interface IAccount extends IDbDto {
 
   /**
    * <p>
-   * the kind of account:
-   * </p>
-   * <p>
-   * <ul>
-   * </p>
-   * <p>
-   * <li>Asset: a kind of property with a value owned by the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Liability: a kind of debt owed by the accounting entity to another
-   * entity</li>
-   * </p>
-   * <p>
-   * <li>Equity: a kind of fund invested by the accounting entity in the business;
-   * the difference between value of assets and value of liabilities</li>
-   * </p>
-   * <p>
-   * <li>Income: revenues paid to the accounting entity</li>
-   * </p>
-   * <p>
-   * <li>Expense: money paid by the accounting entity to another entity</li>
-   * </p>
-   * <p>
-   * </ul>
-   * </p>
-   * <p>
-   * Added by AddLocalAttributeProperties
-   * Owning DTO: ${property.dto.name}
-   * Owning package: ${property.dto.packageName}
-   * Property prefix: accountType
-   * </p>
-   * @return a java.lang.String accountType
-   */
-  public java.lang.String getAccountType();
-// Setter here if the four conditions below are all true or not false
-// Read/Write DTO: true
-// Mutable DTO: not false
-// Mutable property: not false
-// Read/Write property: true
-
-  /**
-   * <p>
-   * Set the accountType.
-   * </p>
-   *
-   * @param accountType the value to set into the accountType
-   * @throws com.poesys.db.InvalidParametersException when the accountType 
-   *       value is null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
-   */
-  public void setAccountType(java.lang.String accountType) throws com.poesys.db.InvalidParametersException;
-
-
-  /**
-   * <p>
-   * whether this account is a receivable account, representing an asset that is a
-   * debt owed to the accounting entity
-   * </p>
-   * <p>
-   * Added by AddLocalAttributeProperties
-   * Owning DTO: ${property.dto.name}
-   * Owning package: ${property.dto.packageName}
-   * Property prefix: receivable
-   * </p>
-   * @return a java.lang.Boolean receivable
-   */
-  public java.lang.Boolean getReceivable();
-// Setter here if the four conditions below are all true or not false
-// Read/Write DTO: true
-// Mutable DTO: not false
-// Mutable property: not false
-// Read/Write property: true
-
-  /**
-   * <p>
-   * Set the receivable.
-   * </p>
-   *
-   * @param receivable the value to set into the receivable
-   * @throws com.poesys.db.InvalidParametersException when the receivable 
-   *       value is null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
-   */
-  public void setReceivable(java.lang.Boolean receivable) throws com.poesys.db.InvalidParametersException;
-
-
-  /**
-   * <p>
-   * whether the account is active at the present time.
+   * whether the account is active at the present time; an inactive account does not
+   * appear in lists of accounts available through the user interface but does appear
+   * in reports where referenced by items
    * </p>
    * <p>
    * Added by AddLocalAttributeProperties
@@ -272,38 +186,6 @@ public interface IAccount extends IDbDto {
    * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
   public void setActive(java.lang.Boolean active) throws com.poesys.db.InvalidParametersException;
-
-
-  /**
-   * <p>
-   * the group into which the account is aggregated
-   * </p>
-   * <p>
-   * Added by AddToOneAssociationRequiredObjectProperties
-   * Owning DTO: AccountGroup
-   * Owning package: com.poesys.accounting.db.account
-   * Property prefix: group
-   * </p>
-   * @return a com.poesys.accounting.db.account.IAccountGroup group
-   */
-  public com.poesys.accounting.db.account.IAccountGroup getGroup();
-// Setter here if the four conditions below are all true or not false
-// Read/Write DTO: true
-// Mutable DTO: not false
-// Mutable property: not false
-// Read/Write property: true
-
-  /**
-   * <p>
-   * Set the group.
-   * </p>
-   *
-   * @param group the value to set into the group
-   * @throws com.poesys.db.InvalidParametersException when the group 
-   *       value is null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
-   */
-  public void setGroup(com.poesys.accounting.db.account.IAccountGroup group) throws com.poesys.db.InvalidParametersException;
 
 
   /**
@@ -335,25 +217,6 @@ public interface IAccount extends IDbDto {
    */
   public void setEntity(com.poesys.accounting.db.account.IEntity entity) throws com.poesys.db.InvalidParametersException;
 
-
-  /**
-   * <p>
-   * Foreign key used by setter to query associated object
-   * </p>
-   * <p>
-   * Added by AddNaturalKeyProperties + AddToOneAssociationAttributeProperties
-   * Owning DTO: AccountGroup
-   * Owning package: com.poesys.accounting.db.account
-   * Property prefix: group
-   * </p>
-   * @return a java.lang.String groupName
-   */
-  public java.lang.String getGroupName();
-// Setter here if the four conditions below are all true or not false
-// Read/Write DTO: true
-// Mutable DTO: not false
-// Mutable property: not false
-// Read/Write property: false
 
   /**
    * <p>

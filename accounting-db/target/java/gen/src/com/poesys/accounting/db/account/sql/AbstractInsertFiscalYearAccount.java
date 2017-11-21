@@ -21,7 +21,7 @@ import com.poesys.db.pk.IPrimaryKey;
  */
 public class AbstractInsertFiscalYearAccount implements IInsertSql<com.poesys.accounting.db.account.IFiscalYearAccount> {
   private static final String SQL =
-    "INSERT INTO FiscalYearAccount (accountName, entityName, year, orderNumber) VALUES (?,?,?,?)";
+    "INSERT INTO FiscalYearAccount (accountName, entityName, year, orderNumber, accountType, groupOrderNumber) VALUES (?,?,?,?,?,?)";
 
   @Override
   public String getSql(IPrimaryKey key) {
@@ -33,6 +33,20 @@ public class AbstractInsertFiscalYearAccount implements IInsertSql<com.poesys.ac
                         com.poesys.accounting.db.account.IFiscalYearAccount object) {
     try {
       stmt.setInt(index, object.getOrderNumber());
+    } catch (java.sql.SQLException e) {
+      String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
+      throw new com.poesys.db.DbErrorException(message, e);
+    }
+    index++;
+    try {
+      stmt.setString(index, object.getAccountType());
+    } catch (java.sql.SQLException e) {
+      String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
+      throw new com.poesys.db.DbErrorException(message, e);
+    }
+    index++;
+    try {
+      stmt.setInt(index, object.getGroupOrderNumber());
     } catch (java.sql.SQLException e) {
       String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
       throw new com.poesys.db.DbErrorException(message, e);
@@ -50,6 +64,14 @@ public class AbstractInsertFiscalYearAccount implements IInsertSql<com.poesys.ac
     builder.append(", ");
     builder.append("orderNumber: ");
     builder.append(object.getOrderNumber());
+    // Get the non-key attributes.
+    builder.append(", ");
+    builder.append("accountType: ");
+    builder.append(object.getAccountType());
+    // Get the non-key attributes.
+    builder.append(", ");
+    builder.append("groupOrderNumber: ");
+    builder.append(object.getGroupOrderNumber());
     return builder.toString();
   }
 }

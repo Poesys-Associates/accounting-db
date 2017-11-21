@@ -142,21 +142,28 @@ public abstract class AbstractEntityDelegate
    * an association key. This class links the input objects.
    * 
    * @param accountsObject associated Account object (part of the key)
+   * @param groupObject associated AccountGroup object (part of the key)
    * @param yearsObject associated FiscalYear object (part of the key)
    * @param accountName Attribute that is part of the association key
    * @param entityName Attribute that is part of the association key
    * @param year Attribute that is part of the association key
-   * @param orderNumber the integer rank of the account in the list of accounts
+   * @param orderNumber the integer rank of the account within the associated account group; there will
+be duplicates for the set of accounts in a fiscal year as there are multiple
+account groups for the fiscal year
+   * @param accountType foreign key used by setter to query associated object
+   * @param groupOrderNumber foreign key used by setter to query associated object
+   * @param group the group into which the account is aggregated
    * @return a new FiscalYearAccount business layer DTO
    * @throws DelegateException when a parameter causes a problem
    */
-  public com.poesys.accounting.bs.account.BsFiscalYearAccount createFiscalYearAccount(com.poesys.accounting.bs.account.BsAccount accountsObject, com.poesys.accounting.bs.account.BsFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber) throws DelegateException {
+  public com.poesys.accounting.bs.account.BsFiscalYearAccount createFiscalYearAccount(com.poesys.accounting.bs.account.BsAccount accountsObject, com.poesys.accounting.bs.account.BsAccountGroup groupObject, com.poesys.accounting.bs.account.BsFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber, java.lang.String accountType, java.lang.Integer groupOrderNumber, com.poesys.accounting.db.account.IAccountGroup group) throws DelegateException {
     // Create the key.
     com.poesys.db.pk.AssociationPrimaryKey key = null;
     try {
       java.util.ArrayList<com.poesys.db.pk.IPrimaryKey> list =
         new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
       list.add(accountsObject.getPrimaryKey());
+      list.add(groupObject.getPrimaryKey());
       list.add(yearsObject.getPrimaryKey());
       key = 
         com.poesys.db.pk.PrimaryKeyFactory.createAssociationKey(list, "com.poesys.accounting.db.account.FiscalYearAccount");
@@ -172,7 +179,7 @@ public abstract class AbstractEntityDelegate
 
     // Create an association-key child data-access FiscalYearAccount DTO proxy (supports lazy loading).
     com.poesys.accounting.db.account.IFiscalYearAccount dto =
-      new com.poesys.accounting.db.account.FiscalYearAccountProxy(new com.poesys.accounting.db.account.FiscalYearAccount(key, accountsObject.toDto(), yearsObject.toDto(), accountName, entityName, year, orderNumber));
+      new com.poesys.accounting.db.account.FiscalYearAccountProxy(new com.poesys.accounting.db.account.FiscalYearAccount(key, accountsObject.toDto(), groupObject.toDto(), yearsObject.toDto(), accountName, entityName, year, orderNumber, accountType, groupOrderNumber, group));
 
     // Create the business DTO.
     return new com.poesys.accounting.bs.account.BsFiscalYearAccount(dto);
@@ -186,24 +193,13 @@ public abstract class AbstractEntityDelegate
    * @param description text description of the nature of the account
    * @param debitDefault whether the account transaction items default to a debit or credit item; chosen
 as the "usual" value for items in this account
-   * @param accountType the kind of account:
-<ul>
-<li>Asset: a kind of property with a value owned by the accounting entity</li>
-<li>Liability: a kind of debt owed by the accounting entity to another
-entity</li>
-<li>Equity: a kind of fund invested by the accounting entity in the business;
-the difference between value of assets and value of liabilities</li>
-<li>Income: revenues paid to the accounting entity</li>
-<li>Expense: money paid by the accounting entity to another entity</li>
-</ul>
-   * @param receivable whether this account is a receivable account, representing an asset that is a
-debt owed to the accounting entity
-   * @param active whether the account is active at the present time.
-   * @param groupName foreign key used by setter to query associated object
+   * @param active whether the account is active at the present time; an inactive account does not
+appear in lists of accounts available through the user interface but does appear
+in reports where referenced by items
    * @return a new Account business layer DTO
    * @throws DelegateException when a parameter causes a problem
    */
-  public com.poesys.accounting.bs.account.BsAccount createAccount(com.poesys.accounting.bs.account.BsEntity parent, java.lang.String entityName, java.lang.String accountName, java.lang.String description, java.lang.Boolean debitDefault, java.lang.String accountType, java.lang.Boolean receivable, java.lang.Boolean active, java.lang.String groupName) throws DelegateException {
+  public com.poesys.accounting.bs.account.BsAccount createAccount(com.poesys.accounting.bs.account.BsEntity parent, java.lang.String entityName, java.lang.String accountName, java.lang.String description, java.lang.Boolean debitDefault, java.lang.Boolean active) throws DelegateException {
     // Create the key.
     com.poesys.db.pk.CompositePrimaryKey key = null;
     try {
@@ -228,7 +224,7 @@ debt owed to the accounting entity
 
     // Create a composite-key child data-access Account DTO proxy (supports lazy loading).
     com.poesys.accounting.db.account.IAccount dto =
-      new com.poesys.accounting.db.account.AccountProxy(new com.poesys.accounting.db.account.Account(key, entityName, accountName, description, debitDefault, accountType, receivable, active, groupName));
+      new com.poesys.accounting.db.account.AccountProxy(new com.poesys.accounting.db.account.Account(key, entityName, accountName, description, debitDefault, active));
 
     // Create the business DTO.
     return new com.poesys.accounting.bs.account.BsAccount(dto);

@@ -15,8 +15,8 @@ package com.poesys.accounting.db.account;
  * when you run it but will never overwrite this concrete subclass.
  * </p>
  * <p>
- * A named group of accounts, grouping the accounts for presentation and
- * aggregation in financial statements
+ * A named group of fiscal-year accounts, grouping the accounts for presentation
+ * and aggregation in financial statements for the fiscal year
  * </p>
  * 
  * @author Poesys/DB Cartridge

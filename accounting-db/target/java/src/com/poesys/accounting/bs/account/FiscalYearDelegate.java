@@ -6,7 +6,13 @@
 package com.poesys.accounting.bs.account;
 
 
+import com.poesys.accounting.db.account.AccountFactory;
+import com.poesys.accounting.db.account.FiscalYearAccount;
+import com.poesys.accounting.db.account.FiscalYearAccountProxy;
+import com.poesys.accounting.db.account.IAccountGroup;
+import com.poesys.bs.delegate.DelegateException;
 import com.poesys.db.connection.IConnectionFactory;
+import com.poesys.db.pk.IPrimaryKey;
 
 
 /**
@@ -17,9 +23,10 @@ import com.poesys.db.connection.IConnectionFactory;
  * methods in that class or to add operations to the API.
  * </p>
  * <p>
- * An accounting period, usually either coterminous with a calendar year with the
- * same name or varying over an annual period starting on a particular calendar
- * date within the year; identifies a complete accounting period for statements
+ * An accounting period, usually either coterminous with a calendar year with
+ * the same name or varying over an annual period starting on a particular
+ * calendar date within the year; identifies a complete accounting period for
+ * statements
  * </p>
  * 
  * @author Poesys/DB Cartridge
@@ -34,7 +41,7 @@ public class FiscalYearDelegate extends AbstractFiscalYearDelegate {
   public FiscalYearDelegate(String subsystem) {
     super(subsystem);
   }
-  
+
   /**
    * Create a FiscalYearDelegate object with a supplied subsystem and DBMS,
    * usually JNDI for production/test usage with an application server.
@@ -45,5 +52,42 @@ public class FiscalYearDelegate extends AbstractFiscalYearDelegate {
   public FiscalYearDelegate(String subsystem, IConnectionFactory.DBMS dbms) {
     super(subsystem, dbms);
   }
-  
+
+  // Corrects bad key generation (shouldn't include group in key)
+  @Override
+  public BsFiscalYearAccount createFiscalYearAccount(BsAccount accountsObject,
+                                                     BsAccountGroup groupObject,
+                                                     BsFiscalYear yearsObject,
+                                                     String accountName,
+                                                     String entityName,
+                                                     Integer year,
+                                                     Integer orderNumber,
+                                                     String accountType,
+                                                     Integer groupOrderNumber,
+                                                     IAccountGroup group)
+      throws DelegateException {
+    // Create the key.
+    IPrimaryKey key =
+      AccountFactory.getFiscalYearAccountPrimaryKey(accountName,
+                                                    entityName,
+                                                    year);
+
+    // Create an association-key child data-access FiscalYearAccount DTO proxy
+    // (supports lazy loading).
+    com.poesys.accounting.db.account.IFiscalYearAccount dto =
+      new FiscalYearAccountProxy(new FiscalYearAccount(key,
+                                                       accountsObject.toDto(),
+                                                       groupObject.toDto(),
+                                                       yearsObject.toDto(),
+                                                       accountName,
+                                                       entityName,
+                                                       year,
+                                                       orderNumber,
+                                                       accountType,
+                                                       groupOrderNumber,
+                                                       group));
+
+    // Create the business DTO.
+    return new BsFiscalYearAccount(dto);
+  }
 }
