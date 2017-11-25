@@ -30,7 +30,7 @@ public abstract class AbstractQueryAllFiscalYearAccount implements IQuerySql<com
   private static final Logger logger = Logger.getLogger(AbstractQueryAllFiscalYearAccount.class);
   /** SQL query statement for FiscalYearAccount */
   private static final String SQL =
-    "SELECT accountName, entityName, year, orderNumber, accountType, groupOrderNumber FROM FiscalYearAccount";
+    "SELECT accountName, entityName, year, accountOrderNumber, groupOrderNumber, accountType, groupName FROM FiscalYearAccount";
 
   @Override
   public com.poesys.accounting.db.account.IFiscalYearAccount getData(ResultSet rs) {

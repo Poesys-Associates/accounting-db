@@ -17,9 +17,10 @@ CREATE TABLE FiscalYearAccount (
   accountName VARCHAR(100) NOT NULL,  
   entityName VARCHAR(500) NOT NULL,  
   year INT(4) NOT NULL,  
-  orderNumber INT NOT NULL,  
-  accountType VARCHAR(15) NOT NULL,  
+  accountOrderNumber INT NOT NULL,  
   groupOrderNumber INT NOT NULL,  
+  accountType VARCHAR(15) NOT NULL,  
+  groupName VARCHAR(100) NOT NULL,  
   CONSTRAINT FiscalYearAccountPK PRIMARY KEY (accountName, entityName, year)
 ) ENGINE=InnoDB CHARSET=utf8;
 
@@ -34,9 +35,8 @@ CREATE TABLE Account (
 
 CREATE TABLE AccountGroup (
   accountType VARCHAR(15) NOT NULL,  
-  orderNumber INT NOT NULL,  
   groupName VARCHAR(100) NOT NULL,  
-  CONSTRAINT AccountGroupPK PRIMARY KEY (accountType, orderNumber)
+  CONSTRAINT AccountGroupPK PRIMARY KEY (accountType, groupName)
 ) ENGINE=InnoDB CHARSET=utf8;
 
 CREATE TABLE Entity (

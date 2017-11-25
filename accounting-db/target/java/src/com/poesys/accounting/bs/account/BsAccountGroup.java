@@ -50,13 +50,11 @@ public class BsAccountGroup extends com.poesys.accounting.bs.account.AbstractBsA
    * </p>
    *
    * @param key the primary key of the AccountGroup
-   * @param name composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
-   * @param orderNumber the relative position of the account group in the ordered list of groups
-belonging to the account type
+   * @param accountType composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
    * @param groupName the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
 Payable, Tax-Related Expenses
    */
-  public BsAccountGroup(IPrimaryKey key, java.lang.String name, java.lang.Integer orderNumber, java.lang.String groupName) {
-    super(key, name, orderNumber, groupName); 
+  public BsAccountGroup(IPrimaryKey key, java.lang.String accountType, java.lang.String groupName) {
+    super(key, accountType, groupName); 
   }
 }

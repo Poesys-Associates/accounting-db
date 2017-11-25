@@ -17,9 +17,10 @@ CREATE TABLE FiscalYearAccount (
   accountName VARCHAR(100) NOT NULL,  
   entityName VARCHAR(500) NOT NULL,  
   year INTEGER(4) NOT NULL,  
-  orderNumber INTEGER NOT NULL,  
-  accountType VARCHAR(15) NOT NULL,  
+  accountOrderNumber INTEGER NOT NULL,  
   groupOrderNumber INTEGER NOT NULL,  
+  accountType VARCHAR(15) NOT NULL,  
+  groupName VARCHAR(100) NOT NULL,  
   CONSTRAINT FiscalYearAccountPK PRIMARY KEY (accountName, entityName, year)
 );
 
@@ -34,9 +35,8 @@ CREATE TABLE Account (
 
 CREATE TABLE AccountGroup (
   accountType VARCHAR(15) NOT NULL,  
-  orderNumber INTEGER NOT NULL,  
   groupName VARCHAR(100) NOT NULL,  
-  CONSTRAINT AccountGroupPK PRIMARY KEY (accountType, orderNumber)
+  CONSTRAINT AccountGroupPK PRIMARY KEY (accountType, groupName)
 );
 
 CREATE TABLE Entity (

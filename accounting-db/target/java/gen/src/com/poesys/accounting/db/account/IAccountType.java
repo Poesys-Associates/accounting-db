@@ -78,9 +78,9 @@ public interface IAccountType extends IDbDto {
    * Owning package: com.poesys.accounting.db.account
    * Property prefix: groups
    * </p>
-   * @return a java.util.List<com.poesys.accounting.db.account.IAccountGroup> groups
+   * @return a java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> groups
    */
-  public java.util.List<com.poesys.accounting.db.account.IAccountGroup> getGroups();
+  public java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> getGroups();
 // Setter here if the four conditions below are all true or not false
 // Read/Write DTO: true
 // Mutable DTO: not false
@@ -97,7 +97,7 @@ public interface IAccountType extends IDbDto {
    *       value is null
    * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setGroups(java.util.List<com.poesys.accounting.db.account.IAccountGroup> groups) throws com.poesys.db.InvalidParametersException;
+  public void setGroups(java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> groups) throws com.poesys.db.InvalidParametersException;
 
 
   /**

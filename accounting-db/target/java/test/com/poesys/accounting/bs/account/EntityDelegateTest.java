@@ -74,8 +74,9 @@ public class EntityDelegateTest extends
                                          accountsObject.getEntityName(),
                                          yearsObject.getYear(),
                                          i,
+                                         i,
                                          groupObject.getAccountType(),
-                                         groupObject.getOrderNumber(),
+                                         groupObject.getGroupName(),
                                          groupList.get(i));
       objects.add(link);
     }

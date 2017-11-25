@@ -6,6 +6,9 @@
 
 -- Drop all database tables. Order is important.
 
+DROP TABLE IdMap;
+DROP TABLE Sequence;
+
 DROP TABLE Reimbursement;
 DROP TABLE Item;
 DROP TABLE Transaction;
@@ -20,6 +23,3 @@ DROP TABLE AccountGroup;
 DROP TABLE AccountType;
 DROP TABLE Entity;
 DROP TABLE FiscalYear;
-
-DROP TABLE IdMap;
-DROP TABLE Sequence;

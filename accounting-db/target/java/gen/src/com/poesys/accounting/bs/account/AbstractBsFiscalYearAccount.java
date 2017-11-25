@@ -69,15 +69,20 @@ public abstract class AbstractBsFiscalYearAccount
    * @param accountName Attribute that is part of the association key
    * @param entityName Attribute that is part of the association key
    * @param year Attribute that is part of the association key
-   * @param orderNumber the integer rank of the account within the associated account group; there will
-be duplicates for the set of accounts in a fiscal year as there are multiple
-account groups for the fiscal year
+   * @param accountOrderNumber the integer rank order of the account within the associated account group for
+this fiscal year; the numbers form an ordering of all the objects with the same
+fiscal year, and different fiscal years start from one, so there are duplicate
+order numbers across fiscal years
+   * @param groupOrderNumber the integer rank order of the account group within the account type associated
+with the group for this fiscal year; the numbers form a rank order for groups
+within types for each fiscal year, and the rank order repeats for different
+fiscal years, resulting in duplicate order numbers in different fiscal years
    * @param accountType foreign key used by setter to query associated object
-   * @param groupOrderNumber foreign key used by setter to query associated object
+   * @param groupName foreign key used by setter to query associated object
    * @param group the group into which the account is aggregated
    */
-  public AbstractBsFiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IAccountGroup groupObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber, java.lang.String accountType, java.lang.Integer groupOrderNumber, com.poesys.accounting.db.account.IAccountGroup group) {
-    super(new FiscalYearAccountProxy(new FiscalYearAccount(key, accountsObject, groupObject, yearsObject, accountName, entityName, year, orderNumber, accountType, groupOrderNumber, group)));
+  public AbstractBsFiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IAccountGroup groupObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer accountOrderNumber, java.lang.Integer groupOrderNumber, java.lang.String accountType, java.lang.String groupName, com.poesys.accounting.db.account.IAccountGroup group) {
+    super(new FiscalYearAccountProxy(new FiscalYearAccount(key, accountsObject, groupObject, yearsObject, accountName, entityName, year, accountOrderNumber, groupOrderNumber, accountType, groupName, group)));
   }
 
   @SuppressWarnings("unchecked")
@@ -109,9 +114,10 @@ account groups for the fiscal year
 
   /**
    * <p>
-   * the integer rank of the account within the associated account group; there will
-   * be duplicates for the set of accounts in a fiscal year as there are multiple
-   * account groups for the fiscal year
+   * the integer rank order of the account within the associated account group for
+   * this fiscal year; the numbers form an ordering of all the objects with the same
+   * fiscal year, and different fiscal years start from one, so there are duplicate
+   * order numbers across fiscal years
    * </p>
    * <p>
    * Added by AddLocalAttributeProperties as data member
@@ -120,20 +126,21 @@ account groups for the fiscal year
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object FiscalYearAccount</li>
    * </ul>
-   * @return a java.lang.Integer orderNumber
+   * @return a java.lang.Integer accountOrderNumber
    */
-  public java.lang.Integer getOrderNumber() {
-    return dto.getOrderNumber();
+  public java.lang.Integer getAccountOrderNumber() {
+    return dto.getAccountOrderNumber();
   }
 
   /**
    * <p>
-   * Set the orderNumber.
+   * Set the accountOrderNumber.
    * </p>
    * <p>
-   * the integer rank of the account within the associated account group; there will
-   * be duplicates for the set of accounts in a fiscal year as there are multiple
-   * account groups for the fiscal year
+   * the integer rank order of the account within the associated account group for
+   * this fiscal year; the numbers form an ordering of all the objects with the same
+   * fiscal year, and different fiscal years start from one, so there are duplicate
+   * order numbers across fiscal years
    * </p>
    * <p>
    * Added by AddLocalAttributeProperties
@@ -142,15 +149,63 @@ account groups for the fiscal year
    * <li>Property is read/write: true</li>
    * <li>Property is defined in the data-access object FiscalYearAccount</li>
    * </ul>
-   * @param orderNumber the associated business object
+   * @param accountOrderNumber the associated business object
    * @throws com.poesys.db.dto.DtoStatusException when the system can't set
    *                 the data-access status to CHANGED
    * @throws com.poesys.db.InvalidParametersException when the property is
-   *                 required but the input parameter orderNumber is null
+   *                 required but the input parameter accountOrderNumber is null
    */
-  public void setOrderNumber(java.lang.Integer orderNumber) 
+  public void setAccountOrderNumber(java.lang.Integer accountOrderNumber) 
       throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
-    dto.setOrderNumber(orderNumber);
+    dto.setAccountOrderNumber(accountOrderNumber);
+  }
+
+  /**
+   * <p>
+   * the integer rank order of the account group within the account type associated
+   * with the group for this fiscal year; the numbers form a rank order for groups
+   * within types for each fiscal year, and the rank order repeats for different
+   * fiscal years, resulting in duplicate order numbers in different fiscal years
+   * </p>
+   * <p>
+   * Added by AddLocalAttributeProperties as data member
+   * </p>
+   * <ul>
+   * <li>Property is read/write: true</li>
+   * <li>Property is defined in the data-access object FiscalYearAccount</li>
+   * </ul>
+   * @return a java.lang.Integer groupOrderNumber
+   */
+  public java.lang.Integer getGroupOrderNumber() {
+    return dto.getGroupOrderNumber();
+  }
+
+  /**
+   * <p>
+   * Set the groupOrderNumber.
+   * </p>
+   * <p>
+   * the integer rank order of the account group within the account type associated
+   * with the group for this fiscal year; the numbers form a rank order for groups
+   * within types for each fiscal year, and the rank order repeats for different
+   * fiscal years, resulting in duplicate order numbers in different fiscal years
+   * </p>
+   * <p>
+   * Added by AddLocalAttributeProperties
+   * </p>
+   * <ul>
+   * <li>Property is read/write: true</li>
+   * <li>Property is defined in the data-access object FiscalYearAccount</li>
+   * </ul>
+   * @param groupOrderNumber the associated business object
+   * @throws com.poesys.db.dto.DtoStatusException when the system can't set
+   *                 the data-access status to CHANGED
+   * @throws com.poesys.db.InvalidParametersException when the property is
+   *                 required but the input parameter groupOrderNumber is null
+   */
+  public void setGroupOrderNumber(java.lang.Integer groupOrderNumber) 
+      throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
+    dto.setGroupOrderNumber(groupOrderNumber);
   }
 
   /**
@@ -225,11 +280,11 @@ account groups for the fiscal year
    * <li>Property is read/write: false</li>
    * <li>Property is defined in the data-access object FiscalYearAccount</li>
    * </ul>
-   * @return a java.lang.Integer groupOrderNumber
+   * @return a java.lang.String groupName
    */
-  public java.lang.Integer getGroupOrderNumber() {
+  public java.lang.String getGroupName() {
     // Return 3
-    return dto.getGroupOrderNumber();
+    return dto.getGroupName();
   }
 
   /**

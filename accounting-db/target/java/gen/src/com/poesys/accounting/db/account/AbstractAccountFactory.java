@@ -16,7 +16,7 @@ import com.poesys.db.pk.IPrimaryKey;
 
 /**
  * <p>
- * A separate, shareable set of factory methods for all the account classes,
+ * A separate, sharable set of factory methods for all the account classes,
  * including JDBC data-setting, parameter-setting, and primary-key-generation
  * methods. This class is abstract and has a single concrete subclass,
  * AccountFactory, that you can modify to override the default behavior in the
@@ -160,15 +160,17 @@ public abstract class AbstractAccountFactory {
     java.lang.String entityNameValue = rs.getString("entityName");
     // Constructor argument year gets the JDBC value with a function call.
     java.lang.Integer yearValue = rs.getInt("year");
-    // Constructor argument orderNumber gets the JDBC value with a function
-    // call.
-    java.lang.Integer orderNumberValue = rs.getInt("orderNumber");
-    // Constructor argument accountType gets the JDBC value with a function
-    // call.
-    java.lang.String accountTypeValue = rs.getString("accountType");
+    // Constructor argument accountOrderNumber gets the JDBC value with a
+    // function call.
+    java.lang.Integer accountOrderNumberValue = rs.getInt("accountOrderNumber");
     // Constructor argument groupOrderNumber gets the JDBC value with a function
     // call.
     java.lang.Integer groupOrderNumberValue = rs.getInt("groupOrderNumber");
+    // Constructor argument accountType gets the JDBC value with a function
+    // call.
+    java.lang.String accountTypeValue = rs.getString("accountType");
+    // Constructor argument groupName gets the JDBC value with a function call.
+    java.lang.String groupNameValue = rs.getString("groupName");
     com.poesys.accounting.db.account.IAccountGroup groupValue = null;
     // FiscalYearAccount has lazily loaded members or is a lazily loaded
     // association class, so create a Proxy.
@@ -180,9 +182,10 @@ public abstract class AbstractAccountFactory {
                                                        accountNameValue,
                                                        entityNameValue,
                                                        yearValue,
-                                                       orderNumberValue,
-                                                       accountTypeValue,
+                                                       accountOrderNumberValue,
                                                        groupOrderNumberValue,
+                                                       accountTypeValue,
+                                                       groupNameValue,
                                                        groupValue));
     return newObject;
   }
@@ -409,14 +412,11 @@ public abstract class AbstractAccountFactory {
     // Constructor argument accountType gets the JDBC value with a function
     // call.
     java.lang.String accountTypeValue = rs.getString("accountType");
-    // Constructor argument orderNumber gets the JDBC value with a function
-    // call.
-    java.lang.Integer orderNumberValue = rs.getInt("orderNumber");
     // Constructor argument groupName gets the JDBC value with a function call.
     java.lang.String groupNameValue = rs.getString("groupName");
     // AccountGroup has no lazily loaded members, so there is no need for Proxy.
     IAccountGroup newObject =
-      new AccountGroup(key, accountTypeValue, orderNumberValue, groupNameValue);
+      new AccountGroup(key, accountTypeValue, groupNameValue);
     return newObject;
   }
 
@@ -446,23 +446,9 @@ public abstract class AbstractAccountFactory {
   public static IPrimaryKey getAccountGroupPrimaryKey(ResultSet rs,
                                                       String prefix)
       throws SQLException, InvalidParametersException {
-    IPrimaryKey key = null;
-    if (prefix == null) {
-      prefix = "";
-    }
-    IPrimaryKey parentKey = getAccountTypePrimaryKey(rs, "");
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
-    java.lang.Integer orderNumberValue = rs.getInt("orderNumber");
-    list.add(new com.poesys.db.col.IntegerColumnValue(prefix + "orderNumber",
-                                                      orderNumberValue));
-    IPrimaryKey subKey =
-      com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                          "com.poesys.accounting.db.account.AccountGroup");
-    key =
-      com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(parentKey,
-                                                            subKey,
-                                                            "com.poesys.accounting.db.account.AccountGroup");
+    IPrimaryKey key =
+      getAccountGroupPrimaryKey(rs.getString("accountType"),
+                                rs.getString("groupName"));
     return key;
   }
 
@@ -482,13 +468,12 @@ public abstract class AbstractAccountFactory {
    * 
    * @param accountType composite super-key attribute that uniquely identifies
    *          child combined with child sub-key and any other parent super-keys
-   * @param orderNumber the relative position of the account group in the
-   *          ordered list of groups belonging to the account type
+   * @param groupName the name of the account group within the account type
    * @return a AccountGroup CompositeKey primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
   public static IPrimaryKey getAccountGroupPrimaryKey(java.lang.String accountType,
-                                                      java.lang.Integer orderNumber)
+                                                      java.lang.String groupName)
       throws InvalidParametersException {
     IPrimaryKey key = null;
     IPrimaryKey parentKey = getAccountTypePrimaryKey(accountType);
@@ -497,8 +482,7 @@ public abstract class AbstractAccountFactory {
     if (parentKey != null) {
       java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
         new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
-      list.add(new com.poesys.db.col.IntegerColumnValue("orderNumber",
-                                                        orderNumber));
+      list.add(new com.poesys.db.col.StringColumnValue("groupName", groupName));
       IPrimaryKey subKey =
         com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
                                                             "com.poesys.accounting.db.account.AccountGroup");

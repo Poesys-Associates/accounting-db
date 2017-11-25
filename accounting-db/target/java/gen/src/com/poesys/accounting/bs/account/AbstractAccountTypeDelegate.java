@@ -143,20 +143,18 @@ public abstract class AbstractAccountTypeDelegate
    * 
    * @param parent the parent of the child object to create
    * @param accountType composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
-   * @param orderNumber the relative position of the account group in the ordered list of groups
-belonging to the account type
    * @param groupName the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
 Payable, Tax-Related Expenses
    * @return a new AccountGroup business layer DTO
    * @throws DelegateException when a parameter causes a problem
    */
-  public com.poesys.accounting.bs.account.BsAccountGroup createAccountGroup(com.poesys.accounting.bs.account.BsAccountType parent, java.lang.String accountType, java.lang.Integer orderNumber, java.lang.String groupName) throws DelegateException {
+  public com.poesys.accounting.bs.account.BsAccountGroup createAccountGroup(com.poesys.accounting.bs.account.BsAccountType parent, java.lang.String accountType, java.lang.String groupName) throws DelegateException {
     // Create the key.
     com.poesys.db.pk.CompositePrimaryKey key = null;
     try {
       java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
         new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
-      list.add(new com.poesys.db.col.IntegerColumnValue("orderNumber", orderNumber));
+      list.add(new com.poesys.db.col.StringColumnValue("groupName", groupName));
 	  com.poesys.db.pk.IPrimaryKey subKey = 
 	    com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list, "com.poesys.accounting.db.account.AccountGroup");
       key = 
@@ -175,7 +173,7 @@ Payable, Tax-Related Expenses
 
     // Create a composite-key child data-access AccountGroup DTO for direct access, no proxy required.
     com.poesys.accounting.db.account.IAccountGroup dto =
-      new com.poesys.accounting.db.account.AccountGroup(key, accountType, orderNumber, groupName);
+      new com.poesys.accounting.db.account.AccountGroup(key, accountType, groupName);
 
     // Create the business DTO.
     return new com.poesys.accounting.bs.account.BsAccountGroup(dto);

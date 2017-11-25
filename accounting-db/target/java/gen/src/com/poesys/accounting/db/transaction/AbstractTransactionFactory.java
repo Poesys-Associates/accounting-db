@@ -22,7 +22,7 @@ import com.poesys.db.pk.PrimaryKeyFactory;
 
 /**
  * <p>
- * A separate, shareable set of factory methods for all the transaction classes,
+ * A separate, sharable set of factory methods for all the transaction classes,
  * including JDBC data-setting, parameter-setting, and primary-key-generation
  * methods. This class is abstract and has a single concrete subclass,
  * TransactionFactory, that you can modify to override the default behavior in

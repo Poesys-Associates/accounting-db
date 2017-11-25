@@ -42,18 +42,18 @@ public abstract class AbstractAccountTypeProxy extends AbstractLazyLoadingDtoPro
 
 
   /**
-   * Read-Object setter for de-serializing nested groups list
+   * Read-Object setter for de-serializing nested groups collection
    *
    * Source: AddToManyChildCollectionProperties
    *
    * @see com.poesys.accounting.db.account.sql.QueryAccountGroup
    */
   private class ReadGroupsSetter 
-      extends com.poesys.db.dto.AbstractListReadSetter<com.poesys.accounting.db.account.IAccountGroup> {
+      extends com.poesys.db.dto.AbstractCollectionReadSetter<com.poesys.accounting.db.account.IAccountGroup> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create a ReadGroupsSetter object to read the groups list.
+     * Create a ReadGroupsSetter object to read the groups collection.
      */
     public ReadGroupsSetter() {
       super("com.poesys.accounting.db.account", 2147483647);
@@ -65,8 +65,8 @@ public abstract class AbstractAccountTypeProxy extends AbstractLazyLoadingDtoPro
     }
 
     @Override
-    protected java.util.List<com.poesys.accounting.db.account.IAccountGroup> getObjectList() {
-      java.util.List<com.poesys.accounting.db.account.IAccountGroup> groups =  ((com.poesys.accounting.db.account.AccountType)dto).getGroups();
+    protected java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> getObjectCollection() {
+      java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> groups =  ((com.poesys.accounting.db.account.AccountType)dto).getGroups();
       return groups;
     }
 
@@ -81,8 +81,8 @@ public abstract class AbstractAccountTypeProxy extends AbstractLazyLoadingDtoPro
     }
 
     @Override
-    protected void set(java.util.List<com.poesys.accounting.db.account.IAccountGroup> list) {
-       setGroups(list);
+    protected void set(java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> collection) {
+      setGroups(collection);
     }
   }
 
@@ -172,14 +172,14 @@ public abstract class AbstractAccountTypeProxy extends AbstractLazyLoadingDtoPro
   }
 
   /**
-   * Get a list of com.poesys.accounting.db.account.IAccountGroup
+   * Get a collection of com.poesys.accounting.db.account.IAccountGroup
    *
    * Source: AddToManyChildCollectionProperties
    * Lazy: false
    * 
-   * @return a java.util.List<com.poesys.accounting.db.account.IAccountGroup>
+   * @return a java.util.Collection<com.poesys.accounting.db.account.IAccountGroup>
    */
-  public java.util.List<com.poesys.accounting.db.account.IAccountGroup> getGroups() {
+  public java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> getGroups() {
     return ((AccountType)dto).getGroups();
   }
 
@@ -191,7 +191,7 @@ public abstract class AbstractAccountTypeProxy extends AbstractLazyLoadingDtoPro
    * @param groups the lazily loaded value to assign
    * @throws com.poesys.db.InvalidParametersException when the property value is null
    */
-  public void setGroups(java.util.List<com.poesys.accounting.db.account.IAccountGroup> groups)
+  public void setGroups(java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> groups)
       throws com.poesys.db.InvalidParametersException {
     ((AccountType)dto).setGroups(groups);
   }

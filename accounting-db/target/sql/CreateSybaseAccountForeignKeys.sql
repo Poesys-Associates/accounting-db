@@ -10,8 +10,8 @@
 -- Foreign keys for FiscalYearAccount
 
 ALTER TABLE FiscalYearAccount ADD CONSTRAINT accounts FOREIGN KEY (accountName, entityName) REFERENCES Account(accountName, entityName);
-ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, orderNumber) REFERENCES AccountGroup(accountType, orderNumber);
-ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, orderNumber) REFERENCES AccountGroup(accountType, orderNumber);
+ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, groupName) REFERENCES AccountGroup(accountType, groupName);
+ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, groupName) REFERENCES AccountGroup(accountType, groupName);
 ALTER TABLE FiscalYearAccount ADD CONSTRAINT years FOREIGN KEY (year) REFERENCES FiscalYear(year);
 
 -- Foreign keys for Account

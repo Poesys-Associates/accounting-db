@@ -34,7 +34,7 @@ public abstract class AbstractQueryAccountsByAccountGroup
     implements IParameterizedQuerySql<com.poesys.accounting.db.account.IFiscalYearAccount, com.poesys.accounting.db.account.IAccountGroup> {
   /** SQL query statement for FiscalYearAccount */
   private static final String SQL =
-    "SELECT FiscalYearAccount.accountName, FiscalYearAccount.entityName, FiscalYearAccount.year, FiscalYearAccount.orderNumber, FiscalYearAccount.accountType, FiscalYearAccount.groupOrderNumber, FiscalYearAccount.group FROM FiscalYearAccount WHERE FiscalYearAccount.accountType = ? AND FiscalYearAccount.orderNumber = ?";
+    "SELECT FiscalYearAccount.accountName, FiscalYearAccount.entityName, FiscalYearAccount.year, FiscalYearAccount.accountOrderNumber, FiscalYearAccount.groupOrderNumber, FiscalYearAccount.accountType, FiscalYearAccount.groupName, FiscalYearAccount.group FROM FiscalYearAccount WHERE FiscalYearAccount.accountType = ? AND FiscalYearAccount.groupName = ?";
 
   @Override
   public void bindParameters(PreparedStatement stmt, com.poesys.accounting.db.account.IAccountGroup parameters) {

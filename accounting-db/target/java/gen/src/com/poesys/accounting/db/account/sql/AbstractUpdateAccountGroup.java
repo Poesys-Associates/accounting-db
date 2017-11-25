@@ -21,7 +21,7 @@ import com.poesys.db.pk.IPrimaryKey;
 public class AbstractUpdateAccountGroup implements IUpdateSql<com.poesys.accounting.db.account.IAccountGroup> {
   /** SQL UPDATE statement for AccountGroup */
   private static final String SQL =
-    "UPDATE AccountGroup SET groupName = ? WHERE ";
+    "UPDATE AccountGroup SET  WHERE ";
 
   @Override
   public String getSql(IPrimaryKey key) {
@@ -32,12 +32,6 @@ public class AbstractUpdateAccountGroup implements IUpdateSql<com.poesys.account
 
   @Override
   public int setParams(PreparedStatement stmt, int index, com.poesys.accounting.db.account.IAccountGroup object) {
-    try{
-      stmt.setString(index, object.getGroupName());
-    } catch (java.sql.SQLException e) {
-      throw new com.poesys.db.DbErrorException("SQL error setting parameters", e);
-    }
-      index++;
     // sets primary key in where clause
     index = object.getPrimaryKey().setParams(stmt, index);
     return index;
@@ -46,8 +40,6 @@ public class AbstractUpdateAccountGroup implements IUpdateSql<com.poesys.account
   @Override
   public String getParamString(com.poesys.accounting.db.account.IAccountGroup dto) {
     StringBuilder builder = new StringBuilder("Parameters: \"");
-    builder.append("\", ");
-    builder.append(dto.getGroupName());
     builder.append("\"");
     return builder.toString();
   }

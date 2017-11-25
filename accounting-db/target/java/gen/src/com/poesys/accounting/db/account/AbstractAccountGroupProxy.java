@@ -93,18 +93,18 @@ public abstract class AbstractAccountGroupProxy extends AbstractLazyLoadingDtoPr
 
 
   /**
-   * Read-Object setter for de-serializing nested accounts collection
+   * Read-Object setter for de-serializing nested accounts list
    *
    * Source: TransformToProperty + AddToManyAssociationCollectionProperties
    *
    * @see com.poesys.accounting.db.account.sql.QueryFiscalYearAccount
    */
   private class ReadAccountsSetter 
-      extends com.poesys.db.dto.AbstractCollectionReadSetter<com.poesys.accounting.db.account.IFiscalYearAccount> {
+      extends com.poesys.db.dto.AbstractListReadSetter<com.poesys.accounting.db.account.IFiscalYearAccount> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create a ReadAccountsSetter object to read the accounts collection.
+     * Create a ReadAccountsSetter object to read the accounts list.
      */
     public ReadAccountsSetter() {
       super("com.poesys.accounting.db.account", 2147483647);
@@ -116,8 +116,8 @@ public abstract class AbstractAccountGroupProxy extends AbstractLazyLoadingDtoPr
     }
 
     @Override
-    protected java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> getObjectCollection() {
-      java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> accounts =  ((com.poesys.accounting.db.account.AccountGroup)dto).getAccounts();
+    protected java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> getObjectList() {
+      java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> accounts =  ((com.poesys.accounting.db.account.AccountGroup)dto).getAccounts();
       return accounts;
     }
 
@@ -132,8 +132,8 @@ public abstract class AbstractAccountGroupProxy extends AbstractLazyLoadingDtoPr
     }
 
     @Override
-    protected void set(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> collection) {
-      setAccounts(collection);
+    protected void set(java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> list) {
+       setAccounts(list);
     }
   }
 
@@ -224,34 +224,9 @@ public abstract class AbstractAccountGroupProxy extends AbstractLazyLoadingDtoPr
   }
 
   /**
-   * Get an object of java.lang.Integer
-   *
-   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
-   * Lazy: false
-   * 
-   * @return a java.lang.Integer
-   */
-  public java.lang.Integer getOrderNumber() {
-    return ((AccountGroup)dto).getOrderNumber();
-  }
-
-  /**
-   * Set the orderNumber from a lazy-loading proxy, either for lazily 
-   * loading the data or deserializing nested objects. The IDbDto-derived 
-   * interface does not contain this method.
-   *
-   * @param orderNumber the lazily loaded value to assign
-   * @throws com.poesys.db.InvalidParametersException when the property value is null
-   */
-  void setOrderNumber(java.lang.Integer orderNumber)
-      throws com.poesys.db.InvalidParametersException {
-    ((AccountGroup)dto).setOrderNumber(orderNumber);
-  }
-
-  /**
    * Get an object of java.lang.String
    *
-   * Source: AddLocalAttributeProperties
+   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
    * Lazy: false
    * 
    * @return a java.lang.String
@@ -268,7 +243,7 @@ public abstract class AbstractAccountGroupProxy extends AbstractLazyLoadingDtoPr
    * @param groupName the lazily loaded value to assign
    * @throws com.poesys.db.InvalidParametersException when the property value is null
    */
-  public void setGroupName(java.lang.String groupName)
+  void setGroupName(java.lang.String groupName)
       throws com.poesys.db.InvalidParametersException {
     ((AccountGroup)dto).setGroupName(groupName);
   }
@@ -299,14 +274,14 @@ public abstract class AbstractAccountGroupProxy extends AbstractLazyLoadingDtoPr
   }
 
   /**
-   * Get a collection of com.poesys.accounting.db.account.IFiscalYearAccount
+   * Get a list of com.poesys.accounting.db.account.IFiscalYearAccount
    *
    * Source: TransformToProperty + AddToManyAssociationCollectionProperties
    * Lazy: false
    * 
-   * @return a java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount>
+   * @return a java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount>
    */
-  public java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> getAccounts() {
+  public java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> getAccounts() {
     return ((AccountGroup)dto).getAccounts();
   }
 
@@ -317,7 +292,7 @@ public abstract class AbstractAccountGroupProxy extends AbstractLazyLoadingDtoPr
    *
    * @param accounts the lazily loaded value to assign
    */
-  public void setAccounts(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> accounts)
+  public void setAccounts(java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> accounts)
       {
     ((AccountGroup)dto).setAccounts(accounts);
   }

@@ -49,12 +49,12 @@ public abstract class AbstractBsAccountGroup
     extends AbstractDto<com.poesys.accounting.db.account.IAccountGroup> {
 
   /**
-   * A Collection builder helper class for building a business-layer Collection 
-   * of BsFiscalYearAccount objects from a Collection accounts of data-access-layer 
+   * A List builder helper class for building a business-layer List 
+   * of BsFiscalYearAccount objects from a List accounts of data-access-layer 
    * com.poesys.accounting.db.account.IFiscalYearAccount objects
    */
-  private class BsAccountsCollectionBuilder 
-      extends com.poesys.bs.dto.CollectionBuilder<com.poesys.accounting.db.account.IFiscalYearAccount, com.poesys.accounting.bs.account.BsFiscalYearAccount> {
+  private class BsAccountsListBuilder 
+      extends com.poesys.bs.dto.ListBuilder<com.poesys.accounting.db.account.IFiscalYearAccount, com.poesys.accounting.bs.account.BsFiscalYearAccount> {
     @Override
     public com.poesys.accounting.bs.account.BsFiscalYearAccount get(com.poesys.accounting.db.account.IFiscalYearAccount dto) {
       return new com.poesys.accounting.bs.account.BsFiscalYearAccount(dto);
@@ -62,12 +62,12 @@ public abstract class AbstractBsAccountGroup
   }
 
   /**
-   * A Collection builder helper class for building a data-access-layer Collection 
-   * of FiscalYearAccount objects from an input Collection accounts of 
+   * A List builder helper class for building a data-access-layer List 
+   * of FiscalYearAccount objects from an input List accounts of 
    * business-layer BsFiscalYearAccount objects
    */
-  private class AccountsCollectionBuilder 
-      extends com.poesys.bs.dto.CollectionBuilder<com.poesys.accounting.bs.account.BsFiscalYearAccount, com.poesys.accounting.db.account.IFiscalYearAccount> {
+  private class AccountsListBuilder 
+      extends com.poesys.bs.dto.ListBuilder<com.poesys.accounting.bs.account.BsFiscalYearAccount, com.poesys.accounting.db.account.IFiscalYearAccount> {
     @Override
     public com.poesys.accounting.db.account.IFiscalYearAccount get(com.poesys.accounting.bs.account.BsFiscalYearAccount dto) {
       return dto.toDto();
@@ -89,13 +89,11 @@ public abstract class AbstractBsAccountGroup
    *
    * @param key the primary key of the AccountGroup
    * @param accountType composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
-   * @param orderNumber the relative position of the account group in the ordered list of groups
-belonging to the account type
    * @param groupName the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
 Payable, Tax-Related Expenses
    */
-  public AbstractBsAccountGroup(IPrimaryKey key, java.lang.String accountType, java.lang.Integer orderNumber, java.lang.String groupName) {
-    super(new AccountGroupProxy(new AccountGroup(key, accountType, orderNumber, groupName)));
+  public AbstractBsAccountGroup(IPrimaryKey key, java.lang.String accountType, java.lang.String groupName) {
+    super(new AccountGroupProxy(new AccountGroup(key, accountType, groupName)));
   }
 
   @SuppressWarnings("unchecked")
@@ -144,8 +142,8 @@ Payable, Tax-Related Expenses
 
   /**
    * <p>
-   * the relative position of the account group in the ordered list of groups
-   * belonging to the account type
+   * the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
+   * Payable, Tax-Related Expenses
    * </p>
    * <p>
    * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass as data member
@@ -154,54 +152,10 @@ Payable, Tax-Related Expenses
    * <li>Property is read/write: false</li>
    * <li>Property is defined in the data-access object AccountGroup</li>
    * </ul>
-   * @return a java.lang.Integer orderNumber
-   */
-  public java.lang.Integer getOrderNumber() {
-    return dto.getOrderNumber();
-  }
-
-  /**
-   * <p>
-   * the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
-   * Payable, Tax-Related Expenses
-   * </p>
-   * <p>
-   * Added by AddLocalAttributeProperties as data member
-   * </p>
-   * <ul>
-   * <li>Property is read/write: true</li>
-   * <li>Property is defined in the data-access object AccountGroup</li>
-   * </ul>
    * @return a java.lang.String groupName
    */
   public java.lang.String getGroupName() {
     return dto.getGroupName();
-  }
-
-  /**
-   * <p>
-   * Set the groupName.
-   * </p>
-   * <p>
-   * the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
-   * Payable, Tax-Related Expenses
-   * </p>
-   * <p>
-   * Added by AddLocalAttributeProperties
-   * </p>
-   * <ul>
-   * <li>Property is read/write: true</li>
-   * <li>Property is defined in the data-access object AccountGroup</li>
-   * </ul>
-   * @param groupName the associated business object
-   * @throws com.poesys.db.dto.DtoStatusException when the system can't set
-   *                 the data-access status to CHANGED
-   * @throws com.poesys.db.InvalidParametersException when the property is
-   *                 required but the input parameter groupName is null
-   */
-  public void setGroupName(java.lang.String groupName) 
-      throws com.poesys.db.dto.DtoStatusException , com.poesys.db.InvalidParametersException {
-    dto.setGroupName(groupName);
   }
 
   /**
@@ -256,9 +210,9 @@ Payable, Tax-Related Expenses
    * </ul>
    * @return a com.poesys.accounting.bs.account.BsFiscalYearAccount type
    */
-  public java.util.Collection<com.poesys.accounting.bs.account.BsFiscalYearAccount> getAccounts() {
-    BsAccountsCollectionBuilder builder = new BsAccountsCollectionBuilder();
-    return builder.getCollection(dto.getAccounts());
+  public java.util.List<com.poesys.accounting.bs.account.BsFiscalYearAccount> getAccounts() {
+    BsAccountsListBuilder builder = new BsAccountsListBuilder();
+    return builder.getList(dto.getAccounts());
   }
 
   /**
@@ -279,10 +233,10 @@ Payable, Tax-Related Expenses
    * @throws com.poesys.db.dto.DtoStatusException when the system can't set
    *                 the data-access status to CHANGED
    */
-  public void setAccounts(java.util.Collection<com.poesys.accounting.bs.account.BsFiscalYearAccount> type) 
+  public void setAccounts(java.util.List<com.poesys.accounting.bs.account.BsFiscalYearAccount> type) 
       throws com.poesys.db.dto.DtoStatusException{
-    AccountsCollectionBuilder builder = new AccountsCollectionBuilder();
-      dto.setAccounts(builder.getCollection(type));
+    AccountsListBuilder builder = new AccountsListBuilder();
+      dto.setAccounts(builder.getList(type));
   }
 
   /**

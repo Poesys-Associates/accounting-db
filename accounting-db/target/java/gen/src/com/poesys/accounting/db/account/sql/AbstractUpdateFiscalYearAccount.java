@@ -21,7 +21,7 @@ import com.poesys.db.pk.IPrimaryKey;
 public class AbstractUpdateFiscalYearAccount implements IUpdateSql<com.poesys.accounting.db.account.IFiscalYearAccount> {
   /** SQL UPDATE statement for FiscalYearAccount */
   private static final String SQL =
-    "UPDATE FiscalYearAccount SET orderNumber = ?, group = ?, accountType = ?, orderNumber = ? WHERE ";
+    "UPDATE FiscalYearAccount SET accountOrderNumber = ?, groupOrderNumber = ?, group = ?, accountType = ?, groupName = ? WHERE ";
 
   @Override
   public String getSql(IPrimaryKey key) {
@@ -33,7 +33,13 @@ public class AbstractUpdateFiscalYearAccount implements IUpdateSql<com.poesys.ac
   @Override
   public int setParams(PreparedStatement stmt, int index, com.poesys.accounting.db.account.IFiscalYearAccount object) {
     try{
-      stmt.setInt(index, object.getOrderNumber());
+      stmt.setInt(index, object.getAccountOrderNumber());
+    } catch (java.sql.SQLException e) {
+      throw new com.poesys.db.DbErrorException("SQL error setting parameters", e);
+    }
+      index++;
+    try{
+      stmt.setInt(index, object.getGroupOrderNumber());
     } catch (java.sql.SQLException e) {
       throw new com.poesys.db.DbErrorException("SQL error setting parameters", e);
     }
@@ -51,7 +57,9 @@ public class AbstractUpdateFiscalYearAccount implements IUpdateSql<com.poesys.ac
   public String getParamString(com.poesys.accounting.db.account.IFiscalYearAccount dto) {
     StringBuilder builder = new StringBuilder("Parameters: \"");
     builder.append("\", ");
-    builder.append(dto.getOrderNumber());
+    builder.append(dto.getAccountOrderNumber());
+    builder.append("\", ");
+    builder.append(dto.getGroupOrderNumber());
     // TODO Override this method in the concrete subclass to set the params for the FiscalYearAccount
     builder.append("\"");
     return builder.toString();

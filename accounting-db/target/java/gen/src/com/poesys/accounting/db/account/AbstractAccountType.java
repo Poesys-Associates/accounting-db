@@ -62,7 +62,7 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
    * @see com.poesys.accounting.db.account.sql.QueryGroupsByAccountType
    */
   private class QueryGroupsSetter 
-      extends com.poesys.db.dto.AbstractListSetter<com.poesys.accounting.db.account.IAccountGroup, IAccountType, java.util.List<com.poesys.accounting.db.account.IAccountGroup>> {
+      extends com.poesys.db.dto.AbstractListSetter<com.poesys.accounting.db.account.IAccountGroup, IAccountType, java.util.Collection<com.poesys.accounting.db.account.IAccountGroup>> {
     private static final long serialVersionUID = 1L;
     private static final int FETCH_SIZE = 10;
 
@@ -94,7 +94,7 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
     }
 
     @Override
-    protected void set(java.util.List<com.poesys.accounting.db.account.IAccountGroup> list) {
+    protected void set(java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> list) {
       // No status change; this is just filling in the object data.
       groups = list;
       // Add the primary keys to the serialized key list if there are any.
@@ -118,18 +118,18 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
   }
 
   /**
-   * Read-Object setter for de-serializing nested groups list
+   * Read-Object setter for de-serializing nested groups collection
    *
    * Source: AddToManyChildCollectionProperties
    *
    * @see com.poesys.accounting.db.account.sql.QueryAccountGroup
    */
   private class ReadGroupsSetter 
-      extends com.poesys.db.dto.AbstractListReadSetter<com.poesys.accounting.db.account.IAccountGroup> {
+      extends com.poesys.db.dto.AbstractCollectionReadSetter<com.poesys.accounting.db.account.IAccountGroup> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create a ReadGroupsSetter object to read the groups list.
+     * Create a ReadGroupsSetter object to read the groups collection.
      */
     public ReadGroupsSetter() {
       super("com.poesys.accounting.db.account", 2147483647);
@@ -141,7 +141,7 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
     }
 
     @Override
-    protected java.util.List<com.poesys.accounting.db.account.IAccountGroup> getObjectList() {
+    protected java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> getObjectCollection() {
       return groups;
     }
 
@@ -156,10 +156,11 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
     }
 
     @Override
-    protected void set(java.util.List<com.poesys.accounting.db.account.IAccountGroup> list) {
-      groups = list;
+    protected void set(java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> collection) {
+     groups = collection;
     }
   }
+
   /**
    * Post-processing setter for post-processing nested to-many association groups.
    */
@@ -229,7 +230,7 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
    */
 
   private class UpdateGroupsSetter 
-      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.account.IAccountGroup, java.util.List<com.poesys.accounting.db.account.IAccountGroup>> {
+      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.account.IAccountGroup, java.util.Collection<com.poesys.accounting.db.account.IAccountGroup>> {
     private static final long serialVersionUID = 1L;
     private static final int BATCH_SIZE = 100;
 
@@ -241,7 +242,7 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
     }
 
     @Override
-    protected void doChanged(java.util.List<com.poesys.accounting.db.account.IAccountGroup> dtos) {
+    protected void doChanged(java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> dtos) {
       // groups source: AddToManyChildCollectionProperties
       // Immutable: false
       com.poesys.db.dao.IDaoManager manager = 
@@ -263,7 +264,7 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
     }
     
     @Override
-    protected void doDeleted(java.util.List<com.poesys.accounting.db.account.IAccountGroup> dtos) {
+    protected void doDeleted(java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> dtos) {
       com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
       com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccountGroup> factory = 
@@ -274,7 +275,7 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
     }
 
     @Override
-    protected void doNew(java.util.List<com.poesys.accounting.db.account.IAccountGroup> dtos) {
+    protected void doNew(java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> dtos) {
       com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
@@ -295,7 +296,7 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
     }
 
     @Override
-    protected java.util.List<com.poesys.accounting.db.account.IAccountGroup> getDtos() {
+    protected java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> getDtos() {
       return groups;
     }
     
@@ -538,20 +539,20 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
    * Property is lazy: false
    */
   // Doesn't serialize; package access allows proxy to set on readObject()
-  transient java.util.List<com.poesys.accounting.db.account.IAccountGroup> groups;
+  transient java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> groups;
   // Ordered list of keys of the objects in the groups list
   transient java.util.List<com.poesys.db.pk.IPrimaryKey> groupsKeys = 
     new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
   
   /**
-   * Get a list of com.poesys.accounting.db.account.IAccountGroup.
+   * Get a collection of com.poesys.accounting.db.account.IAccountGroup.
    *
    * Source: AddToManyChildCollectionProperties
    * 
-   * @return a java.util.List<com.poesys.accounting.db.account.IAccountGroup>
+   * @return a java.util.Collection<com.poesys.accounting.db.account.IAccountGroup>
    */
 
-  public java.util.List<com.poesys.accounting.db.account.IAccountGroup> getGroups() {
+  public java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> getGroups() {
     return groups;
   }
 
@@ -578,7 +579,7 @@ public abstract class AbstractAccountType extends AbstractDto implements IAccoun
    *
    * @param groups the value with which to set the property
    */
-  public void setGroups(java.util.List<com.poesys.accounting.db.account.IAccountGroup> groups)
+  public void setGroups(java.util.Collection<com.poesys.accounting.db.account.IAccountGroup> groups)
       throws com.poesys.db.InvalidParametersException {
     if (groups == null) {
       throw new com.poesys.db.InvalidParametersException("groups is required");

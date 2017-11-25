@@ -32,7 +32,7 @@ public abstract class AbstractQueryFiscalYearAccountByAccount
     implements IParameterizedQuerySql<com.poesys.accounting.db.account.IFiscalYearAccount, com.poesys.accounting.db.account.IAccount> {
   /** SQL query statement for FiscalYearAccount */
   private static final String SQL =
-    "SELECT accountName, entityName, year, orderNumber, accountType, groupOrderNumber FROM FiscalYearAccount WHERE accountName = ? AND entityName = ?";
+    "SELECT accountName, entityName, year, accountOrderNumber, groupOrderNumber, accountType, groupName FROM FiscalYearAccount WHERE accountName = ? AND entityName = ?";
 
   public void bindParameters(PreparedStatement stmt, com.poesys.accounting.db.account.IAccount parameters) {
     // Set the parameters starting with the first parameter.

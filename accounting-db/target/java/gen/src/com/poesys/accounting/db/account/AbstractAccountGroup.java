@@ -280,7 +280,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
    * @see com.poesys.accounting.db.account.sql.QueryAccountsByAccountGroup
    */
   private class QueryAccountsSetter 
-      extends com.poesys.db.dto.AbstractListSetter<com.poesys.accounting.db.account.IFiscalYearAccount, IAccountGroup, java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount>> {
+      extends com.poesys.db.dto.AbstractListSetter<com.poesys.accounting.db.account.IFiscalYearAccount, IAccountGroup, java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount>> {
     private static final long serialVersionUID = 1L;
     private static final int FETCH_SIZE = 10;
 
@@ -312,7 +312,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected void set(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> list) {
+    protected void set(java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> list) {
       // No status change; this is just filling in the object data.
       accounts = list;
       // Add the primary keys to the serialized key list if there are any.
@@ -336,18 +336,18 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
   }
 
   /**
-   * Read-Object setter for de-serializing nested accounts collection
+   * Read-Object setter for de-serializing nested accounts list
    *
    * Source: TransformToProperty + AddToManyAssociationCollectionProperties
    *
    * @see com.poesys.accounting.db.account.sql.QueryFiscalYearAccount
    */
   private class ReadAccountsSetter 
-      extends com.poesys.db.dto.AbstractCollectionReadSetter<com.poesys.accounting.db.account.IFiscalYearAccount> {
+      extends com.poesys.db.dto.AbstractListReadSetter<com.poesys.accounting.db.account.IFiscalYearAccount> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Create a ReadAccountsSetter object to read the accounts collection.
+     * Create a ReadAccountsSetter object to read the accounts list.
      */
     public ReadAccountsSetter() {
       super("com.poesys.accounting.db.account", 2147483647);
@@ -359,7 +359,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> getObjectCollection() {
+    protected java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> getObjectList() {
       return accounts;
     }
 
@@ -374,11 +374,10 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected void set(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> collection) {
-     accounts = collection;
+    protected void set(java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> list) {
+      accounts = list;
     }
   }
-
   /**
    * Post-processing setter for post-processing nested to-many association accounts.
    */
@@ -448,7 +447,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
    */
 
   private class UpdateAccountsSetter 
-      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.account.IFiscalYearAccount, java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount>> {
+      extends com.poesys.db.dto.AbstractProcessNestedObjects<com.poesys.accounting.db.account.IFiscalYearAccount, java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount>> {
     private static final long serialVersionUID = 1L;
     private static final int BATCH_SIZE = 100;
 
@@ -460,7 +459,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected void doChanged(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> dtos) {
+    protected void doChanged(java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> dtos) {
       // accounts source: TransformToProperty + AddToManyAssociationCollectionProperties
       // Immutable: false
       com.poesys.db.dao.IDaoManager manager = 
@@ -482,7 +481,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
     
     @Override
-    protected void doDeleted(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> dtos) {
+    protected void doDeleted(java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> dtos) {
       com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
       com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IFiscalYearAccount> factory = 
@@ -493,7 +492,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected void doNew(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> dtos) {
+    protected void doNew(java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> dtos) {
       com.poesys.db.dao.IDaoManager manager = 
         com.poesys.db.dao.DaoManagerFactory.getManager(subsystem);
 
@@ -514,7 +513,7 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
     }
 
     @Override
-    protected java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> getDtos() {
+    protected java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> getDtos() {
       return accounts;
     }
     
@@ -591,24 +590,16 @@ public abstract class AbstractAccountGroup extends AbstractDto implements IAccou
    *
    * @param key the primary key of the AccountGroup
    * @param accountType composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
-   * @param orderNumber the relative position of the account group in the ordered list of groups
-belonging to the account type
    * @param groupName the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
 Payable, Tax-Related Expenses
    */
-  public AbstractAccountGroup(IPrimaryKey key, java.lang.String accountType, java.lang.Integer orderNumber, java.lang.String groupName) {
+  public AbstractAccountGroup(IPrimaryKey key, java.lang.String accountType, java.lang.String groupName) {
     this.key = key;
 
     this.accountType = accountType;
 
     if (accountType == null) {
       throw new com.poesys.db.InvalidParametersException("accountType is required for " + key.getValueList());
-    }
-    
-    this.orderNumber = orderNumber;
-
-    if (orderNumber == null) {
-      throw new com.poesys.db.InvalidParametersException("orderNumber is required for " + key.getValueList());
     }
     
     this.groupName = groupName;
@@ -774,11 +765,11 @@ Payable, Tax-Related Expenses
     setChanged();
   }
   /**
-   * Nested property orderNumber
+   * Nested property groupName
    *
    * <p>
-   * the relative position of the account group in the ordered list of groups
-   * belonging to the account type
+   * the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
+   * Payable, Tax-Related Expenses
    * </p>
    *
    * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
@@ -787,75 +778,12 @@ Payable, Tax-Related Expenses
    * Property is read/write: false
    * Property is lazy: false
    */
-  private java.lang.Integer orderNumber;
-  
-  /**
-   * Get an object of java.lang.Integer.
-   *
-   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
-   * 
-   * @return a java.lang.Integer
-   */
-
-  public java.lang.Integer getOrderNumber() {
-    return orderNumber;
-  }
-
-  /**
-   * Clear the orderNumber data member; override in proxy if lazily loaded,
-   * otherwise this method does nothing.
-   */
-  public void clearOrderNumber() {
-    // Override in proxy if lazily loaded; otherwise does nothing
-  }
-
-  /**
-   * <p>
-   * Set the orderNumber.
-   * </p>
-   * <ul>
-   * <li>Read/Write DTO: true</li>
-   * <li>Immutable DTO: false</li>
-   * <li>Read/Write property: false</li>
-   * <li>Immutable property: false</li>
-   * <li>Lazy property: false (if true, proxy calls this method)</li>
-   * </ul>
-   * <p>
-   * the relative position of the account group in the ordered list of groups
-   * belonging to the account type
-   * </p>
-   *
-   * @param orderNumber the value with which to set the property
-   */
-  void setOrderNumber(java.lang.Integer orderNumber)
-      throws com.poesys.db.InvalidParametersException {
-    if (orderNumber == null) {
-      throw new com.poesys.db.InvalidParametersException("orderNumber is required");
-    }
-    
-    this.orderNumber = orderNumber;
-    setChanged();
-  }
-  /**
-   * Nested property groupName
-   *
-   * <p>
-   * the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
-   * Payable, Tax-Related Expenses
-   * </p>
-   *
-   * Added by AddLocalAttributeProperties
-   * Class is read/write: true
-   * Class is immutable: false
-   * Property is read/write: true
-   * Property is lazy: false
-   */
   private java.lang.String groupName;
   
   /**
    * Get an object of java.lang.String.
    *
-   * Source: AddLocalAttributeProperties
+   * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
    * 
    * @return a java.lang.String
    */
@@ -879,7 +807,7 @@ Payable, Tax-Related Expenses
    * <ul>
    * <li>Read/Write DTO: true</li>
    * <li>Immutable DTO: false</li>
-   * <li>Read/Write property: true</li>
+   * <li>Read/Write property: false</li>
    * <li>Immutable property: false</li>
    * <li>Lazy property: false (if true, proxy calls this method)</li>
    * </ul>
@@ -890,7 +818,7 @@ Payable, Tax-Related Expenses
    *
    * @param groupName the value with which to set the property
    */
-  public void setGroupName(java.lang.String groupName)
+  void setGroupName(java.lang.String groupName)
       throws com.poesys.db.InvalidParametersException {
     if (groupName == null) {
       throw new com.poesys.db.InvalidParametersException("groupName is required");
@@ -970,20 +898,20 @@ Payable, Tax-Related Expenses
    * Property is lazy: false
    */
   // Doesn't serialize; package access allows proxy to set on readObject()
-  transient java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> accounts;
+  transient java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> accounts;
   // Ordered list of keys of the objects in the accounts list
   transient java.util.List<com.poesys.db.pk.IPrimaryKey> accountsKeys = 
     new java.util.ArrayList<com.poesys.db.pk.IPrimaryKey>();
   
   /**
-   * Get a collection of com.poesys.accounting.db.account.IFiscalYearAccount.
+   * Get a list of com.poesys.accounting.db.account.IFiscalYearAccount.
    *
    * Source: TransformToProperty + AddToManyAssociationCollectionProperties
    * 
-   * @return a java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount>
+   * @return a java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount>
    */
 
-  public java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> getAccounts() {
+  public java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> getAccounts() {
     return accounts;
   }
 
@@ -1012,7 +940,7 @@ Payable, Tax-Related Expenses
    *
    * @param accounts the value with which to set the property
    */
-  public  void setAccounts(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> accounts) {
+  public  void setAccounts(java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> accounts) {
     this.accounts = accounts;
     // Add the primary keys of the new collection to the serialized key list.
     if (accountsKeys != null) {

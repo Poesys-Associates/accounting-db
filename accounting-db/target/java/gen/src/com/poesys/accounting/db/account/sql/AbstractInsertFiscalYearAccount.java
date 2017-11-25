@@ -21,7 +21,7 @@ import com.poesys.db.pk.IPrimaryKey;
  */
 public class AbstractInsertFiscalYearAccount implements IInsertSql<com.poesys.accounting.db.account.IFiscalYearAccount> {
   private static final String SQL =
-    "INSERT INTO FiscalYearAccount (accountName, entityName, year, orderNumber, accountType, groupOrderNumber) VALUES (?,?,?,?,?,?)";
+    "INSERT INTO FiscalYearAccount (accountName, entityName, year, accountOrderNumber, groupOrderNumber, accountType, groupName) VALUES (?,?,?,?,?,?,?)";
 
   @Override
   public String getSql(IPrimaryKey key) {
@@ -32,7 +32,14 @@ public class AbstractInsertFiscalYearAccount implements IInsertSql<com.poesys.ac
   public void setParams(PreparedStatement stmt, int index, 
                         com.poesys.accounting.db.account.IFiscalYearAccount object) {
     try {
-      stmt.setInt(index, object.getOrderNumber());
+      stmt.setInt(index, object.getAccountOrderNumber());
+    } catch (java.sql.SQLException e) {
+      String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
+      throw new com.poesys.db.DbErrorException(message, e);
+    }
+    index++;
+    try {
+      stmt.setInt(index, object.getGroupOrderNumber());
     } catch (java.sql.SQLException e) {
       String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
       throw new com.poesys.db.DbErrorException(message, e);
@@ -46,7 +53,7 @@ public class AbstractInsertFiscalYearAccount implements IInsertSql<com.poesys.ac
     }
     index++;
     try {
-      stmt.setInt(index, object.getGroupOrderNumber());
+      stmt.setString(index, object.getGroupName());
     } catch (java.sql.SQLException e) {
       String message = com.poesys.db.Message.getMessage("com.poesys.db.sql.msg.parameter", null);
       throw new com.poesys.db.DbErrorException(message, e);
@@ -62,16 +69,20 @@ public class AbstractInsertFiscalYearAccount implements IInsertSql<com.poesys.ac
     builder.append(object.getPrimaryKey().getStringKey());
     // Get the non-key attributes.
     builder.append(", ");
-    builder.append("orderNumber: ");
-    builder.append(object.getOrderNumber());
+    builder.append("accountOrderNumber: ");
+    builder.append(object.getAccountOrderNumber());
+    // Get the non-key attributes.
+    builder.append(", ");
+    builder.append("groupOrderNumber: ");
+    builder.append(object.getGroupOrderNumber());
     // Get the non-key attributes.
     builder.append(", ");
     builder.append("accountType: ");
     builder.append(object.getAccountType());
     // Get the non-key attributes.
     builder.append(", ");
-    builder.append("groupOrderNumber: ");
-    builder.append(object.getGroupOrderNumber());
+    builder.append("groupName: ");
+    builder.append(object.getGroupName());
     return builder.toString();
   }
 }

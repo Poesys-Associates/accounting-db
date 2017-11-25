@@ -34,7 +34,7 @@ public abstract class AbstractQueryGroupsByAccountType
     implements IParameterizedQuerySql<com.poesys.accounting.db.account.IAccountGroup, com.poesys.accounting.db.account.IAccountType> {
   /** SQL query statement for AccountGroup */
   private static final String SQL =
-    "SELECT AccountGroup.accountType, AccountGroup.orderNumber, AccountGroup.groupName FROM AccountGroup WHERE AccountGroup.accountType = ?";
+    "SELECT AccountGroup.accountType, AccountGroup.groupName FROM AccountGroup WHERE AccountGroup.accountType = ?";
 
   @Override
   public void bindParameters(PreparedStatement stmt, com.poesys.accounting.db.account.IAccountType parameters) {

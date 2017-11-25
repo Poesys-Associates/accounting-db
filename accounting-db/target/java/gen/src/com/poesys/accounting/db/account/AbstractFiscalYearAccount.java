@@ -391,14 +391,19 @@ public abstract class AbstractFiscalYearAccount extends AbstractDto implements I
    * @param accountName Attribute that is part of the association key
    * @param entityName Attribute that is part of the association key
    * @param year Attribute that is part of the association key
-   * @param orderNumber the integer rank of the account within the associated account group; there will
-be duplicates for the set of accounts in a fiscal year as there are multiple
-account groups for the fiscal year
+   * @param accountOrderNumber the integer rank order of the account within the associated account group for
+this fiscal year; the numbers form an ordering of all the objects with the same
+fiscal year, and different fiscal years start from one, so there are duplicate
+order numbers across fiscal years
+   * @param groupOrderNumber the integer rank order of the account group within the account type associated
+with the group for this fiscal year; the numbers form a rank order for groups
+within types for each fiscal year, and the rank order repeats for different
+fiscal years, resulting in duplicate order numbers in different fiscal years
    * @param accountType foreign key used by setter to query associated object
-   * @param groupOrderNumber foreign key used by setter to query associated object
+   * @param groupName foreign key used by setter to query associated object
    * @param group the group into which the account is aggregated
    */
-  public AbstractFiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IAccountGroup groupObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer orderNumber, java.lang.String accountType, java.lang.Integer groupOrderNumber, com.poesys.accounting.db.account.IAccountGroup group) {
+  public AbstractFiscalYearAccount(IPrimaryKey key, com.poesys.accounting.db.account.IAccount accountsObject, com.poesys.accounting.db.account.IAccountGroup groupObject, com.poesys.accounting.db.account.IFiscalYear yearsObject, java.lang.String accountName, java.lang.String entityName, java.lang.Integer year, java.lang.Integer accountOrderNumber, java.lang.Integer groupOrderNumber, java.lang.String accountType, java.lang.String groupName, com.poesys.accounting.db.account.IAccountGroup group) {
     this.key = key;
 
     this.accountName = accountName;
@@ -419,10 +424,16 @@ account groups for the fiscal year
       throw new com.poesys.db.InvalidParametersException("year is required for " + key.getValueList());
     }
     
-    this.orderNumber = orderNumber;
+    this.accountOrderNumber = accountOrderNumber;
 
-    if (orderNumber == null) {
-      throw new com.poesys.db.InvalidParametersException("orderNumber is required for " + key.getValueList());
+    if (accountOrderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("accountOrderNumber is required for " + key.getValueList());
+    }
+    
+    this.groupOrderNumber = groupOrderNumber;
+
+    if (groupOrderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("groupOrderNumber is required for " + key.getValueList());
     }
     
     this.accountType = accountType;
@@ -431,10 +442,10 @@ account groups for the fiscal year
       throw new com.poesys.db.InvalidParametersException("accountType is required for " + key.getValueList());
     }
     
-    this.groupOrderNumber = groupOrderNumber;
+    this.groupName = groupName;
 
-    if (groupOrderNumber == null) {
-      throw new com.poesys.db.InvalidParametersException("groupOrderNumber is required for " + key.getValueList());
+    if (groupName == null) {
+      throw new com.poesys.db.InvalidParametersException("groupName is required for " + key.getValueList());
     }
     
     this.group = group;
@@ -482,7 +493,7 @@ account groups for the fiscal year
     // Add the setters for the group property.
     querySetters.add(new QueryGroupSetter());
     // Set the object property primary key with a factory method.
-    groupKey = com.poesys.accounting.db.account.AccountFactory.getAccountGroupPrimaryKey(accountType, groupOrderNumber);
+    groupKey = com.poesys.accounting.db.account.AccountFactory.getAccountGroupPrimaryKey(accountType, groupName);
     insertSetters.add(new InsertGroupSetter());
     preSetters.add(new InsertGroupSetter());
     postSetters.add(new UpdateGroupSetter());
@@ -545,12 +556,13 @@ account groups for the fiscal year
   }
   
   /**
-   * Nested property orderNumber
+   * Nested property accountOrderNumber
    *
    * <p>
-   * the integer rank of the account within the associated account group; there will
-   * be duplicates for the set of accounts in a fiscal year as there are multiple
-   * account groups for the fiscal year
+   * the integer rank order of the account within the associated account group for
+   * this fiscal year; the numbers form an ordering of all the objects with the same
+   * fiscal year, and different fiscal years start from one, so there are duplicate
+   * order numbers across fiscal years
    * </p>
    *
    * Added by AddLocalAttributeProperties
@@ -559,7 +571,7 @@ account groups for the fiscal year
    * Property is read/write: true
    * Property is lazy: false
    */
-  private java.lang.Integer orderNumber;
+  private java.lang.Integer accountOrderNumber;
   
   /**
    * Get an object of java.lang.Integer.
@@ -569,21 +581,21 @@ account groups for the fiscal year
    * @return a java.lang.Integer
    */
 
-  public java.lang.Integer getOrderNumber() {
-    return orderNumber;
+  public java.lang.Integer getAccountOrderNumber() {
+    return accountOrderNumber;
   }
 
   /**
-   * Clear the orderNumber data member; override in proxy if lazily loaded,
+   * Clear the accountOrderNumber data member; override in proxy if lazily loaded,
    * otherwise this method does nothing.
    */
-  public void clearOrderNumber() {
+  public void clearAccountOrderNumber() {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
   /**
    * <p>
-   * Set the orderNumber.
+   * Set the accountOrderNumber.
    * </p>
    * <ul>
    * <li>Read/Write DTO: true</li>
@@ -593,20 +605,88 @@ account groups for the fiscal year
    * <li>Lazy property: false (if true, proxy calls this method)</li>
    * </ul>
    * <p>
-   * the integer rank of the account within the associated account group; there will
-   * be duplicates for the set of accounts in a fiscal year as there are multiple
-   * account groups for the fiscal year
+   * the integer rank order of the account within the associated account group for
+   * this fiscal year; the numbers form an ordering of all the objects with the same
+   * fiscal year, and different fiscal years start from one, so there are duplicate
+   * order numbers across fiscal years
    * </p>
    *
-   * @param orderNumber the value with which to set the property
+   * @param accountOrderNumber the value with which to set the property
    */
-  public void setOrderNumber(java.lang.Integer orderNumber)
+  public void setAccountOrderNumber(java.lang.Integer accountOrderNumber)
       throws com.poesys.db.InvalidParametersException {
-    if (orderNumber == null) {
-      throw new com.poesys.db.InvalidParametersException("orderNumber is required");
+    if (accountOrderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("accountOrderNumber is required");
     }
     
-    this.orderNumber = orderNumber;
+    this.accountOrderNumber = accountOrderNumber;
+    setChanged();
+  }
+  /**
+   * Nested property groupOrderNumber
+   *
+   * <p>
+   * the integer rank order of the account group within the account type associated
+   * with the group for this fiscal year; the numbers form a rank order for groups
+   * within types for each fiscal year, and the rank order repeats for different
+   * fiscal years, resulting in duplicate order numbers in different fiscal years
+   * </p>
+   *
+   * Added by AddLocalAttributeProperties
+   * Class is read/write: true
+   * Class is immutable: false
+   * Property is read/write: true
+   * Property is lazy: false
+   */
+  private java.lang.Integer groupOrderNumber;
+  
+  /**
+   * Get an object of java.lang.Integer.
+   *
+   * Source: AddLocalAttributeProperties
+   * 
+   * @return a java.lang.Integer
+   */
+
+  public java.lang.Integer getGroupOrderNumber() {
+    return groupOrderNumber;
+  }
+
+  /**
+   * Clear the groupOrderNumber data member; override in proxy if lazily loaded,
+   * otherwise this method does nothing.
+   */
+  public void clearGroupOrderNumber() {
+    // Override in proxy if lazily loaded; otherwise does nothing
+  }
+
+  /**
+   * <p>
+   * Set the groupOrderNumber.
+   * </p>
+   * <ul>
+   * <li>Read/Write DTO: true</li>
+   * <li>Immutable DTO: false</li>
+   * <li>Read/Write property: true</li>
+   * <li>Immutable property: false</li>
+   * <li>Lazy property: false (if true, proxy calls this method)</li>
+   * </ul>
+   * <p>
+   * the integer rank order of the account group within the account type associated
+   * with the group for this fiscal year; the numbers form a rank order for groups
+   * within types for each fiscal year, and the rank order repeats for different
+   * fiscal years, resulting in duplicate order numbers in different fiscal years
+   * </p>
+   *
+   * @param groupOrderNumber the value with which to set the property
+   */
+  public void setGroupOrderNumber(java.lang.Integer groupOrderNumber)
+      throws com.poesys.db.InvalidParametersException {
+    if (groupOrderNumber == null) {
+      throw new com.poesys.db.InvalidParametersException("groupOrderNumber is required");
+    }
+    
+    this.groupOrderNumber = groupOrderNumber;
     setChanged();
   }
   /**
@@ -732,7 +812,7 @@ account groups for the fiscal year
     setChanged();
   }
   /**
-   * Nested property groupOrderNumber
+   * Nested property groupName
    *
    * <p>
    * Foreign key used by setter to query associated object
@@ -744,31 +824,31 @@ account groups for the fiscal year
    * Property is read/write: false
    * Property is lazy: false
    */
-  private java.lang.Integer groupOrderNumber;
+  private java.lang.String groupName;
   
   /**
-   * Get an object of java.lang.Integer.
+   * Get an object of java.lang.String.
    *
    * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
    * 
-   * @return a java.lang.Integer
+   * @return a java.lang.String
    */
 
-  public java.lang.Integer getGroupOrderNumber() {
-    return groupOrderNumber;
+  public java.lang.String getGroupName() {
+    return groupName;
   }
 
   /**
-   * Clear the groupOrderNumber data member; override in proxy if lazily loaded,
+   * Clear the groupName data member; override in proxy if lazily loaded,
    * otherwise this method does nothing.
    */
-  public void clearGroupOrderNumber() {
+  public void clearGroupName() {
     // Override in proxy if lazily loaded; otherwise does nothing
   }
 
   /**
    * <p>
-   * Set the groupOrderNumber.
+   * Set the groupName.
    * </p>
    * <ul>
    * <li>Read/Write DTO: true</li>
@@ -781,15 +861,15 @@ account groups for the fiscal year
    * Foreign key used by setter to query associated object
    * </p>
    *
-   * @param groupOrderNumber the value with which to set the property
+   * @param groupName the value with which to set the property
    */
-  void setGroupOrderNumber(java.lang.Integer groupOrderNumber)
+  void setGroupName(java.lang.String groupName)
       throws com.poesys.db.InvalidParametersException {
-    if (groupOrderNumber == null) {
-      throw new com.poesys.db.InvalidParametersException("groupOrderNumber is required");
+    if (groupName == null) {
+      throw new com.poesys.db.InvalidParametersException("groupName is required");
     }
     
-    this.groupOrderNumber = groupOrderNumber;
+    this.groupName = groupName;
     setChanged();
   }
   /**

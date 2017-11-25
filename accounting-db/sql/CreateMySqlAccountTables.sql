@@ -82,9 +82,8 @@ INSERT INTO AccountType (accountType) VALUES ('Expenses');
 
 CREATE TABLE AccountGroup (
   accountType VARCHAR(15) NOT NULL,  
-  orderNumber INT NOT NULL,  
   groupName VARCHAR(100) NOT NULL,  
-  CONSTRAINT AcG_PK PRIMARY KEY (accountType, orderNumber),
+  CONSTRAINT AcG_PK PRIMARY KEY (accountType, groupName),
   CONSTRAINT AcG_AcT_FK FOREIGN KEY (accountType)
     REFERENCES AccountType (accountType)
 ) ENGINE=InnoDB CHARSET=utf8;
@@ -93,14 +92,15 @@ CREATE TABLE FiscalYearAccount (
   accountName VARCHAR(100) NOT NULL,  
   entityName VARCHAR(500) NOT NULL,  
   year INT(4) NOT NULL,  
-  orderNumber INT NOT NULL,  
-  accountType VARCHAR(15) NOT NULL,  
+  accountOrderNumber INT NOT NULL,  
   groupOrderNumber INT NOT NULL,  
+  accountType VARCHAR(15) NOT NULL,  
+  groupName VARCHAR(100) NOT NULL,  
   CONSTRAINT FsYA_PK PRIMARY KEY (accountName, entityName, year),
   CONSTRAINT FsYA_Ac_FK FOREIGN KEY (accountName, entityName)
     REFERENCES Account (accountName, entityName) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT FsYA_FsY_FK FOREIGN KEY (year)
     REFERENCES FiscalYear (year) ON DELETE CASCADE,
-  CONSTRAINT FsYA_AcG_FK FOREIGN KEY (accountTypeName, groupOrderNumber) 
-    REFERENCES AccountGroup(accountType, orderNumber) ON UPDATE CASCADE ON DELETE CASCADE
+  CONSTRAINT FsYA_AcG_FK FOREIGN KEY (accountType, groupName) 
+    REFERENCES AccountGroup(accountType, groupName) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;

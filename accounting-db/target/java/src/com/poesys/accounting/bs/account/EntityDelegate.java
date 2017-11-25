@@ -59,9 +59,10 @@ public class EntityDelegate extends AbstractEntityDelegate {
                                                      String accountName,
                                                      String entityName,
                                                      Integer year,
-                                                     Integer orderNumber,
-                                                     String accountType,
+                                                     Integer accountOrderNumber,
                                                      Integer groupOrderNumber,
+                                                     String accountType,
+                                                     String groupName,
                                                      IAccountGroup group)
       throws DelegateException {
     // Create the key.
@@ -69,7 +70,6 @@ public class EntityDelegate extends AbstractEntityDelegate {
       AccountFactory.getFiscalYearAccountPrimaryKey(accountName,
                                                     entityName,
                                                     year);
-
     // Create an association-key child data-access FiscalYearAccount DTO proxy
     // (supports lazy loading).
     com.poesys.accounting.db.account.IFiscalYearAccount dto =
@@ -80,9 +80,10 @@ public class EntityDelegate extends AbstractEntityDelegate {
                                                        accountName,
                                                        entityName,
                                                        year,
-                                                       orderNumber,
-                                                       accountType,
+                                                       accountOrderNumber,
                                                        groupOrderNumber,
+                                                       accountType,
+                                                       groupName,
                                                        group));
 
     // Create the business DTO.

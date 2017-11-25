@@ -175,7 +175,7 @@ public abstract class AbstractFiscalYearAccountProxy extends AbstractLazyLoading
     protected com.poesys.db.pk.IPrimaryKey getKey() {
       // Generate an com.poesys.accounting.db.account.IAccountGroup primary key with the value 
       // from the com.poesys.accounting.db.account.IFiscalYearAccount object
-      return com.poesys.accounting.db.account.AccountFactory.getAccountGroupPrimaryKey(((IFiscalYearAccount)dto).getAccountType(), ((IFiscalYearAccount)dto).getGroupOrderNumber());
+      return com.poesys.accounting.db.account.AccountFactory.getAccountGroupPrimaryKey(((IFiscalYearAccount)dto).getAccountType(), ((IFiscalYearAccount)dto).getGroupName());
     }
 
     @Override
@@ -251,21 +251,46 @@ public abstract class AbstractFiscalYearAccountProxy extends AbstractLazyLoading
    * 
    * @return a java.lang.Integer
    */
-  public java.lang.Integer getOrderNumber() {
-    return ((FiscalYearAccount)dto).getOrderNumber();
+  public java.lang.Integer getAccountOrderNumber() {
+    return ((FiscalYearAccount)dto).getAccountOrderNumber();
   }
 
   /**
-   * Set the orderNumber from a lazy-loading proxy, either for lazily 
+   * Set the accountOrderNumber from a lazy-loading proxy, either for lazily 
    * loading the data or deserializing nested objects. The IDbDto-derived 
    * interface does not contain this method.
    *
-   * @param orderNumber the lazily loaded value to assign
+   * @param accountOrderNumber the lazily loaded value to assign
    * @throws com.poesys.db.InvalidParametersException when the property value is null
    */
-  public void setOrderNumber(java.lang.Integer orderNumber)
+  public void setAccountOrderNumber(java.lang.Integer accountOrderNumber)
       throws com.poesys.db.InvalidParametersException {
-    ((FiscalYearAccount)dto).setOrderNumber(orderNumber);
+    ((FiscalYearAccount)dto).setAccountOrderNumber(accountOrderNumber);
+  }
+
+  /**
+   * Get an object of java.lang.Integer
+   *
+   * Source: AddLocalAttributeProperties
+   * Lazy: false
+   * 
+   * @return a java.lang.Integer
+   */
+  public java.lang.Integer getGroupOrderNumber() {
+    return ((FiscalYearAccount)dto).getGroupOrderNumber();
+  }
+
+  /**
+   * Set the groupOrderNumber from a lazy-loading proxy, either for lazily 
+   * loading the data or deserializing nested objects. The IDbDto-derived 
+   * interface does not contain this method.
+   *
+   * @param groupOrderNumber the lazily loaded value to assign
+   * @throws com.poesys.db.InvalidParametersException when the property value is null
+   */
+  public void setGroupOrderNumber(java.lang.Integer groupOrderNumber)
+      throws com.poesys.db.InvalidParametersException {
+    ((FiscalYearAccount)dto).setGroupOrderNumber(groupOrderNumber);
   }
 
   /**
@@ -319,28 +344,28 @@ public abstract class AbstractFiscalYearAccountProxy extends AbstractLazyLoading
   }
 
   /**
-   * Get an object of java.lang.Integer
+   * Get an object of java.lang.String
    *
    * Source: AddExplicitSubKeyProperties + addNaturalSubkeyOnClass + AddToOneAssociationAttributeProperties
    * Lazy: false
    * 
-   * @return a java.lang.Integer
+   * @return a java.lang.String
    */
-  public java.lang.Integer getGroupOrderNumber() {
-    return ((FiscalYearAccount)dto).getGroupOrderNumber();
+  public java.lang.String getGroupName() {
+    return ((FiscalYearAccount)dto).getGroupName();
   }
 
   /**
-   * Set the groupOrderNumber from a lazy-loading proxy, either for lazily 
+   * Set the groupName from a lazy-loading proxy, either for lazily 
    * loading the data or deserializing nested objects. The IDbDto-derived 
    * interface does not contain this method.
    *
-   * @param groupOrderNumber the lazily loaded value to assign
+   * @param groupName the lazily loaded value to assign
    * @throws com.poesys.db.InvalidParametersException when the property value is null
    */
-  void setGroupOrderNumber(java.lang.Integer groupOrderNumber)
+  void setGroupName(java.lang.String groupName)
       throws com.poesys.db.InvalidParametersException {
-    ((FiscalYearAccount)dto).setGroupOrderNumber(groupOrderNumber);
+    ((FiscalYearAccount)dto).setGroupName(groupName);
   }
 
   /**

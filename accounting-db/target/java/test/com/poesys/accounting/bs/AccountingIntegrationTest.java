@@ -225,8 +225,10 @@ public class AccountingIntegrationTest {
                                   saDel,
                                   currentYear,
                                   group,
+                                  1,
                                   accountName,
-                                  description);
+                                  description,
+                                  2);
           }
           break;
         case (EQUITY):
@@ -239,8 +241,10 @@ public class AccountingIntegrationTest {
                                 saDel,
                                 currentYear,
                                 group,
+                                1,
                                 accountName,
-                                description);
+                                description,
+                                1);
         }
 
         accounts.add(account);
@@ -269,15 +273,21 @@ public class AccountingIntegrationTest {
    * @param saDel the simple account delegate to use
    * @param currentYear the current fiscal year
    * @param group the group to associate with the account
+   * @param groupOrderNumber the rank order of the group in the type for the
+   *          fiscal year
    * @param accountName the name of the account
    * @param description the account description
+   * @param accountOrderNumber the rank order of the account in the group for
+   *          the fiscal year
    * @return the BsAccount object
    */
   private BsAccount createSimpleAccount(BsEntity entity,
                                         SimpleAccountDelegate saDel,
                                         BsFiscalYear currentYear,
                                         BsAccountGroup group,
-                                        String accountName, String description) {
+                                        Integer groupOrderNumber,
+                                        String accountName, String description,
+                                        Integer accountOrderNumber) {
     BsSimpleAccount sAccount =
       saDel.createSimpleAccount(accountName,
                                 entity.getEntityName(),
@@ -288,7 +298,11 @@ public class AccountingIntegrationTest {
     BsAccount account = new BsAccount(sAccount.toDto());
     sAccount.setEntity(entity);
     entity.addAccountsAccount(account);
-    linkAccountToYearAndGroup(account, currentYear, group, 1);
+    linkAccountToYearAndGroup(account,
+                              currentYear,
+                              group,
+                              groupOrderNumber,
+                              accountOrderNumber);
     return account;
   }
 
@@ -354,10 +368,10 @@ public class AccountingIntegrationTest {
 
     logger.info("Linking entity accounts for year " + currentYear.getYear());
 
-    linkAccountToYearAndGroup(cap1, currentYear, group, 1);
-    linkAccountToYearAndGroup(cap2, currentYear, group, 2);
-    linkAccountToYearAndGroup(dist1, currentYear, group, 3);
-    linkAccountToYearAndGroup(dist2, currentYear, group, 4);
+    linkAccountToYearAndGroup(cap1, currentYear, group, 1, 1);
+    linkAccountToYearAndGroup(cap2, currentYear, group, 1, 2);
+    linkAccountToYearAndGroup(dist1, currentYear, group, 1, 3);
+    linkAccountToYearAndGroup(dist2, currentYear, group, 1, 4);
 
     logger.info("Finished linking entity accounts for year "
                 + currentYear.getYear());
@@ -382,7 +396,8 @@ public class AccountingIntegrationTest {
    */
   private void linkAccountToYearAndGroup(BsAccount account, BsFiscalYear year,
                                          BsAccountGroup group,
-                                         Integer orderNumber) {
+                                         Integer groupOrderNumber,
+                                         Integer accountOrderNumber) {
     EntityDelegate delegate = AccountDelegateFactory.getEntityDelegate();
     BsFiscalYearAccount link =
       delegate.createFiscalYearAccount(account,
@@ -391,9 +406,10 @@ public class AccountingIntegrationTest {
                                        account.getAccountName(),
                                        account.getEntityName(),
                                        year.getYear(),
-                                       orderNumber,
+                                       groupOrderNumber,
+                                       accountOrderNumber,
                                        group.getAccountType(),
-                                       group.getOrderNumber(),
+                                       group.getGroupName(),
                                        group.toDto());
     try {
       account.addFiscalYearAccountFiscalYearAccount(link);
@@ -457,7 +473,7 @@ public class AccountingIntegrationTest {
       fail("No receivable account created in first year");
     }
 
-    linkAccountToYearAndGroup(account, currentYear, group, 1);
+    linkAccountToYearAndGroup(account, currentYear, group, 1, 1);
 
     return account;
   }
@@ -506,7 +522,7 @@ public class AccountingIntegrationTest {
     for (int i = 0; i < count; i++) {
       String groupName = StringUtilities.generateString(100);
       BsAccountGroup group =
-        atDel.createAccountGroup(type, type.getAccountType(), i, groupName);
+        atDel.createAccountGroup(type, type.getAccountType(), groupName);
       groups.add(group);
       type.addGroupsAccountGroup(group);
     }
@@ -1333,7 +1349,7 @@ public class AccountingIntegrationTest {
       // Then validate the links for each valid year.
       for (BsFiscalYear year : years) {
         stmt =
-          connection.prepareStatement("SELECT orderNumber, accountType, groupOrderNumber FROM FiscalYearAccount WHERE accountName = ? AND entityName = ? AND year = ?");
+          connection.prepareStatement("SELECT accountOrderNumber, accountType, groupOrderNumber FROM FiscalYearAccount WHERE accountName = ? AND entityName = ? AND year = ?");
         for (BsFiscalYearAccount link : year.getFiscalYearAccount()) {
           stmt.setString(1, link.getAccountName());
           stmt.setString(2, link.getEntityName());
@@ -1341,12 +1357,12 @@ public class AccountingIntegrationTest {
           rs = stmt.executeQuery();
           assertTrue("Fiscal year account link not in database: "
                      + link.getPrimaryKey().getStringKey(), rs.next());
-          Integer orderNumber = rs.getInt("orderNumber");
+          Integer accountOrderNumber = rs.getInt("accountOrderNumber");
           String accountType = rs.getString("accountType");
           Integer groupOrderNumber = rs.getInt("groupOrderNumber");
-          assertTrue("Wrong link order number: " + orderNumber + ", should be "
-                         + link.getOrderNumber(),
-                     orderNumber.equals(link.getOrderNumber()));
+          assertTrue("Wrong account order number: " + accountOrderNumber
+                         + ", should be " + link.getAccountOrderNumber(),
+                     accountOrderNumber.equals(link.getAccountOrderNumber()));
           assertTrue("Wrong account type: " + accountType + ", should be "
                          + link.getAccountType(),
                      accountType.equals(link.getAccountType()));

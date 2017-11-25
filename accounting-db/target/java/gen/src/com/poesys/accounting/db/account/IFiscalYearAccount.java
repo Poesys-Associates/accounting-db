@@ -53,19 +53,20 @@ public interface IFiscalYearAccount extends IDbDto {
 
   /**
    * <p>
-   * the integer rank of the account within the associated account group; there will
-   * be duplicates for the set of accounts in a fiscal year as there are multiple
-   * account groups for the fiscal year
+   * the integer rank order of the account within the associated account group for
+   * this fiscal year; the numbers form an ordering of all the objects with the same
+   * fiscal year, and different fiscal years start from one, so there are duplicate
+   * order numbers across fiscal years
    * </p>
    * <p>
    * Added by AddLocalAttributeProperties
    * Owning DTO: ${property.dto.name}
    * Owning package: ${property.dto.packageName}
-   * Property prefix: orderNumber
+   * Property prefix: accountOrderNumber
    * </p>
-   * @return a java.lang.Integer orderNumber
+   * @return a java.lang.Integer accountOrderNumber
    */
-  public java.lang.Integer getOrderNumber();
+  public java.lang.Integer getAccountOrderNumber();
 // Setter here if the four conditions below are all true or not false
 // Read/Write DTO: true
 // Mutable DTO: not false
@@ -74,15 +75,50 @@ public interface IFiscalYearAccount extends IDbDto {
 
   /**
    * <p>
-   * Set the orderNumber.
+   * Set the accountOrderNumber.
    * </p>
    *
-   * @param orderNumber the value to set into the orderNumber
-   * @throws com.poesys.db.InvalidParametersException when the orderNumber 
+   * @param accountOrderNumber the value to set into the accountOrderNumber
+   * @throws com.poesys.db.InvalidParametersException when the accountOrderNumber 
    *       value is null
    * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setOrderNumber(java.lang.Integer orderNumber) throws com.poesys.db.InvalidParametersException;
+  public void setAccountOrderNumber(java.lang.Integer accountOrderNumber) throws com.poesys.db.InvalidParametersException;
+
+
+  /**
+   * <p>
+   * the integer rank order of the account group within the account type associated
+   * with the group for this fiscal year; the numbers form a rank order for groups
+   * within types for each fiscal year, and the rank order repeats for different
+   * fiscal years, resulting in duplicate order numbers in different fiscal years
+   * </p>
+   * <p>
+   * Added by AddLocalAttributeProperties
+   * Owning DTO: ${property.dto.name}
+   * Owning package: ${property.dto.packageName}
+   * Property prefix: groupOrderNumber
+   * </p>
+   * @return a java.lang.Integer groupOrderNumber
+   */
+  public java.lang.Integer getGroupOrderNumber();
+// Setter here if the four conditions below are all true or not false
+// Read/Write DTO: true
+// Mutable DTO: not false
+// Mutable property: not false
+// Read/Write property: true
+
+  /**
+   * <p>
+   * Set the groupOrderNumber.
+   * </p>
+   *
+   * @param groupOrderNumber the value to set into the groupOrderNumber
+   * @throws com.poesys.db.InvalidParametersException when the groupOrderNumber 
+   *       value is null
+   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
+   */
+  public void setGroupOrderNumber(java.lang.Integer groupOrderNumber) throws com.poesys.db.InvalidParametersException;
 
 
   /**
@@ -146,9 +182,9 @@ public interface IFiscalYearAccount extends IDbDto {
    * Owning package: com.poesys.accounting.db.account
    * Property prefix: group
    * </p>
-   * @return a java.lang.Integer groupOrderNumber
+   * @return a java.lang.String groupName
    */
-  public java.lang.Integer getGroupOrderNumber();
+  public java.lang.String getGroupName();
 // Setter here if the four conditions below are all true or not false
 // Read/Write DTO: true
 // Mutable DTO: not false

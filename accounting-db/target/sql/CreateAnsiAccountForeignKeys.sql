@@ -8,8 +8,8 @@
 
 -- Foreign keys for FiscalYearAccount
 
-ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, orderNumber) REFERENCES AccountGroup(accountType, orderNumber) ON DELETE CASCADE;
-ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, orderNumber) REFERENCES AccountGroup(accountType, orderNumber) ON DELETE CASCADE;
+ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, groupName) REFERENCES AccountGroup(accountType, groupName) ON DELETE CASCADE;
+ALTER TABLE FiscalYearAccount ADD CONSTRAINT group FOREIGN KEY (accountType, groupName) REFERENCES AccountGroup(accountType, groupName) ON DELETE CASCADE;
 
 -- Foreign keys for Account
 

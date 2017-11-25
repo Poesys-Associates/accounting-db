@@ -71,31 +71,11 @@ public interface IAccountGroup extends IDbDto {
 
   /**
    * <p>
-   * the relative position of the account group in the ordered list of groups
-   * belonging to the account type
-   * </p>
-   * <p>
-   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
-   * Owning DTO: ${property.dto.name}
-   * Owning package: ${property.dto.packageName}
-   * Property prefix: orderNumber
-   * </p>
-   * @return a java.lang.Integer orderNumber
-   */
-  public java.lang.Integer getOrderNumber();
-// Setter here if the four conditions below are all true or not false
-// Read/Write DTO: true
-// Mutable DTO: not false
-// Mutable property: not false
-// Read/Write property: false
-
-  /**
-   * <p>
    * the name of the group of accounts; examples: Cash, Fixed Assets, Accounts
    * Payable, Tax-Related Expenses
    * </p>
    * <p>
-   * Added by AddLocalAttributeProperties
+   * Added by AddExplicitSubKeyProperties + addNaturalSubkeyOnClass
    * Owning DTO: ${property.dto.name}
    * Owning package: ${property.dto.packageName}
    * Property prefix: groupName
@@ -107,20 +87,7 @@ public interface IAccountGroup extends IDbDto {
 // Read/Write DTO: true
 // Mutable DTO: not false
 // Mutable property: not false
-// Read/Write property: true
-
-  /**
-   * <p>
-   * Set the groupName.
-   * </p>
-   *
-   * @param groupName the value to set into the groupName
-   * @throws com.poesys.db.InvalidParametersException when the groupName 
-   *       value is null
-   * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
-   */
-  public void setGroupName(java.lang.String groupName) throws com.poesys.db.InvalidParametersException;
-
+// Read/Write property: false
 
   /**
    * 
@@ -162,9 +129,9 @@ public interface IAccountGroup extends IDbDto {
    * Owning package: com.poesys.accounting.db.account
    * Property prefix: accounts
    * </p>
-   * @return a java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> accounts
+   * @return a java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> accounts
    */
-  public java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> getAccounts();
+  public java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> getAccounts();
 // Setter here if the four conditions below are all true or not false
 // Read/Write DTO: true
 // Mutable DTO: not false
@@ -179,7 +146,7 @@ public interface IAccountGroup extends IDbDto {
    * @param accounts the value to set into the accounts
    * @throws com.poesys.db.dto.DtoStatusException when the status cannot be set to CHANGED
    */
-  public void setAccounts(java.util.Collection<com.poesys.accounting.db.account.IFiscalYearAccount> accounts) ;
+  public void setAccounts(java.util.List<com.poesys.accounting.db.account.IFiscalYearAccount> accounts) ;
 
 
   /**

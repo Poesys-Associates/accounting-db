@@ -29,7 +29,7 @@ public abstract class AbstractQueryAccountGroup implements IKeyQuerySql<com.poes
   private static final Logger logger = Logger.getLogger(AbstractQueryAccountGroup.class);
   /** SQL query statement for AccountGroup */
   private static final String SQL =
-    "SELECT accountType, orderNumber, groupName FROM AccountGroup WHERE ";
+    "SELECT accountType, groupName FROM AccountGroup WHERE ";
 
   public com.poesys.accounting.db.account.IAccountGroup getData(IPrimaryKey key, ResultSet rs) {
     try {

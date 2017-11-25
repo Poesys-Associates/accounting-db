@@ -50,12 +50,12 @@ public abstract class AbstractBsAccountType
     extends AbstractDto<com.poesys.accounting.db.account.IAccountType> {
 
   /**
-   * A List builder helper class for building a business-layer List 
-   * of BsAccountGroup objects from a List groups of data-access-layer 
+   * A Collection builder helper class for building a business-layer Collection 
+   * of BsAccountGroup objects from a Collection groups of data-access-layer 
    * com.poesys.accounting.db.account.IAccountGroup objects
    */
-  private class BsGroupsListBuilder 
-      extends com.poesys.bs.dto.ListBuilder<com.poesys.accounting.db.account.IAccountGroup, com.poesys.accounting.bs.account.BsAccountGroup> {
+  private class BsGroupsCollectionBuilder 
+      extends com.poesys.bs.dto.CollectionBuilder<com.poesys.accounting.db.account.IAccountGroup, com.poesys.accounting.bs.account.BsAccountGroup> {
     @Override
     public com.poesys.accounting.bs.account.BsAccountGroup get(com.poesys.accounting.db.account.IAccountGroup dto) {
       return new com.poesys.accounting.bs.account.BsAccountGroup(dto);
@@ -63,12 +63,12 @@ public abstract class AbstractBsAccountType
   }
 
   /**
-   * A List builder helper class for building a data-access-layer List 
-   * of AccountGroup objects from an input List groups of 
+   * A Collection builder helper class for building a data-access-layer Collection 
+   * of AccountGroup objects from an input Collection groups of 
    * business-layer BsAccountGroup objects
    */
-  private class GroupsListBuilder 
-      extends com.poesys.bs.dto.ListBuilder<com.poesys.accounting.bs.account.BsAccountGroup, com.poesys.accounting.db.account.IAccountGroup> {
+  private class GroupsCollectionBuilder 
+      extends com.poesys.bs.dto.CollectionBuilder<com.poesys.accounting.bs.account.BsAccountGroup, com.poesys.accounting.db.account.IAccountGroup> {
     @Override
     public com.poesys.accounting.db.account.IAccountGroup get(com.poesys.accounting.bs.account.BsAccountGroup dto) {
       return dto.toDto();
@@ -150,9 +150,9 @@ public abstract class AbstractBsAccountType
    * </ul>
    * @return a com.poesys.accounting.bs.account.BsAccountGroup accountType
    */
-  public java.util.List<com.poesys.accounting.bs.account.BsAccountGroup> getGroups() {
-    BsGroupsListBuilder builder = new BsGroupsListBuilder();
-    return builder.getList(dto.getGroups());
+  public java.util.Collection<com.poesys.accounting.bs.account.BsAccountGroup> getGroups() {
+    BsGroupsCollectionBuilder builder = new BsGroupsCollectionBuilder();
+    return builder.getCollection(dto.getGroups());
   }
 
   /**
@@ -173,10 +173,10 @@ public abstract class AbstractBsAccountType
    * @throws com.poesys.db.InvalidParametersException when the property is
    *                 required but the input parameter accountType is null
    */
-  public void setGroups(java.util.List<com.poesys.accounting.bs.account.BsAccountGroup> accountType) 
+  public void setGroups(java.util.Collection<com.poesys.accounting.bs.account.BsAccountGroup> accountType) 
       throws com.poesys.db.dto.DtoStatusException, com.poesys.db.InvalidParametersException {
-    GroupsListBuilder builder = new GroupsListBuilder();
-      dto.setGroups(builder.getList(accountType));
+    GroupsCollectionBuilder builder = new GroupsCollectionBuilder();
+      dto.setGroups(builder.getCollection(accountType));
   }
 
   /**
