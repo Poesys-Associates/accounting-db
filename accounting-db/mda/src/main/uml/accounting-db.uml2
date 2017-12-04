@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MagicDrawProfile_0="http:///MagicDrawProfile_0_r3fJwNH3EeeZT_KemTt_dw.profile.uml2" xmlns:key_0="http:///key_0_r3UKodH3EeeZT_KemTt_dw.profile.uml2" xmlns:memory_0="http:///memory_0_r3UKotH3EeeZT_KemTt_dw.profile.uml2" xmlns:persistence_0="http:///persistence_0_r3X1ANH3EeeZT_KemTt_dw.profile.uml2" xmlns:uml="http://www.eclipse.org/uml2/1.0.0/UML" xsi:schemaLocation="http:///MagicDrawProfile_0_r3fJwNH3EeeZT_KemTt_dw.profile.uml2 UML_Standard_Profile.MagicDraw_Profile.profile.uml2#_sJjysNH3EeeZT_KemTt_dw http:///key_0_r3UKodH3EeeZT_KemTt_dw.profile.uml2 com.poesys.profile.key.profile.uml2#_sJjLBdH3EeeZT_KemTt_dw http:///memory_0_r3UKotH3EeeZT_KemTt_dw.profile.uml2 com.poesys.profile.memory.profile.uml2#_sJjKy9H3EeeZT_KemTt_dw http:///persistence_0_r3X1ANH3EeeZT_KemTt_dw.profile.uml2 com.poesys.profile.persistence.profile.uml2#_sJjKJNH3EeeZT_KemTt_dw" xmi:id="eee_1045467100313_135436_1" name="Data" appliedProfile="_9_0_be00301_1108050582343_527400_10847profileApplicationData _16_0_90d0292_1252021595271_831435_651profileApplicationData _16_9_90d0292_1302892256785_123121_1401profileApplicationData _17_0_4beta_8ca0285_1361349406965_180847_3086profileApplicationData _16_0_90d0292_1252021595271_318891_652profileApplicationData _11_5_f720368_1159529670215_231387_1profileApplicationData _11_5_be00301_1153310565718_226811_161profileApplicationData _be00301_1073394351331_445580_2profileApplicationData _16_6_8f90291_1254846042821_86742_517profileApplicationData">
+<uml:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:MagicDrawProfile_0="http:///MagicDrawProfile_0_tWuWkNUmEeeZT_KemTt_dw.profile.uml2" xmlns:key_0="http:///key_0_tWlzsNUmEeeZT_KemTt_dw.profile.uml2" xmlns:memory_0="http:///memory_0_tWmawNUmEeeZT_KemTt_dw.profile.uml2" xmlns:persistence_0="http:///persistence_0_tWoP8NUmEeeZT_KemTt_dw.profile.uml2" xmlns:uml="http://www.eclipse.org/uml2/1.0.0/UML" xsi:schemaLocation="http:///MagicDrawProfile_0_tWuWkNUmEeeZT_KemTt_dw.profile.uml2 UML_Standard_Profile.MagicDraw_Profile.profile.uml2#_tkMNuNUmEeeZT_KemTt_dw http:///key_0_tWlzsNUmEeeZT_KemTt_dw.profile.uml2 com.poesys.profile.key.profile.uml2#_tkLmlNUmEeeZT_KemTt_dw http:///memory_0_tWmawNUmEeeZT_KemTt_dw.profile.uml2 com.poesys.profile.memory.profile.uml2#_tkNZ5tUmEeeZT_KemTt_dw http:///persistence_0_tWoP8NUmEeeZT_KemTt_dw.profile.uml2 com.poesys.profile.persistence.profile.uml2#_tkNZP9UmEeeZT_KemTt_dw" xmi:id="eee_1045467100313_135436_1" name="Data" appliedProfile="_9_0_be00301_1108050582343_527400_10847profileApplicationData _16_0_90d0292_1252021595271_831435_651profileApplicationData _16_9_90d0292_1302892256785_123121_1401profileApplicationData _17_0_4beta_8ca0285_1361349406965_180847_3086profileApplicationData _16_0_90d0292_1252021595271_318891_652profileApplicationData _11_5_f720368_1159529670215_231387_1profileApplicationData _11_5_be00301_1153310565718_226811_161profileApplicationData _be00301_1073394351331_445580_2profileApplicationData _16_6_8f90291_1254846042821_86742_517profileApplicationData">
   <ownedComment xmi:id="_16_0_90d0292_1233349778166_657703_230" body="Author:muller.&#xA;Created:1/30/09 1:09 PM.&#xA;Title:.&#xA;Comment:.&#xA;" annotatedElement="eee_1045467100313_135436_1"/>
   <packageImport xmi:id="_EfRZoK86EdieaYgxtVWN8QprimitiveTypeData">
     <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/UML2PrimitiveTypes.library.uml2#_EfRZoK86EdieaYgxtVWN8Q"/>
@@ -8,64 +8,64 @@
     <importedPackage xmi:type="uml:Model" href="pathmap://UML2_LIBRARIES/JavaPrimitiveTypes.library.uml2#_RjmyoK86EdieaYgxtVWN8Q"/>
   </packageImport>
   <packageImport xmi:type="uml:ProfileApplication" xmi:id="_9_0_be00301_1108050582343_527400_10847profileApplicationData">
-    <eAnnotations xmi:id="_sJmNcdH3EeeZT_KemTt_dw" source="attributes">
-      <details xmi:id="_sJmNctH3EeeZT_KemTt_dw" key="version" value="0"/>
+    <eAnnotations xmi:id="_tkOqmtUmEeeZT_KemTt_dw" source="attributes">
+      <details xmi:id="_tkOqm9UmEeeZT_KemTt_dw" key="version" value="0"/>
     </eAnnotations>
     <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.StandardProfile.profile.uml2#_9_0_be00301_1108050582343_527400_10847"/>
     <importedProfile href="UML_Standard_Profile.StandardProfile.profile.uml2#_9_0_be00301_1108050582343_527400_10847"/>
   </packageImport>
   <packageImport xmi:type="uml:ProfileApplication" xmi:id="_16_0_90d0292_1252021595271_831435_651profileApplicationData">
-    <eAnnotations xmi:id="_sJmNdNH3EeeZT_KemTt_dw" source="attributes">
-      <details xmi:id="_sJmNddH3EeeZT_KemTt_dw" key="version" value="0"/>
+    <eAnnotations xmi:id="_tkOqndUmEeeZT_KemTt_dw" source="attributes">
+      <details xmi:id="_tkOqntUmEeeZT_KemTt_dw" key="version" value="0"/>
     </eAnnotations>
     <importedPackage xmi:type="uml:Profile" href="com.poesys.profile.key.profile.uml2#_16_0_90d0292_1252021595271_831435_651"/>
     <importedProfile href="com.poesys.profile.key.profile.uml2#_16_0_90d0292_1252021595271_831435_651"/>
   </packageImport>
   <packageImport xmi:type="uml:ProfileApplication" xmi:id="_16_9_90d0292_1302892256785_123121_1401profileApplicationData">
-    <eAnnotations xmi:id="_sJmNd9H3EeeZT_KemTt_dw" source="attributes">
-      <details xmi:id="_sJmNeNH3EeeZT_KemTt_dw" key="version" value="0"/>
+    <eAnnotations xmi:id="_tkOqoNUmEeeZT_KemTt_dw" source="attributes">
+      <details xmi:id="_tkOqodUmEeeZT_KemTt_dw" key="version" value="0"/>
     </eAnnotations>
     <importedPackage xmi:type="uml:Profile" href="com.poesys.profile.memory.profile.uml2#_16_9_90d0292_1302892256785_123121_1401"/>
     <importedProfile href="com.poesys.profile.memory.profile.uml2#_16_9_90d0292_1302892256785_123121_1401"/>
   </packageImport>
   <packageImport xmi:type="uml:ProfileApplication" xmi:id="_17_0_4beta_8ca0285_1361349406965_180847_3086profileApplicationData">
-    <eAnnotations xmi:id="_sJmNetH3EeeZT_KemTt_dw" source="attributes">
-      <details xmi:id="_sJmNe9H3EeeZT_KemTt_dw" key="version" value="0"/>
+    <eAnnotations xmi:id="_tkOqo9UmEeeZT_KemTt_dw" source="attributes">
+      <details xmi:id="_tkOqpNUmEeeZT_KemTt_dw" key="version" value="0"/>
     </eAnnotations>
     <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.Dependency_Matrix_Profile.profile.uml2#_17_0_4beta_8ca0285_1361349406965_180847_3086"/>
     <importedProfile href="UML_Standard_Profile.Dependency_Matrix_Profile.profile.uml2#_17_0_4beta_8ca0285_1361349406965_180847_3086"/>
   </packageImport>
   <packageImport xmi:type="uml:ProfileApplication" xmi:id="_16_0_90d0292_1252021595271_318891_652profileApplicationData">
-    <eAnnotations xmi:id="_sJmNfdH3EeeZT_KemTt_dw" source="attributes">
-      <details xmi:id="_sJmNftH3EeeZT_KemTt_dw" key="version" value="0"/>
+    <eAnnotations xmi:id="_tkOqptUmEeeZT_KemTt_dw" source="attributes">
+      <details xmi:id="_tkOqp9UmEeeZT_KemTt_dw" key="version" value="0"/>
     </eAnnotations>
     <importedPackage xmi:type="uml:Profile" href="com.poesys.profile.persistence.profile.uml2#_16_0_90d0292_1252021595271_318891_652"/>
     <importedProfile href="com.poesys.profile.persistence.profile.uml2#_16_0_90d0292_1252021595271_318891_652"/>
   </packageImport>
   <packageImport xmi:type="uml:ProfileApplication" xmi:id="_11_5_f720368_1159529670215_231387_1profileApplicationData">
-    <eAnnotations xmi:id="_sJmNgNH3EeeZT_KemTt_dw" source="attributes">
-      <details xmi:id="_sJmNgdH3EeeZT_KemTt_dw" key="version" value="0"/>
+    <eAnnotations xmi:id="_tkOqqdUmEeeZT_KemTt_dw" source="attributes">
+      <details xmi:id="_tkOqqtUmEeeZT_KemTt_dw" key="version" value="0"/>
     </eAnnotations>
     <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.Validation_Profile.profile.uml2#_11_5_f720368_1159529670215_231387_1"/>
     <importedProfile href="UML_Standard_Profile.Validation_Profile.profile.uml2#_11_5_f720368_1159529670215_231387_1"/>
   </packageImport>
   <packageImport xmi:type="uml:ProfileApplication" xmi:id="_11_5_be00301_1153310565718_226811_161profileApplicationData">
-    <eAnnotations xmi:id="_sJmNg9H3EeeZT_KemTt_dw" source="attributes">
-      <details xmi:id="_sJmNhNH3EeeZT_KemTt_dw" key="version" value="0"/>
+    <eAnnotations xmi:id="_tkOqrNUmEeeZT_KemTt_dw" source="attributes">
+      <details xmi:id="_tkOqrdUmEeeZT_KemTt_dw" key="version" value="0"/>
     </eAnnotations>
     <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.MagicDraw_Profile.DSL_Customization.profile.uml2#_11_5_be00301_1153310565718_226811_161"/>
     <importedProfile href="UML_Standard_Profile.MagicDraw_Profile.DSL_Customization.profile.uml2#_11_5_be00301_1153310565718_226811_161"/>
   </packageImport>
   <packageImport xmi:type="uml:ProfileApplication" xmi:id="_be00301_1073394351331_445580_2profileApplicationData">
-    <eAnnotations xmi:id="_sJmNhtH3EeeZT_KemTt_dw" source="attributes">
-      <details xmi:id="_sJmNh9H3EeeZT_KemTt_dw" key="version" value="0"/>
+    <eAnnotations xmi:id="_tkOqr9UmEeeZT_KemTt_dw" source="attributes">
+      <details xmi:id="_tkOqsNUmEeeZT_KemTt_dw" key="version" value="0"/>
     </eAnnotations>
     <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.MagicDraw_Profile.profile.uml2#_be00301_1073394351331_445580_2"/>
     <importedProfile href="UML_Standard_Profile.MagicDraw_Profile.profile.uml2#_be00301_1073394351331_445580_2"/>
   </packageImport>
   <packageImport xmi:type="uml:ProfileApplication" xmi:id="_16_6_8f90291_1254846042821_86742_517profileApplicationData">
-    <eAnnotations xmi:id="_sJmNidH3EeeZT_KemTt_dw" source="attributes">
-      <details xmi:id="_sJmNitH3EeeZT_KemTt_dw" key="version" value="0"/>
+    <eAnnotations xmi:id="_tkOqstUmEeeZT_KemTt_dw" source="attributes">
+      <details xmi:id="_tkOqs9UmEeeZT_KemTt_dw" key="version" value="0"/>
     </eAnnotations>
     <importedPackage xmi:type="uml:Profile" href="UML_Standard_Profile.MagicDraw_Profile.Traceability_customization.profile.uml2#_16_6_8f90291_1254846042821_86742_517"/>
     <importedProfile href="UML_Standard_Profile.MagicDraw_Profile.Traceability_customization.profile.uml2#_16_6_8f90291_1254846042821_86742_517"/>
@@ -75,20 +75,20 @@
       <ownedMember xmi:type="uml:Package" xmi:id="_16_9_90d0292_1292730933387_222270_1466" name="accounting">
         <ownedMember xmi:type="uml:Package" xmi:id="_16_9_90d0292_1292730955251_581691_1467" name="db">
           <ownedMember xmi:type="uml:Package" xmi:id="_16_9_90d0292_1292773360236_176867_2018" name="account">
-            <eAnnotations xmi:id="_sJzBwNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-              <contents xmi:type="memory_0:memory__Cached" xmi:id="_sJzBwdH3EeeZT_KemTt_dw"/>
-              <contents xmi:type="persistence_0:persistence__Subsystem" xmi:id="_sJ69lNH3EeeZT_KemTt_dw" businessPackage="com.poesys.accounting.bs.account"/>
+            <eAnnotations xmi:id="_tkXJ9NUmEeeZT_KemTt_dw" source="appliedStereotypes">
+              <contents xmi:type="memory_0:memory__Cached" xmi:id="_tkXJ9dUmEeeZT_KemTt_dw"/>
+              <contents xmi:type="persistence_0:persistence__Subsystem" xmi:id="_tkd3pNUmEeeZT_KemTt_dw" businessPackage="com.poesys.accounting.bs.account"/>
             </eAnnotations>
             <ownedMember xmi:type="uml:Class" xmi:id="_16_9_90d0292_1292731926571_954080_1568" name="FiscalYear">
-              <eAnnotations xmi:id="_sJuwUtH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__NaturalKey" xmi:id="_sJuwU9H3EeeZT_KemTt_dw"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ1eANH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkUGpNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__NaturalKey" xmi:id="_tkUGpdUmEeeZT_KemTt_dw"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkY_IdUmEeeZT_KemTt_dw"/>
               </eAnnotations>
               <ownedComment xmi:id="_16_9_90d0292_1293573032075_222916_2027" body="An accounting period, usually either coterminous with a calendar year with the same name or varying over an annual period starting on a particular calendar date within the year; identifies a complete accounting period for statements" annotatedElement="_16_9_90d0292_1292731926571_954080_1568"/>
               <ownedAttribute xmi:id="_16_9_90d0292_1292731961139_595609_1593" name="year" type="_9_0_1fe00f9_1119336925531_479934_4">
-                <eAnnotations xmi:id="_sJwlgNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="key_0:key__PK" xmi:id="_sJwlgdH3EeeZT_KemTt_dw"/>
-                  <contents xmi:type="persistence_0:persistence__Number" xmi:id="_sJ-n8tH3EeeZT_KemTt_dw" precision="4"/>
+                <eAnnotations xmi:id="_tkVUxNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="key_0:key__PK" xmi:id="_tkVUxdUmEeeZT_KemTt_dw"/>
+                  <contents xmi:type="persistence_0:persistence__Number" xmi:id="_tkg68tUmEeeZT_KemTt_dw" precision="4"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1480122911740_327314_4799" body="the fiscal year, a year value corresponding to the calendar year of the last day of an accounting period" annotatedElement="_16_9_90d0292_1292731961139_595609_1593"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9_90d0292_1292732023382_837591_1600" value="1"/>
@@ -105,9 +105,9 @@
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_9_90d0292_1292732034325_679299_1603" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_16_9_90d0292_1292732103170_985013_1636" name="accounts" type="_16_9_90d0292_1292731282348_247255_1507" isOrdered="true" association="_16_9_90d0292_1292732103169_341560_1634">
-                <eAnnotations xmi:id="_sJ0P4NH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ0P4dH3EeeZT_KemTt_dw" fetchSize="100" batchSize="5" objectName="account"/>
-                  <contents xmi:type="persistence_0:persistence__Lazy" xmi:id="_sJ7kodH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkXxA9UmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkXxBNUmEeeZT_KemTt_dw" fetchSize="100" batchSize="5" objectName="account"/>
+                  <contents xmi:type="persistence_0:persistence__Lazy" xmi:id="_tkeesdUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_16_9_90d0292_1293574673877_984641_2078" body="the set of accounts active during the given fiscal year, ordered by an order number; used in constructing financial statements" annotatedElement="_16_9_90d0292_1292732103170_985013_1636"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9_90d0292_1292732134112_30458_1671" value="-1"/>
@@ -115,9 +115,9 @@
               </ownedAttribute>
             </ownedMember>
             <ownedMember xmi:type="uml:AssociationClass" xmi:id="_16_9_90d0292_1292732103169_341560_1634" name="FiscalYearAccount" memberEnd="_16_9_90d0292_1292732103169_775080_1635 _16_9_90d0292_1292732103170_985013_1636">
-              <eAnnotations xmi:id="_sJvXYtH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__AssociationKey" xmi:id="_sJvXY9H3EeeZT_KemTt_dw" lazy="true"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ2sJNH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkUtstUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__AssociationKey" xmi:id="_tkUts9UmEeeZT_KemTt_dw" lazy="true"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkaNQtUmEeeZT_KemTt_dw"/>
               </eAnnotations>
               <ownedComment xmi:id="_16_9_90d0292_1293573092551_400835_2028" body="An account during a particular accounting period; a chart of accounts for an accounting period consists of all the accounts that are current and active during the specific accounting period" annotatedElement="_16_9_90d0292_1292732103169_341560_1634"/>
               <ownedAttribute xmi:id="_18_1_90d0292_1480205170930_525403_5188" name="accountOrderNumber" type="_9_0_1fe00f9_1119336925531_479934_4">
@@ -126,8 +126,8 @@
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1509120019657_696113_5150" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1480122485477_408091_4757" name="group" type="_18_1_90d0292_1480122333038_837658_4722" association="_18_1_90d0292_1480122485476_321442_4755">
-                <eAnnotations xmi:id="_sJ4hUNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ4hUdH3EeeZT_KemTt_dw">
+                <eAnnotations xmi:id="_tkbbYtUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkbbY9UmEeeZT_KemTt_dw">
                     <name>accountType</name>
                     <name>groupName</name>
                   </contents>
@@ -143,23 +143,23 @@
               </ownedAttribute>
             </ownedMember>
             <ownedMember xmi:type="uml:Class" xmi:id="_16_9_90d0292_1292731282348_247255_1507" name="Account">
-              <eAnnotations xmi:id="_sJxzoNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__CompositeKey" xmi:id="_sJxzodH3EeeZT_KemTt_dw"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ0P5NH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkWi5NUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__CompositeKey" xmi:id="_tkWi5dUmEeeZT_KemTt_dw"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkYYEtUmEeeZT_KemTt_dw"/>
               </eAnnotations>
               <ownedComment xmi:id="_16_9_90d0292_1293572939419_140371_2026" body="A division of the accounting system representing an individual accounting element; divided into assets, liabilities, and equity on the balance sheet or income or expense on the income statement; owned by an accounting entity" annotatedElement="_16_9_90d0292_1292731282348_247255_1507"/>
               <ownedAttribute xmi:id="_16_9_90d0292_1292731344460_397947_1532" name="accountName" type="_9_0_1fe00f9_1119336925531_364079_66">
-                <eAnnotations xmi:id="_sJv-ctH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="key_0:key__PK" xmi:id="_sJv-c9H3EeeZT_KemTt_dw"/>
-                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_sJ8ywNH3EeeZT_KemTt_dw" length="100"/>
+                <eAnnotations xmi:id="_tkVUwtUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="key_0:key__PK" xmi:id="_tkVUw9UmEeeZT_KemTt_dw"/>
+                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_tkfFwtUmEeeZT_KemTt_dw" length="100"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1480120578969_115538_4631" body="the account name; unique within the entity" annotatedElement="_16_9_90d0292_1292731344460_397947_1532"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9_90d0292_1292731866213_295766_1553" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_9_90d0292_1292731866213_71047_1552" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_16_9_90d0292_1292731355676_638616_1534" name="description" type="_9_0_1fe00f9_1119336925531_364079_66">
-                <eAnnotations xmi:id="_sJ9Z0NH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_sJ9Z0dH3EeeZT_KemTt_dw" length="500"/>
+                <eAnnotations xmi:id="_tkfs0tUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_tkfs09UmEeeZT_KemTt_dw" length="500"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1480121091707_530614_4708" body="text description of the nature of the account" annotatedElement="_16_9_90d0292_1292731355676_638616_1534"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9_90d0292_1292731877934_400748_1555" value="1"/>
@@ -178,55 +178,55 @@
                 <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_16_9_90d0292_1292731851878_31435_1551" value="true"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_16_9_90d0292_1292732103169_775080_1635" name="years" type="_16_9_90d0292_1292731926571_954080_1568" association="_16_9_90d0292_1292732103169_341560_1634">
-                <eAnnotations xmi:id="_sJ5IYtH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ5IY9H3EeeZT_KemTt_dw" fetchSize="100" batchSize="5" objectName="fiscalYear"/>
-                  <contents xmi:type="persistence_0:persistence__Lazy" xmi:id="_sJ8LstH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkcCc9UmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkcCdNUmEeeZT_KemTt_dw" fetchSize="100" batchSize="5" objectName="fiscalYear"/>
+                  <contents xmi:type="persistence_0:persistence__Lazy" xmi:id="_tkfFwdUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_16_9_90d0292_1293574650533_511571_2077" body="the set of fiscal years for which an account is active" annotatedElement="_16_9_90d0292_1292732103169_775080_1635"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9_90d0292_1292732127480_260973_1667" value="-1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_9_90d0292_1292732127479_636038_1666"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1480205537315_31233_5223" name="items" type="_16_9_90d0292_1292774161096_613625_2408" isOrdered="true" association="_18_1_90d0292_1480205537315_28396_5221">
-                <eAnnotations xmi:id="_sJ5vcNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ5vcdH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkcpgdUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkcpgtUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1480205654344_796144_5267" body="the set of items against the account" annotatedElement="_18_1_90d0292_1480205537315_31233_5223"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1480205815769_262275_5271" value="-1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1480205815769_538214_5270"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1480210231963_992840_5359" name="entity" type="_18_1_90d0292_1480120589605_885926_4633" association="_18_1_90d0292_1480210231963_622021_5357">
-                <eAnnotations xmi:id="_sJ6WhNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ6WhdH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkdQlNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkdQldUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1480210260234_576913_5397" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1480210260234_391437_5396" value="1"/>
               </ownedAttribute>
             </ownedMember>
             <ownedMember xmi:type="uml:Class" xmi:id="_18_1_90d0292_1480122333038_837658_4722" name="AccountGroup">
-              <eAnnotations xmi:id="_sJxzotH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__CompositeKey" xmi:id="_sJxzo9H3EeeZT_KemTt_dw"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ2FEdH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkXJ8NUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__CompositeKey" xmi:id="_tkXJ8dUmEeeZT_KemTt_dw"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkZmMdUmEeeZT_KemTt_dw"/>
               </eAnnotations>
               <ownedComment xmi:id="_18_1_90d0292_1480122380342_11204_4744" body="A named group of fiscal-year accounts, grouping the accounts for presentation and aggregation in financial statements for the fiscal year" annotatedElement="_18_1_90d0292_1480122333038_837658_4722"/>
               <ownedAttribute xmi:id="_18_1_90d0292_1480122485477_939418_4756" name="accounts" type="_16_9_90d0292_1292732103169_341560_1634" isOrdered="true" association="_18_1_90d0292_1480122485476_321442_4755">
-                <eAnnotations xmi:id="_sJ36QtH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ36Q9H3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkbbYNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkbbYdUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1480122559446_813491_4796" body="the set of accounts in the group" annotatedElement="_18_1_90d0292_1480122485477_939418_4756"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1480122512524_136196_4779" value="-1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1480122512524_592163_4778"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1509119298654_356066_5106" name="type" type="_18_1_90d0292_1509118918979_581735_5018" association="_18_1_90d0292_1509119298654_754282_5104">
-                <eAnnotations xmi:id="_sJ3TMtH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ3TM9H3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tka0UNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tka0UdUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1509119302604_716289_5122" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1509119302604_832283_5121" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1480122444584_760743_4748" name="groupName" type="_9_0_1fe00f9_1119336925531_364079_66">
-                <eAnnotations xmi:id="_sJv-cNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="key_0:key__PK" xmi:id="_sJv-cdH3EeeZT_KemTt_dw"/>
-                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_sJ9Z09H3EeeZT_KemTt_dw" length="100"/>
+                <eAnnotations xmi:id="_tkVUwNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="key_0:key__PK" xmi:id="_tkVUwdUmEeeZT_KemTt_dw"/>
+                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_tkgT4NUmEeeZT_KemTt_dw" length="100"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1486320233970_358502_4742" body="the name of the group of accounts; examples: Cash, Fixed Assets, Accounts Payable, Tax-Related Expenses" annotatedElement="_18_1_90d0292_1480122444584_760743_4748"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1485733732931_921661_4732" value="1"/>
@@ -236,74 +236,75 @@
             <ownedMember xmi:type="uml:Association" xmi:id="_18_1_90d0292_1480122485476_321442_4755" memberEnd="_18_1_90d0292_1480122485477_939418_4756 _18_1_90d0292_1480122485477_408091_4757"/>
             <ownedMember xmi:type="uml:Association" xmi:id="_18_1_90d0292_1480210231963_622021_5357" memberEnd="_18_1_90d0292_1480210231963_632722_5358 _18_1_90d0292_1480210231963_992840_5359"/>
             <ownedMember xmi:type="uml:Class" xmi:id="_18_1_90d0292_1480120589605_885926_4633" name="Entity">
-              <eAnnotations xmi:id="_sJuwUNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__NaturalKey" xmi:id="_sJuwUdH3EeeZT_KemTt_dw"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ028tH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkUGotUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__NaturalKey" xmi:id="_tkUGo9UmEeeZT_KemTt_dw"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkY_INUmEeeZT_KemTt_dw"/>
               </eAnnotations>
               <ownedComment xmi:id="_18_1_90d0292_1480120865960_419629_4682" body="The entity is the person or organization that owns all the accounts and the transactions in them and is the basis for the accounting statements" annotatedElement="_18_1_90d0292_1480120589605_885926_4633"/>
               <ownedAttribute xmi:id="_18_1_90d0292_1480120660709_879229_4658" name="entityName" type="_9_0_1fe00f9_1119336925531_364079_66">
-                <eAnnotations xmi:id="_sJwlgtH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="key_0:key__PK" xmi:id="_sJwlg9H3EeeZT_KemTt_dw"/>
-                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_sJ9Z0tH3EeeZT_KemTt_dw" length="500"/>
+                <eAnnotations xmi:id="_tkV70NUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="key_0:key__PK" xmi:id="_tkV70dUmEeeZT_KemTt_dw"/>
+                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_tkfs1NUmEeeZT_KemTt_dw" length="500"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1480120837017_443104_4681" body="the name of the accounting entity; unique among all entities" annotatedElement="_18_1_90d0292_1480120660709_879229_4658"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1485733336639_761531_4726" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1485733336638_107374_4725" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1480210231963_632722_5358" name="accounts" type="_16_9_90d0292_1292731282348_247255_1507" association="_18_1_90d0292_1480210231963_622021_5357" aggregation="composite">
-                <eAnnotations xmi:id="_sJ36QNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ36QdH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tka0UtUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tka0U9UmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1480210264383_69001_5403" value="-1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1480210264382_781005_5402"/>
               </ownedAttribute>
             </ownedMember>
             <ownedMember xmi:type="uml:Class" xmi:id="_18_1_90d0292_1509114980478_940182_4873" name="CapitalEntity">
-              <eAnnotations xmi:id="_sJvXYNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__NaturalKey" xmi:id="_sJvXYdH3EeeZT_KemTt_dw"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ2FENH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkUtsNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__NaturalKey" xmi:id="_tkUtsdUmEeeZT_KemTt_dw"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkZmMNUmEeeZT_KemTt_dw"/>
               </eAnnotations>
+              <ownedComment xmi:id="_18_1_90d0292_1511974782380_322424_5178" body="An entity that participates in the ownership of the accounting entity, such as a person, a sole proprietor, or a partner, identified by name; the capital entity associates with a single, required capital account and a single, optional distribution account for each accounting entity" annotatedElement="_18_1_90d0292_1509114980478_940182_4873"/>
               <ownedAttribute xmi:id="_18_1_90d0292_1509115224945_879331_4916" name="capitalEntityName" type="_9_0_1fe00f9_1119336925531_364079_66">
-                <eAnnotations xmi:id="_sJxMktH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="key_0:key__PK" xmi:id="_sJxMk9H3EeeZT_KemTt_dw"/>
-                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_sJ-A4dH3EeeZT_KemTt_dw" length="500"/>
+                <eAnnotations xmi:id="_tkWi4NUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="key_0:key__PK" xmi:id="_tkWi4dUmEeeZT_KemTt_dw"/>
+                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_tkgT4tUmEeeZT_KemTt_dw" length="500"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1509551935163_107537_5263" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1509551935163_780116_5262" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1509381062519_560971_4807" name="capitalAccount" type="_18_1_90d0292_1509380964062_539708_4745" association="_18_1_90d0292_1509381062519_321322_4806">
-                <eAnnotations xmi:id="_sJ69kNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ69kdH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkd3oNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkd3odUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1509381114048_407930_4889" value="-1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1509381114048_182832_4888"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1509381066503_17848_4828" name="distributionAccount" type="_18_1_90d0292_1509380984080_558265_4768" association="_18_1_90d0292_1509381066502_923699_4827">
-                <eAnnotations xmi:id="_sJ2sINH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ2sIdH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkZmMtUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkZmM9UmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1509381119014_72177_4895" value="-1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1509381119014_38169_4894"/>
               </ownedAttribute>
             </ownedMember>
             <ownedMember xmi:type="uml:Class" xmi:id="_18_1_90d0292_1509118918979_581735_5018" name="AccountType">
-              <eAnnotations xmi:id="_sJuJQNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__NaturalKey" xmi:id="_sJuJQdH3EeeZT_KemTt_dw"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJzo0NH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkUGoNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__NaturalKey" xmi:id="_tkUGodUmEeeZT_KemTt_dw"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkXxAtUmEeeZT_KemTt_dw"/>
               </eAnnotations>
               <ownedComment xmi:id="_18_1_90d0292_1509119006309_51178_5040" body="A named group of account groups, grouping accounts within basic accounting types for a fiscal year. The types are fixed and include: Assets, Liabilities, Equity, Income, and Expense." annotatedElement="_18_1_90d0292_1509118918979_581735_5018"/>
               <ownedAttribute xmi:id="_18_1_90d0292_1509119024757_249967_5044" name="accountType" type="_9_0_1fe00f9_1119336925531_364079_66">
-                <eAnnotations xmi:id="_sJxMkNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="key_0:key__PK" xmi:id="_sJxMkdH3EeeZT_KemTt_dw"/>
-                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_sJ-A4NH3EeeZT_KemTt_dw" length="15"/>
+                <eAnnotations xmi:id="_tkV70tUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="key_0:key__PK" xmi:id="_tkV709UmEeeZT_KemTt_dw"/>
+                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_tkgT4dUmEeeZT_KemTt_dw" length="15"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1509119256403_126253_5089" body="the account type name (Assets, Liabilities, Equity, Income, Expense)" annotatedElement="_18_1_90d0292_1509119024757_249967_5044"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1509120010594_738648_5149" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1509120010594_908714_5148" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1509119298654_67562_5105" name="groups" type="_18_1_90d0292_1480122333038_837658_4722" association="_18_1_90d0292_1509119298654_754282_5104" aggregation="composite">
-                <eAnnotations xmi:id="_sJ0P4tH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ0P49H3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkYYENUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkYYEdUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1509119310926_720681_5128" value="-1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1509119310925_992277_5127" value="1"/>
@@ -311,13 +312,14 @@
             </ownedMember>
             <ownedMember xmi:type="uml:Association" xmi:id="_18_1_90d0292_1509119298654_754282_5104" memberEnd="_18_1_90d0292_1509119298654_67562_5105 _18_1_90d0292_1509119298654_356066_5106"/>
             <ownedMember xmi:type="uml:Class" xmi:id="_18_1_90d0292_1509380964062_539708_4745" name="CapitalAccount">
-              <eAnnotations xmi:id="_sJ6WgtH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ6Wg9H3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkdQktUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkdQk9UmEeeZT_KemTt_dw"/>
               </eAnnotations>
+              <ownedComment xmi:id="_18_1_90d0292_1511974560479_141592_5176" body="An account that represents the paid-in capital for a specific capital entity; there can be only one such account for an accounting entity for each associated capital entity, meaning that capital gets distributed across the set of capital entities with one account per entity, with the amount determined by the ownership percentage; the account cannot change in different fiscal years due to the nature of capital accumulation on the balance sheet" annotatedElement="_18_1_90d0292_1509380964062_539708_4745"/>
               <generalization xmi:id="_18_1_90d0292_1509380996403_239446_4795" general="_16_9_90d0292_1292731282348_247255_1507" isSubstitutable="true"/>
               <ownedAttribute xmi:id="_18_1_90d0292_1509381062519_465064_4808" name="capitalEntity" type="_18_1_90d0292_1509114980478_940182_4873" association="_18_1_90d0292_1509381062519_321322_4806">
-                <eAnnotations xmi:id="_sJ2sItH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ2sI9H3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkaNQNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkaNQdUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1509381102248_78589_4883" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1509381102248_71166_4882" value="1"/>
@@ -329,13 +331,14 @@
               </ownedAttribute>
             </ownedMember>
             <ownedMember xmi:type="uml:Class" xmi:id="_18_1_90d0292_1509380984080_558265_4768" name="DistributionAccount">
-              <eAnnotations xmi:id="_sJ1eAdH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ1eAtH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkY_ItUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkY_I9UmEeeZT_KemTt_dw"/>
               </eAnnotations>
+              <ownedComment xmi:id="_18_1_90d0292_1511974668553_571672_5177" body="A contra account that represents the owner distributions or payouts for a specific capital entity; there can be only one such account for an accounting entity for each associated capital entity, meaning that each capital entity for the accounting entity has a single distribution account; the account cannot change in different fiscal years" annotatedElement="_18_1_90d0292_1509380984080_558265_4768"/>
               <generalization xmi:id="_18_1_90d0292_1509380992802_186176_4792" general="_16_9_90d0292_1292731282348_247255_1507" isSubstitutable="true"/>
               <ownedAttribute xmi:id="_18_1_90d0292_1509381066503_245875_4829" name="capitalEntity" type="_18_1_90d0292_1509114980478_940182_4873" association="_18_1_90d0292_1509381066502_923699_4827">
-                <eAnnotations xmi:id="_sJ5IYNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ5IYdH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkcCcdUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkcCctUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1509381097412_529518_4877" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1509381097411_554729_4876" value="1"/>
@@ -344,9 +347,10 @@
             <ownedMember xmi:type="uml:Association" xmi:id="_18_1_90d0292_1509381062519_321322_4806" memberEnd="_18_1_90d0292_1509381062519_560971_4807 _18_1_90d0292_1509381062519_465064_4808"/>
             <ownedMember xmi:type="uml:Association" xmi:id="_18_1_90d0292_1509381066502_923699_4827" memberEnd="_18_1_90d0292_1509381066503_17848_4828 _18_1_90d0292_1509381066503_245875_4829"/>
             <ownedMember xmi:type="uml:Class" xmi:id="_18_1_90d0292_1509643580751_642297_5269" name="SimpleAccount">
-              <eAnnotations xmi:id="_sJ6WgNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ6WgdH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkdQkNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkdQkdUmEeeZT_KemTt_dw"/>
               </eAnnotations>
+              <ownedComment xmi:id="_18_1_90d0292_1511974314537_350164_5175" body="An account with no special characteristics separate from an abstract account" annotatedElement="_18_1_90d0292_1509643580751_642297_5269"/>
               <generalization xmi:id="_18_1_90d0292_1509643591528_430423_5293" general="_16_9_90d0292_1292731282348_247255_1507" isSubstitutable="true"/>
               <ownedAttribute xmi:id="_16_9_90d0292_1292731808881_234923_1545" name="receivable" type="_9_0_1fe00f9_1119336925531_877505_40">
                 <ownedComment xmi:id="_18_1_90d0292_1480121243143_825959_4710" body="whether this account is a receivable account, representing an asset that is a debt owed to the accounting entity" annotatedElement="_16_9_90d0292_1292731808881_234923_1545"/>
@@ -356,42 +360,42 @@
             </ownedMember>
           </ownedMember>
           <ownedMember xmi:type="uml:Package" xmi:id="_16_9_90d0292_1292774013588_906414_2345" name="transaction">
-            <eAnnotations xmi:id="_sJzBwtH3EeeZT_KemTt_dw" source="appliedStereotypes">
-              <contents xmi:type="memory_0:memory__Cached" xmi:id="_sJzBw9H3EeeZT_KemTt_dw"/>
-              <contents xmi:type="persistence_0:persistence__Subsystem" xmi:id="_sJ7koNH3EeeZT_KemTt_dw" businessPackage="com.poesys.accounting.bs.transaction"/>
+            <eAnnotations xmi:id="_tkXxANUmEeeZT_KemTt_dw" source="appliedStereotypes">
+              <contents xmi:type="memory_0:memory__Cached" xmi:id="_tkXxAdUmEeeZT_KemTt_dw"/>
+              <contents xmi:type="persistence_0:persistence__Subsystem" xmi:id="_tkeesNUmEeeZT_KemTt_dw" businessPackage="com.poesys.accounting.bs.transaction"/>
             </eAnnotations>
             <ownedMember xmi:type="uml:Class" xmi:id="_16_9_90d0292_1292774161096_613625_2408" name="Item">
-              <eAnnotations xmi:id="_sJyasNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__CompositeKey" xmi:id="_sJyasdH3EeeZT_KemTt_dw"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ5IZNH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkXJ8tUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__CompositeKey" xmi:id="_tkXJ89UmEeeZT_KemTt_dw"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkcpgNUmEeeZT_KemTt_dw"/>
               </eAnnotations>
               <ownedComment xmi:id="_16_9_90d0292_1293573175796_769612_2029" body="A specific amount of value associated with a specific account within a transaction parent; the item debits and credits must cancel each other out for the set of all items belonging to the transaction (the transaction must &quot;balance&quot;); the transaction orders the set of items according to an integer order number, which is part of the primary key" annotatedElement="_16_9_90d0292_1292774161096_613625_2408"/>
               <ownedAttribute xmi:id="_18_1_90d0292_1494786468662_124616_4747" name="orderNumber" type="_9_0_1fe00f9_1119336925531_479934_4">
-                <eAnnotations xmi:id="_sJxMlNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="key_0:key__PK" xmi:id="_sJxMldH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkWi4tUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="key_0:key__PK" xmi:id="_tkWi49UmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1494786528671_648620_4752" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1494786528671_286866_4751" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_16_9_90d0292_1292774299531_25775_2469" name="transaction" type="_16_9_90d0292_1292774154279_36199_2385" association="_16_9_90d0292_1292774299531_489296_2467">
-                <eAnnotations xmi:id="_sJ69ktH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ69k9H3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkd3otUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkd3o9UmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_16_9_90d0292_1293574564185_530155_2074" body="the transaction that owns the item (the parent)" annotatedElement="_16_9_90d0292_1292774299531_25775_2469"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9_90d0292_1292774466462_579164_2537" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_9_90d0292_1292774466461_828549_2536" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1480205537315_809845_5222" name="account" type="_16_9_90d0292_1292731282348_247255_1507" association="_18_1_90d0292_1480205537315_28396_5221">
-                <eAnnotations xmi:id="_sJ028NH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ028dH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkYYE9UmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkYYFNUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1480205609275_590766_5260" body="the account to which to associate the flow of funds for the item" annotatedElement="_18_1_90d0292_1480205537315_809845_5222"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1480205824128_801298_5277" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1480205824128_210234_5276" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_16_9_90d0292_1292788267444_28084_2631" name="amount" type="_9_0_1fe00f9_1119336925531_221770_56">
-                <eAnnotations xmi:id="_sJ-n8NH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Number" xmi:id="_sJ-n8dH3EeeZT_KemTt_dw" precision="10" scale="2"/>
+                <eAnnotations xmi:id="_tkg68NUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Number" xmi:id="_tkg68dUmEeeZT_KemTt_dw" precision="10" scale="2"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1480123036354_977967_4802" body="the monetary amount in dollars of the transaction item" annotatedElement="_16_9_90d0292_1292788267444_28084_2631"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9_90d0292_1292788360096_69613_2641" value="1"/>
@@ -410,18 +414,18 @@
                 <defaultValue xmi:type="uml:LiteralBoolean" xmi:id="_16_9_90d0292_1292788441214_149744_2647"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1496261189227_315390_4771" name="reimbursingItems" type="_16_9_90d0292_1292774161096_613625_2408" association="_18_1_90d0292_1496261189226_54343_4770">
-                <eAnnotations xmi:id="_sJ3TMNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ3TMdH3EeeZT_KemTt_dw" objectName="reimbursingItem"/>
-                  <contents xmi:type="persistence_0:persistence__Lazy" xmi:id="_sJ8LsNH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkaNQ9UmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkaNRNUmEeeZT_KemTt_dw" objectName="reimbursingItem"/>
+                  <contents xmi:type="persistence_0:persistence__Lazy" xmi:id="_tkeestUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1496262022716_901142_4935" body="the set of reimbursed items" annotatedElement="_18_1_90d0292_1496261189227_315390_4771"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1496261213476_956021_4832" value="-1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1496261213475_858084_4831"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_18_1_90d0292_1496261189227_685124_4772" name="receivables" type="_16_9_90d0292_1292774161096_613625_2408" association="_18_1_90d0292_1496261189226_54343_4770">
-                <eAnnotations xmi:id="_sJ4hUtH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ4hU9H3EeeZT_KemTt_dw" objectName="receivable"/>
-                  <contents xmi:type="persistence_0:persistence__Lazy" xmi:id="_sJ8LsdH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkbbZNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkbbZdUmEeeZT_KemTt_dw" objectName="receivable"/>
+                  <contents xmi:type="persistence_0:persistence__Lazy" xmi:id="_tkfFwNUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_18_1_90d0292_1496262033936_746729_4936" body="the set of receivable items" annotatedElement="_18_1_90d0292_1496261189227_685124_4772"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1496261209587_415409_4826" value="-1"/>
@@ -430,22 +434,22 @@
             </ownedMember>
             <ownedMember xmi:type="uml:Association" xmi:id="_16_9_90d0292_1292774299531_489296_2467" memberEnd="_16_9_90d0292_1292774299531_786929_2468 _16_9_90d0292_1292774299531_25775_2469"/>
             <ownedMember xmi:type="uml:Class" xmi:id="_16_9_90d0292_1292774154279_36199_2385" name="Transaction">
-              <eAnnotations xmi:id="_sJtiMNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__SequenceKey" xmi:id="_sJtiMdH3EeeZT_KemTt_dw" sequenceName="transactionId"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ4hVNH3EeeZT_KemTt_dw" fetchSize="500"/>
+              <eAnnotations xmi:id="_tkTfkNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__SequenceKey" xmi:id="_tkTfkdUmEeeZT_KemTt_dw" sequenceName="transactionId"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkcCcNUmEeeZT_KemTt_dw" fetchSize="500"/>
               </eAnnotations>
               <ownedComment xmi:id="_16_9_90d0292_1293573243706_346965_2030" body="An exchange of value between accounts; the items that correspond to the fiscal year accounts must balance (cancel each other out with respect to debits and credits)" annotatedElement="_16_9_90d0292_1292774154279_36199_2385"/>
               <ownedAttribute xmi:id="_16_9_90d0292_1292774299531_786929_2468" name="items" type="_16_9_90d0292_1292774161096_613625_2408" isOrdered="true" association="_16_9_90d0292_1292774299531_489296_2467" aggregation="composite">
-                <eAnnotations xmi:id="_sJ1eA9H3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ1eBNH3EeeZT_KemTt_dw"/>
+                <eAnnotations xmi:id="_tkY_JNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkY_JdUmEeeZT_KemTt_dw"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_16_9_90d0292_1293574543474_508444_2073" body="the set of items belonging to the transaction; the debit and credit values must cancel each other out by summing to zero" annotatedElement="_16_9_90d0292_1292774299531_786929_2468"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9_90d0292_1292774461454_981678_2533" value="-1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_16_9_90d0292_1292774461454_862251_2532" value="1"/>
               </ownedAttribute>
               <ownedAttribute xmi:id="_16_9_90d0292_1292788136241_640589_2613" name="description" type="_9_0_1fe00f9_1119336925531_364079_66">
-                <eAnnotations xmi:id="_sJ8ywdH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_sJ8ywtH3EeeZT_KemTt_dw" length="4000"/>
+                <eAnnotations xmi:id="_tkfs0NUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                  <contents xmi:type="persistence_0:persistence__SizedProperty" xmi:id="_tkfs0dUmEeeZT_KemTt_dw" length="4000"/>
                 </eAnnotations>
                 <ownedComment xmi:id="_16_9_90d0292_1293574201378_558355_2065" body="a text describing the nature of the transaction" annotatedElement="_16_9_90d0292_1292788136241_640589_2613"/>
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_16_9_90d0292_1292788196508_925723_2622" value="1"/>
@@ -471,9 +475,9 @@
             </ownedMember>
             <ownedMember xmi:type="uml:Association" xmi:id="_18_1_90d0292_1480205537315_28396_5221" memberEnd="_18_1_90d0292_1480205537315_809845_5222 _18_1_90d0292_1480205537315_31233_5223"/>
             <ownedMember xmi:type="uml:AssociationClass" xmi:id="_18_1_90d0292_1496261189226_54343_4770" name="Reimbursement" memberEnd="_18_1_90d0292_1496261189227_315390_4771 _18_1_90d0292_1496261189227_685124_4772">
-              <eAnnotations xmi:id="_sJvXZNH3EeeZT_KemTt_dw" source="appliedStereotypes">
-                <contents xmi:type="key_0:key__AssociationKey" xmi:id="_sJvXZdH3EeeZT_KemTt_dw" name="reimbursement" lazy="true"/>
-                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_sJ5vctH3EeeZT_KemTt_dw"/>
+              <eAnnotations xmi:id="_tkUttNUmEeeZT_KemTt_dw" source="appliedStereotypes">
+                <contents xmi:type="key_0:key__AssociationKey" xmi:id="_tkUttdUmEeeZT_KemTt_dw" name="reimbursement" lazy="true"/>
+                <contents xmi:type="persistence_0:persistence__Persistent" xmi:id="_tkcpg9UmEeeZT_KemTt_dw"/>
               </eAnnotations>
               <ownedComment xmi:id="_18_1_90d0292_1496261876478_565635_4934" body="A link between a receivable item and another receivable item that reimburses the first one; the first one is a debit against a receivable account, the second one is a credit against the same account. The accounts associated with related items must be the same. One receivable item can be reimbursed by several reimbursement items, and one reimbursement item can reimburse several receivables. For example, you take a business trip and have 15 separate items that you submit as receivables from the company. The company pays you with a single expense check: that creates 15 links to the various receivables. If it pays you with a couple of different checks, there would still be 15 links, but there would be multiple reimbursement items in the set as well as multiple receivable items. A link has a reimbursement amount that must be less than or equal to the reimbursement item's amount (part or all of the amount constitutes the reimbursement); the set of links for one reimbursement item must have reimbursement amounts that sum to less than the item amount. There can also be allocated amounts that aren't reimbursed; those are not part of the summation validation, but they do participate in sums of amounts applied to the receivable--the sum of all link reimbursement and allocated amounts for a specific receivable item should be less than or equal to the receivable amount; less than means the receivable was not entirely reimbursed and requires additional payments (or writing off). You can have a reimbursement link with a zero reimbursement amount and a positive allocated amount." annotatedElement="_18_1_90d0292_1496261189226_54343_4770"/>
               <ownedAttribute xmi:id="_18_1_90d0292_1496261242147_468967_4848" name="reimbursedAmount" type="_9_0_1fe00f9_1119336925531_221770_56">
@@ -618,6 +622,9 @@
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1497484786978_953025_4795" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1497484786977_555874_4794" value="1"/>
               </ownedAttribute>
+              <ownedAttribute xmi:id="_18_1_90d0292_1511911657244_596543_5167" name="orderNumber" visibility="private" type="_9_0_1fe00f9_1119336925531_479934_4">
+                <ownedComment xmi:id="_18_1_90d0292_1511911881139_515663_5174" body="the rank order of the group within the year and account type" annotatedElement="_18_1_90d0292_1511911657244_596543_5167"/>
+              </ownedAttribute>
               <ownedOperation xmi:id="_18_1_90d0292_1497975199572_449334_5168" name="contains" type="_9_0_1fe00f9_1119336925531_736816_6">
                 <returnResult xmi:id="_18_1_90d0292_1497975232994_406326_5171" type="_9_0_1fe00f9_1119336925531_736816_6" direction="return"/>
                 <ownedParameter xmi:id="_18_1_90d0292_1497975241893_461835_5172" name="accountNumber" type="_9_0_1fe00f9_1119336925531_593311_21">
@@ -636,9 +643,14 @@
                   <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1498312940830_442218_4757" value="1"/>
                 </ownedParameter>
               </ownedOperation>
+              <ownedOperation xmi:id="_18_1_90d0292_1511911691624_172950_5169" name="getAccountType" type="_18_1_90d0292_1511438717396_163462_5010">
+                <returnResult xmi:id="_18_1_90d0292_1511911775046_622098_5173" type="_18_1_90d0292_1511438717396_163462_5010" direction="return"/>
+              </ownedOperation>
             </ownedMember>
             <ownedMember xmi:type="uml:Class" xmi:id="_18_1_90d0292_1491418751172_382242_4850" name="Receivable">
-              <generalization xmi:id="_18_1_90d0292_1498321093793_362618_5130" general="_18_1_90d0292_1498320701158_126007_4819" isSubstitutable="true"/>
+              <generalization xmi:id="_18_1_90d0292_1498321093793_362618_5130" general="_18_1_90d0292_1498320701158_126007_4819" isSubstitutable="true">
+                <ownedComment xmi:id="_18_1_90d0292_1511911738046_757104_5172" body="get the new-accounting account type (Assets, Liabilities, and so on) corresponding to the group account number range" annotatedElement="_18_1_90d0292_1498321093793_362618_5130"/>
+              </generalization>
               <ownedAttribute xmi:id="_18_1_90d0292_1491418764842_55127_4872" name="year" visibility="private" type="_9_0_1fe00f9_1119336925531_479934_4">
                 <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_18_1_90d0292_1491418856323_210634_4883" value="1"/>
                 <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_18_1_90d0292_1491418856323_984690_4882" value="1"/>
@@ -1784,8 +1796,8 @@
     </ownedMember>
   </ownedMember>
   <ownedMember xmi:type="uml:Package" xmi:id="magicdraw_uml_standard_profile_v_0001" name="UML Standard Profile">
-    <eAnnotations xmi:id="_sKJnENH3EeeZT_KemTt_dw" source="appliedStereotypes">
-      <contents xmi:type="MagicDrawProfile_0:MagicDrawProfile__auxiliaryResource" xmi:id="_sKJnEdH3EeeZT_KemTt_dw"/>
+    <eAnnotations xmi:id="_tkqr8NUmEeeZT_KemTt_dw" source="appliedStereotypes">
+      <contents xmi:type="MagicDrawProfile_0:MagicDrawProfile__auxiliaryResource" xmi:id="_tkqr8dUmEeeZT_KemTt_dw"/>
     </eAnnotations>
     <ownedComment xmi:id="_be00301_1078843546940_242228_131" body="UML Standard Profile contains UML metamodel (metaclasses without properties and associations), StandardProfileL2 and StandardProfileL3 from UML specification, Standard UML stereotypes defined in annex C of UML specification.&#xA;Profile also includes validation suites for UML model correctness and completeness checking, and stereotypes used by MagicDraw internally." annotatedElement="magicdraw_uml_standard_profile_v_0001"/>
   </ownedMember>
