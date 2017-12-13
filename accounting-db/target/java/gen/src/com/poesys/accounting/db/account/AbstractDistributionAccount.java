@@ -506,13 +506,14 @@ in reports where referenced by items
   /**
    * Create the inserters for the DistributionAccount and its superclasses.
    */
-  private void createInserters() {
+  protected void createInserters() {
     com.poesys.db.dao.IDaoManager manager =
       com.poesys.db.dao.DaoManagerFactory.getManager(getSubsystem());
     final com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IDistributionAccount> distributionAccountFactory =
       manager.getFactory("com.poesys.accounting.db.account.DistributionAccount",
                          getSubsystem(),
                          2147483647);
+    super.createInserters();
     com.poesys.db.dao.insert.IInsertSql<IDistributionAccount> sql =
       new com.poesys.accounting.db.account.sql.InsertDistributionAccount();
     com.poesys.db.dao.insert.IInsert<IDistributionAccount> inserter =

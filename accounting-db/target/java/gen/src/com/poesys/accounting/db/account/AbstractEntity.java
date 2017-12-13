@@ -7,6 +7,7 @@
 package com.poesys.accounting.db.account;
 
 
+import com.poesys.db.dao.PoesysTrackingThread;
 import org.apache.log4j.Logger;
 
 import com.poesys.db.pk.IPrimaryKey;
@@ -220,6 +221,11 @@ public abstract class AbstractEntity extends AbstractDto implements IEntity {
     @Override
     protected boolean createKey() {
       return true;
+    }
+
+    @Override
+    protected void doSet(PoesysTrackingThread thread) {
+      super.doSet(thread);
     }
   }
 

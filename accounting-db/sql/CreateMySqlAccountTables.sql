@@ -52,7 +52,7 @@ CREATE TABLE CapitalAccount (
   CONSTRAINT CpA_PK PRIMARY KEY (accountName, entityName),
   CONSTRAINT CpA_Ac_FK FOREIGN KEY (accountName, entityName)
     REFERENCES Account (accountName, entityName) ON UPDATE CASCADE ON DELETE CASCADE,
-  ownership NUMERIC NOT NULL,  
+  ownership NUMERIC(10,2) NOT NULL,  
   capitalEntityName VARCHAR(500) NOT NULL,
   CONSTRAINT CpA_CpE_FK FOREIGN KEY (capitalEntityName) 
     REFERENCES CapitalEntity (capitalEntityName) ON UPDATE CASCADE ON DELETE CASCADE

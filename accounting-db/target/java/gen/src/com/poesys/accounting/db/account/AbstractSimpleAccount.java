@@ -91,7 +91,7 @@ debt owed to the accounting entity
    * 
    * @param in the object input stream
    * @throws ClassNotFoundException when a nested object class can't be found
-   * @throws IOException when there is an IO problem reading the stream
+   * @throws java.io.IOException when there is an IO problem reading the stream
    */
   private void readObject(java.io.ObjectInputStream in) throws java.io.IOException,
       ClassNotFoundException {
@@ -173,13 +173,14 @@ debt owed to the accounting entity
   /**
    * Create the inserters for the SimpleAccount and its superclasses.
    */
-  private void createInserters() {
+  protected void createInserters() {
     com.poesys.db.dao.IDaoManager manager =
       com.poesys.db.dao.DaoManagerFactory.getManager(getSubsystem());
     final com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.ISimpleAccount> simpleAccountFactory =
       manager.getFactory("com.poesys.accounting.db.account.SimpleAccount",
                          getSubsystem(),
                          2147483647);
+    super.createInserters();
     com.poesys.db.dao.insert.IInsertSql<ISimpleAccount> sql =
       new com.poesys.accounting.db.account.sql.InsertSimpleAccount();
     com.poesys.db.dao.insert.IInsert<ISimpleAccount> inserter =

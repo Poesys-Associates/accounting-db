@@ -1022,7 +1022,8 @@ in reports where referenced by items
     postSetters.add(new UpdateFiscalYearAccountSetter());
     postProcessSetters.add(new PostProcessFiscalYearAccountSetter());
     abstractClass = false;
-    createInserters();
+    // Superclass should not call createInserters() in constructor, leaf class calls.
+    // createInserters();
   }
 
   /**
@@ -1720,7 +1721,7 @@ in reports where referenced by items
   /**
    * Create the inserters for the Account and its superclasses.
    */
-  private void createInserters() {
+  protected void createInserters() {
     com.poesys.db.dao.IDaoManager manager =
       com.poesys.db.dao.DaoManagerFactory.getManager(getSubsystem());
     final com.poesys.db.dao.IDaoFactory<com.poesys.accounting.db.account.IAccount> accountFactory =
