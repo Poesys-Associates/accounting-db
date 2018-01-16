@@ -34,6 +34,8 @@ CREATE TABLE Item (
   debit BOOLEAN NOT NULL DEFAULT 1,  
   checked BOOLEAN NOT NULL DEFAULT 0,  
   CONSTRAINT It_PK PRIMARY KEY (transactionId, orderNumber),
+  CONSTRAINT It_Tr_FK FOREIGN KEY (transactionId) 
+    REFERENCES Transaction(transactionId) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT ItAc_FK FOREIGN KEY (accountName, entityName) 
     REFERENCES Account(accountName, entityName) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB CHARSET=utf8;
