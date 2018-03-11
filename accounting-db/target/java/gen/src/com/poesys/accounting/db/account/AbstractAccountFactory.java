@@ -6,13 +6,11 @@
 
 package com.poesys.accounting.db.account;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.poesys.db.InvalidParametersException;
 import com.poesys.db.pk.IPrimaryKey;
-
 
 /**
  * <p>
@@ -22,23 +20,22 @@ import com.poesys.db.pk.IPrimaryKey;
  * AccountFactory, that you can modify to override the default behavior in the
  * abstract class or implement an as-yet unimplemented method.
  * </p>
- * 
- * 
+ *
  * @author Poesys/DB Cartridge
  */
 public abstract class AbstractAccountFactory {
   /**
    * Retrieve the FiscalYear data from the result set's current row and create a
    * FiscalYear object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a FiscalYear instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static IFiscalYear getFiscalYearData(IPrimaryKey key, ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static IFiscalYear getFiscalYearData(IPrimaryKey key, ResultSet rs) throws SQLException,
+    InvalidParametersException {
     // Constructor argument year gets the JDBC value with a function call.
     java.lang.Integer yearValue = rs.getInt("year");
     // Constructor argument startDate gets the JDBC value with a function call.
@@ -48,10 +45,7 @@ public abstract class AbstractAccountFactory {
     // FiscalYear has lazily loaded members or is a lazily loaded association
     // class, so create a Proxy.
     IFiscalYear newObject =
-      new FiscalYearProxy(new FiscalYear(key,
-                                         yearValue,
-                                         startDateValue,
-                                         endDateValue));
+      new FiscalYearProxy(new FiscalYear(key, yearValue, startDateValue, endDateValue));
     return newObject;
   }
 
@@ -68,30 +62,28 @@ public abstract class AbstractAccountFactory {
    * <li>NaturalKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a FiscalYear NaturalKey primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getFiscalYearPrimaryKey(ResultSet rs, String prefix)
-      throws SQLException, InvalidParametersException {
+  public static IPrimaryKey getFiscalYearPrimaryKey(ResultSet rs, String prefix) throws
+    SQLException, InvalidParametersException {
     IPrimaryKey key = null;
     if (prefix == null) {
       prefix = "";
     }
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
     java.lang.Integer yearValue = rs.getInt("year");
 
-    list.add(new com.poesys.db.col.IntegerColumnValue(prefix + "year",
-                                                      yearValue));
-    key =
-      com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                          "com.poesys.accounting.db.account.FiscalYear");
+    list.add(new com.poesys.db.col.IntegerColumnValue(prefix + "year", yearValue));
+    key = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
+                                                              "com.poesys.accounting.db.account" +
+                                                              ".FiscalYear");
     return key;
   }
 
@@ -108,28 +100,27 @@ public abstract class AbstractAccountFactory {
    * <li>NaturalKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param year the fiscal year, a year value corresponding to the calendar
-   *          year of the last day of an accounting period
+   *             year of the last day of an accounting period
    * @return a FiscalYear NaturalKey primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getFiscalYearPrimaryKey(java.lang.Integer year)
-      throws InvalidParametersException {
+  public static IPrimaryKey getFiscalYearPrimaryKey(java.lang.Integer year) throws
+    InvalidParametersException {
     IPrimaryKey key = null;
     // Track generated inputs for nullity.
     boolean noNulls = true;
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
     if (year != null && noNulls) {
       list.add(new com.poesys.db.col.IntegerColumnValue("year", year));
     } else {
       noNulls = false;
     }
     if (noNulls) {
-      key =
-        com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                            "com.poesys.accounting.db.account.FiscalYear");
+      key = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
+                                                                "com.poesys.accounting.db.account" +
+                                                                ".FiscalYear");
     }
     return key;
   }
@@ -137,16 +128,15 @@ public abstract class AbstractAccountFactory {
   /**
    * Retrieve the FiscalYearAccount data from the result set's current row and
    * create a FiscalYearAccount object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a FiscalYearAccount instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static IFiscalYearAccount getFiscalYearAccountData(IPrimaryKey key,
-                                                            ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static IFiscalYearAccount getFiscalYearAccountData(IPrimaryKey key, ResultSet rs) throws
+    SQLException, InvalidParametersException {
     // Assign null to association key object, as this is set by QuerySetter
     com.poesys.accounting.db.account.IAccount accountsObject = null;
     // Assign null to association key object, as this is set by QuerySetter
@@ -174,19 +164,10 @@ public abstract class AbstractAccountFactory {
     com.poesys.accounting.db.account.IAccountGroup groupValue = null;
     // FiscalYearAccount has lazily loaded members or is a lazily loaded
     // association class, so create a Proxy.
-    IFiscalYearAccount newObject =
-      new FiscalYearAccountProxy(new FiscalYearAccount(key,
-                                                       accountsObject,
-                                                       groupObject,
-                                                       yearsObject,
-                                                       accountNameValue,
-                                                       entityNameValue,
-                                                       yearValue,
-                                                       accountOrderNumberValue,
-                                                       groupOrderNumberValue,
-                                                       accountTypeValue,
-                                                       groupNameValue,
-                                                       groupValue));
+    IFiscalYearAccount newObject = new FiscalYearAccountProxy(
+      new FiscalYearAccount(key, accountsObject, groupObject, yearsObject, accountNameValue,
+                            entityNameValue, yearValue, accountOrderNumberValue,
+                            groupOrderNumberValue, accountTypeValue, groupNameValue, groupValue));
     return newObject;
   }
 
@@ -204,20 +185,18 @@ public abstract class AbstractAccountFactory {
    * <li>AssociationKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a FiscalYearAccount AssociationKey primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getFiscalYearAccountPrimaryKey(ResultSet rs,
-                                                           String prefix)
-      throws SQLException, InvalidParametersException {
-    return getFiscalYearAccountPrimaryKey(rs.getString("accountName"),
-                                          rs.getString("entityName"),
+  public static IPrimaryKey getFiscalYearAccountPrimaryKey(ResultSet rs, String prefix) throws
+    SQLException, InvalidParametersException {
+    return getFiscalYearAccountPrimaryKey(rs.getString("accountName"), rs.getString("entityName"),
                                           rs.getInt("year"));
   }
 
@@ -234,17 +213,15 @@ public abstract class AbstractAccountFactory {
    * <li>AssociationKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param accountName Attribute that is part of the association key
-   * @param entityName Attribute that is part of the association key
-   * @param year Attribute that is part of the association key
+   * @param entityName  Attribute that is part of the association key
+   * @param year        Attribute that is part of the association key
    * @return a FiscalYearAccount AssociationKey primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getFiscalYearAccountPrimaryKey(java.lang.String accountName,
-                                                           java.lang.String entityName,
-                                                           java.lang.Integer year)
-      throws InvalidParametersException {
+  public static IPrimaryKey getFiscalYearAccountPrimaryKey(java.lang.String accountName, java
+    .lang.String entityName, java.lang.Integer year) throws InvalidParametersException {
     // Track whether any input keys are null.
     boolean noNulls = true;
 
@@ -262,13 +239,12 @@ public abstract class AbstractAccountFactory {
 
     IPrimaryKey key = null;
     if (noNulls) {
-      java.util.ArrayList<IPrimaryKey> list =
-        new java.util.ArrayList<IPrimaryKey>();
+      java.util.ArrayList<IPrimaryKey> list = new java.util.ArrayList<IPrimaryKey>();
       list.add(accountsKey);
       list.add(yearsKey);
-      key =
-        com.poesys.db.pk.PrimaryKeyFactory.createAssociationKey(list,
-                                                                "com.poesys.accounting.db.account.FiscalYearAccount");
+      key = com.poesys.db.pk.PrimaryKeyFactory.createAssociationKey(list,
+                                                                    "com.poesys.accounting.db" +
+                                                                    ".account.FiscalYearAccount");
     }
     return key;
   }
@@ -276,15 +252,15 @@ public abstract class AbstractAccountFactory {
   /**
    * Retrieve the Account data from the result set's current row and create a
    * Account object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a Account instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static IAccount getAccountData(IPrimaryKey key, ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static IAccount getAccountData(IPrimaryKey key, ResultSet rs) throws SQLException,
+    InvalidParametersException {
     // Constructor argument entityName gets the JDBC value with a function call.
     java.lang.String entityNameValue = rs.getString("entityName");
     // Constructor argument accountName gets the JDBC value with a function
@@ -300,13 +276,9 @@ public abstract class AbstractAccountFactory {
     java.lang.Boolean activeValue = rs.getBoolean("active");
     // Account has lazily loaded members or is a lazily loaded association
     // class, so create a Proxy.
-    IAccount newObject =
-      new AccountProxy(new Account(key,
-                                   entityNameValue,
-                                   accountNameValue,
-                                   descriptionValue,
-                                   debitDefaultValue,
-                                   activeValue));
+    IAccount newObject = new AccountProxy(
+      new Account(key, entityNameValue, accountNameValue, descriptionValue, debitDefaultValue,
+                  activeValue));
     return newObject;
   }
 
@@ -323,34 +295,33 @@ public abstract class AbstractAccountFactory {
    * <li>CompositeKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a Account CompositeKey primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getAccountPrimaryKey(ResultSet rs, String prefix)
-      throws SQLException, InvalidParametersException {
+  public static IPrimaryKey getAccountPrimaryKey(ResultSet rs, String prefix) throws
+    SQLException, InvalidParametersException {
     IPrimaryKey key = null;
     if (prefix == null) {
       prefix = "";
     }
     IPrimaryKey parentKey = getEntityPrimaryKey(rs, "");
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
     java.lang.String accountNameValue = rs.getString("accountName");
-    list.add(new com.poesys.db.col.StringColumnValue(prefix + "accountName",
-                                                     accountNameValue));
-    IPrimaryKey subKey =
-      com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                          "com.poesys.accounting.db.account.Account");
-    key =
-      com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(parentKey,
-                                                            subKey,
-                                                            "com.poesys.accounting.db.account.Account");
+    list.add(new com.poesys.db.col.StringColumnValue(prefix + "accountName", accountNameValue));
+    IPrimaryKey subKey = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list, "com.poesys" +
+                                                                                   ".accounting" +
+                                                                                   ".db" +
+                                                                                   ".account" +
+                                                                                   ".Account");
+    key = com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(parentKey, subKey,
+                                                                "com.poesys.accounting.db.account" +
+                                                                ".Account");
     return key;
   }
 
@@ -367,32 +338,30 @@ public abstract class AbstractAccountFactory {
    * <li>CompositeKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param accountName the account name; unique within the entity
-   * @param entityName composite super-key attribute that uniquely identifies
-   *          child combined with child sub-key and any other parent super-keys
+   * @param entityName  composite super-key attribute that uniquely identifies
+   *                    child combined with child sub-key and any other parent super-keys
    * @return a Account CompositeKey primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getAccountPrimaryKey(java.lang.String accountName,
-                                                 java.lang.String entityName)
-      throws InvalidParametersException {
+  public static IPrimaryKey getAccountPrimaryKey(java.lang.String accountName, java.lang.String
+    entityName) throws InvalidParametersException {
     IPrimaryKey key = null;
     IPrimaryKey parentKey = getEntityPrimaryKey(entityName);
 
     // Check the parent key; if it is null, the return key should be null.
     if (parentKey != null) {
-      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-        new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
-      list.add(new com.poesys.db.col.StringColumnValue("accountName",
-                                                       accountName));
-      IPrimaryKey subKey =
-        com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                            "com.poesys.accounting.db.account.Account");
-      key =
-        com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(parentKey,
-                                                              subKey,
-                                                              "com.poesys.accounting.db.account.Account");
+      java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
+      list.add(new com.poesys.db.col.StringColumnValue("accountName", accountName));
+      IPrimaryKey subKey = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list, "com.poesys" +
+                                                                                     ".accounting" +
+                                                                                     ".db" +
+                                                                                     ".account" +
+                                                                                     ".Account");
+      key = com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(parentKey, subKey,
+                                                                  "com.poesys.accounting.db" +
+                                                                  ".account.Account");
     }
     return key;
   }
@@ -400,23 +369,22 @@ public abstract class AbstractAccountFactory {
   /**
    * Retrieve the AccountGroup data from the result set's current row and create
    * a AccountGroup object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a AccountGroup instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static IAccountGroup getAccountGroupData(IPrimaryKey key, ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static IAccountGroup getAccountGroupData(IPrimaryKey key, ResultSet rs) throws
+    SQLException, InvalidParametersException {
     // Constructor argument accountType gets the JDBC value with a function
     // call.
     java.lang.String accountTypeValue = rs.getString("accountType");
     // Constructor argument groupName gets the JDBC value with a function call.
     java.lang.String groupNameValue = rs.getString("groupName");
     // AccountGroup has no lazily loaded members, so there is no need for Proxy.
-    IAccountGroup newObject =
-      new AccountGroup(key, accountTypeValue, groupNameValue);
+    IAccountGroup newObject = new AccountGroup(key, accountTypeValue, groupNameValue);
     return newObject;
   }
 
@@ -434,21 +402,19 @@ public abstract class AbstractAccountFactory {
    * <li>CompositeKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a AccountGroup CompositeKey primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getAccountGroupPrimaryKey(ResultSet rs,
-                                                      String prefix)
-      throws SQLException, InvalidParametersException {
+  public static IPrimaryKey getAccountGroupPrimaryKey(ResultSet rs, String prefix) throws
+    SQLException, InvalidParametersException {
     IPrimaryKey key =
-      getAccountGroupPrimaryKey(rs.getString("accountType"),
-                                rs.getString("groupName"));
+      getAccountGroupPrimaryKey(rs.getString("accountType"), rs.getString("groupName"));
     return key;
   }
 
@@ -465,31 +431,30 @@ public abstract class AbstractAccountFactory {
    * <li>CompositeKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param accountType composite super-key attribute that uniquely identifies
-   *          child combined with child sub-key and any other parent super-keys
-   * @param groupName the name of the account group within the account type
+   *                    child combined with child sub-key and any other parent super-keys
+   * @param groupName   the name of the account group within the account type
    * @return a AccountGroup CompositeKey primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getAccountGroupPrimaryKey(java.lang.String accountType,
-                                                      java.lang.String groupName)
-      throws InvalidParametersException {
+  public static IPrimaryKey getAccountGroupPrimaryKey(java.lang.String accountType, java.lang
+    .String groupName) throws InvalidParametersException {
     IPrimaryKey key = null;
     IPrimaryKey parentKey = getAccountTypePrimaryKey(accountType);
 
     // Check the parent key; if it is null, the return key should be null.
     if (parentKey != null) {
-      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-        new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+      java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
       list.add(new com.poesys.db.col.StringColumnValue("groupName", groupName));
-      IPrimaryKey subKey =
-        com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                            "com.poesys.accounting.db.account.AccountGroup");
-      key =
-        com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(parentKey,
-                                                              subKey,
-                                                              "com.poesys.accounting.db.account.AccountGroup");
+      IPrimaryKey subKey = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list, "com.poesys" +
+                                                                                     ".accounting" +
+                                                                                     ".db" +
+                                                                                     ".account" +
+                                                                                     ".AccountGroup");
+      key = com.poesys.db.pk.PrimaryKeyFactory.createCompositeKey(parentKey, subKey,
+                                                                  "com.poesys.accounting.db" +
+                                                                  ".account.AccountGroup");
     }
     return key;
   }
@@ -497,15 +462,15 @@ public abstract class AbstractAccountFactory {
   /**
    * Retrieve the Entity data from the result set's current row and create a
    * Entity object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a Entity instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static IEntity getEntityData(IPrimaryKey key, ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static IEntity getEntityData(IPrimaryKey key, ResultSet rs) throws SQLException,
+    InvalidParametersException {
     // Constructor argument entityName gets the JDBC value with a function call.
     java.lang.String entityNameValue = rs.getString("entityName");
     // Entity has no lazily loaded members, so there is no need for Proxy.
@@ -526,30 +491,28 @@ public abstract class AbstractAccountFactory {
    * <li>NaturalKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a Entity NaturalKey primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getEntityPrimaryKey(ResultSet rs, String prefix)
-      throws SQLException, InvalidParametersException {
+  public static IPrimaryKey getEntityPrimaryKey(ResultSet rs, String prefix) throws SQLException,
+    InvalidParametersException {
     IPrimaryKey key = null;
     if (prefix == null) {
       prefix = "";
     }
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
     java.lang.String entityNameValue = rs.getString("entityName");
 
-    list.add(new com.poesys.db.col.StringColumnValue(prefix + "entityName",
-                                                     entityNameValue));
-    key =
-      com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                          "com.poesys.accounting.db.account.Entity");
+    list.add(new com.poesys.db.col.StringColumnValue(prefix + "entityName", entityNameValue));
+    key = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
+                                                              "com.poesys.accounting.db.account" +
+                                                              ".Entity");
     return key;
   }
 
@@ -566,28 +529,27 @@ public abstract class AbstractAccountFactory {
    * <li>NaturalKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param entityName the name of the accounting entity; unique among all
-   *          entities
+   *                   entities
    * @return a Entity NaturalKey primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getEntityPrimaryKey(java.lang.String entityName)
-      throws InvalidParametersException {
+  public static IPrimaryKey getEntityPrimaryKey(java.lang.String entityName) throws
+    InvalidParametersException {
     IPrimaryKey key = null;
     // Track generated inputs for nullity.
     boolean noNulls = true;
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
     if (entityName != null && noNulls) {
       list.add(new com.poesys.db.col.StringColumnValue("entityName", entityName));
     } else {
       noNulls = false;
     }
     if (noNulls) {
-      key =
-        com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                            "com.poesys.accounting.db.account.Entity");
+      key = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
+                                                                "com.poesys.accounting.db.account" +
+                                                                ".Entity");
     }
     return key;
   }
@@ -595,16 +557,15 @@ public abstract class AbstractAccountFactory {
   /**
    * Retrieve the CapitalEntity data from the result set's current row and
    * create a CapitalEntity object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a CapitalEntity instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static ICapitalEntity getCapitalEntityData(IPrimaryKey key,
-                                                    ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static ICapitalEntity getCapitalEntityData(IPrimaryKey key, ResultSet rs) throws
+    SQLException, InvalidParametersException {
     // Constructor argument capitalEntityName gets the JDBC value with a
     // function call.
     java.lang.String capitalEntityNameValue = rs.getString("capitalEntityName");
@@ -628,32 +589,29 @@ public abstract class AbstractAccountFactory {
    * <li>NaturalKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a CapitalEntity NaturalKey primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getCapitalEntityPrimaryKey(ResultSet rs,
-                                                       String prefix)
-      throws SQLException, InvalidParametersException {
+  public static IPrimaryKey getCapitalEntityPrimaryKey(ResultSet rs, String prefix) throws
+    SQLException, InvalidParametersException {
     IPrimaryKey key = null;
     if (prefix == null) {
       prefix = "";
     }
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
     java.lang.String capitalEntityNameValue = rs.getString("capitalEntityName");
 
-    list.add(new com.poesys.db.col.StringColumnValue(prefix
-                                                         + "capitalEntityName",
+    list.add(new com.poesys.db.col.StringColumnValue(prefix + "capitalEntityName",
                                                      capitalEntityNameValue));
-    key =
-      com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                          "com.poesys.accounting.db.account.CapitalEntity");
+    key = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
+                                                              "com.poesys.accounting.db.account" +
+                                                              ".CapitalEntity");
     return key;
   }
 
@@ -670,28 +628,26 @@ public abstract class AbstractAccountFactory {
    * <li>NaturalKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param capitalEntityName
    * @return a CapitalEntity NaturalKey primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getCapitalEntityPrimaryKey(java.lang.String capitalEntityName)
-      throws InvalidParametersException {
+  public static IPrimaryKey getCapitalEntityPrimaryKey(java.lang.String capitalEntityName) throws
+    InvalidParametersException {
     IPrimaryKey key = null;
     // Track generated inputs for nullity.
     boolean noNulls = true;
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
     if (capitalEntityName != null && noNulls) {
-      list.add(new com.poesys.db.col.StringColumnValue("capitalEntityName",
-                                                       capitalEntityName));
+      list.add(new com.poesys.db.col.StringColumnValue("capitalEntityName", capitalEntityName));
     } else {
       noNulls = false;
     }
     if (noNulls) {
-      key =
-        com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                            "com.poesys.accounting.db.account.CapitalEntity");
+      key = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
+                                                                "com.poesys.accounting.db.account" +
+                                                                ".CapitalEntity");
     }
     return key;
   }
@@ -699,15 +655,15 @@ public abstract class AbstractAccountFactory {
   /**
    * Retrieve the AccountType data from the result set's current row and create
    * a AccountType object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a AccountType instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static IAccountType getAccountTypeData(IPrimaryKey key, ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static IAccountType getAccountTypeData(IPrimaryKey key, ResultSet rs) throws
+    SQLException, InvalidParametersException {
     // Constructor argument accountType gets the JDBC value with a function
     // call.
     java.lang.String accountTypeValue = rs.getString("accountType");
@@ -729,30 +685,28 @@ public abstract class AbstractAccountFactory {
    * <li>NaturalKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a AccountType NaturalKey primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getAccountTypePrimaryKey(ResultSet rs, String prefix)
-      throws SQLException, InvalidParametersException {
+  public static IPrimaryKey getAccountTypePrimaryKey(ResultSet rs, String prefix) throws
+    SQLException, InvalidParametersException {
     IPrimaryKey key = null;
     if (prefix == null) {
       prefix = "";
     }
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
     java.lang.String accountTypeValue = rs.getString("accountType");
 
-    list.add(new com.poesys.db.col.StringColumnValue(prefix + "accountType",
-                                                     accountTypeValue));
-    key =
-      com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                          "com.poesys.accounting.db.account.AccountType");
+    list.add(new com.poesys.db.col.StringColumnValue(prefix + "accountType", accountTypeValue));
+    key = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
+                                                              "com.poesys.accounting.db.account" +
+                                                              ".AccountType");
     return key;
   }
 
@@ -769,29 +723,27 @@ public abstract class AbstractAccountFactory {
    * <li>NaturalKey</li>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param accountType the account type name (Assets, Liabilities, Equity,
-   *          Income, Expense)
+   *                    Income, Expense)
    * @return a AccountType NaturalKey primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getAccountTypePrimaryKey(java.lang.String accountType)
-      throws InvalidParametersException {
+  public static IPrimaryKey getAccountTypePrimaryKey(java.lang.String accountType) throws
+    InvalidParametersException {
     IPrimaryKey key = null;
     // Track generated inputs for nullity.
     boolean noNulls = true;
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
     if (accountType != null && noNulls) {
-      list.add(new com.poesys.db.col.StringColumnValue("accountType",
-                                                       accountType));
+      list.add(new com.poesys.db.col.StringColumnValue("accountType", accountType));
     } else {
       noNulls = false;
     }
     if (noNulls) {
-      key =
-        com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
-                                                            "com.poesys.accounting.db.account.AccountType");
+      key = com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list,
+                                                                "com.poesys.accounting.db.account" +
+                                                                ".AccountType");
     }
     return key;
   }
@@ -799,16 +751,15 @@ public abstract class AbstractAccountFactory {
   /**
    * Retrieve the CapitalAccount data from the result set's current row and
    * create a CapitalAccount object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a CapitalAccount instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static ICapitalAccount getCapitalAccountData(IPrimaryKey key,
-                                                      ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static ICapitalAccount getCapitalAccountData(IPrimaryKey key, ResultSet rs) throws
+    SQLException, InvalidParametersException {
     // Constructor argument accountName gets the JDBC value with a function
     // call.
     java.lang.String accountNameValue = rs.getString("accountName");
@@ -829,15 +780,9 @@ public abstract class AbstractAccountFactory {
     java.lang.String capitalEntityNameValue = rs.getString("capitalEntityName");
     // CapitalAccount has lazily loaded members or is a lazily loaded
     // association class, so create a Proxy.
-    ICapitalAccount newObject =
-      new CapitalAccountProxy(new CapitalAccount(key,
-                                                 accountNameValue,
-                                                 entityNameValue,
-                                                 descriptionValue,
-                                                 debitDefaultValue,
-                                                 activeValue,
-                                                 ownershipValue,
-                                                 capitalEntityNameValue));
+    ICapitalAccount newObject = new CapitalAccountProxy(
+      new CapitalAccount(key, accountNameValue, entityNameValue, descriptionValue,
+                         debitDefaultValue, activeValue, ownershipValue, capitalEntityNameValue));
     return newObject;
   }
 
@@ -854,18 +799,17 @@ public abstract class AbstractAccountFactory {
    * <ul>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a CapitalAccount None primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getCapitalAccountPrimaryKey(ResultSet rs,
-                                                        String prefix)
-      throws SQLException, InvalidParametersException {
+  public static IPrimaryKey getCapitalAccountPrimaryKey(ResultSet rs, String prefix) throws
+    SQLException, InvalidParametersException {
     IPrimaryKey key = null;
     if (prefix == null) {
       prefix = "";
@@ -873,9 +817,7 @@ public abstract class AbstractAccountFactory {
     // Superclass: $class.superclass.name
     // superclass Account
     // superclass subsystem Account
-    key =
-      com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(rs,
-                                                                           "");
+    key = com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(rs, "");
     return key;
   }
 
@@ -891,32 +833,30 @@ public abstract class AbstractAccountFactory {
    * <ul>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param accountName the account name; unique within the entity
-   * @param entityName composite super-key attribute that uniquely identifies
-   *          child combined with child sub-key and any other parent super-keys
+   * @param entityName  composite super-key attribute that uniquely identifies
+   *                    child combined with child sub-key and any other parent super-keys
    * @return a CapitalAccount None primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getCapitalAccountPrimaryKey(java.lang.String accountName,
-                                                        java.lang.String entityName)
-      throws InvalidParametersException {
+  public static IPrimaryKey getCapitalAccountPrimaryKey(java.lang.String accountName, java.lang
+    .String entityName) throws InvalidParametersException {
     return getAccountPrimaryKey(accountName, entityName);
   }
 
   /**
    * Retrieve the DistributionAccount data from the result set's current row and
    * create a DistributionAccount object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a DistributionAccount instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static IDistributionAccount getDistributionAccountData(IPrimaryKey key,
-                                                                ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static IDistributionAccount getDistributionAccountData(IPrimaryKey key, ResultSet rs)
+    throws SQLException, InvalidParametersException {
     // Constructor argument accountName gets the JDBC value with a function
     // call.
     java.lang.String accountNameValue = rs.getString("accountName");
@@ -935,14 +875,9 @@ public abstract class AbstractAccountFactory {
     java.lang.String capitalEntityNameValue = rs.getString("capitalEntityName");
     // DistributionAccount has lazily loaded members or is a lazily loaded
     // association class, so create a Proxy.
-    IDistributionAccount newObject =
-      new DistributionAccountProxy(new DistributionAccount(key,
-                                                           accountNameValue,
-                                                           entityNameValue,
-                                                           descriptionValue,
-                                                           debitDefaultValue,
-                                                           activeValue,
-                                                           capitalEntityNameValue));
+    IDistributionAccount newObject = new DistributionAccountProxy(
+      new DistributionAccount(key, accountNameValue, entityNameValue, descriptionValue,
+                              debitDefaultValue, activeValue, capitalEntityNameValue));
     return newObject;
   }
 
@@ -959,18 +894,17 @@ public abstract class AbstractAccountFactory {
    * <ul>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a DistributionAccount None primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getDistributionAccountPrimaryKey(ResultSet rs,
-                                                             String prefix)
-      throws SQLException, InvalidParametersException {
+  public static IPrimaryKey getDistributionAccountPrimaryKey(ResultSet rs, String prefix) throws
+    SQLException, InvalidParametersException {
     IPrimaryKey key = null;
     if (prefix == null) {
       prefix = "";
@@ -978,9 +912,7 @@ public abstract class AbstractAccountFactory {
     // Superclass: $class.superclass.name
     // superclass Account
     // superclass subsystem Account
-    key =
-      com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(rs,
-                                                                           "");
+    key = com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(rs, "");
     return key;
   }
 
@@ -996,32 +928,30 @@ public abstract class AbstractAccountFactory {
    * <ul>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param accountName the account name; unique within the entity
-   * @param entityName composite super-key attribute that uniquely identifies
-   *          child combined with child sub-key and any other parent super-keys
+   * @param entityName  composite super-key attribute that uniquely identifies
+   *                    child combined with child sub-key and any other parent super-keys
    * @return a DistributionAccount None primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getDistributionAccountPrimaryKey(java.lang.String accountName,
-                                                             java.lang.String entityName)
-      throws InvalidParametersException {
+  public static IPrimaryKey getDistributionAccountPrimaryKey(java.lang.String accountName, java
+    .lang.String entityName) throws InvalidParametersException {
     return getAccountPrimaryKey(accountName, entityName);
   }
 
   /**
    * Retrieve the SimpleAccount data from the result set's current row and
    * create a SimpleAccount object.
-   * 
+   *
    * @param key the primary key for the Account
-   * @param rs the query result set
+   * @param rs  the query result set
    * @return a SimpleAccount instance based on the result set data
-   * @throws SQLException when there is a problem getting data from the results
+   * @throws SQLException               when there is a problem getting data from the results
    * @throws InvalidParametersException when a required value is null
    */
-  public static ISimpleAccount getSimpleAccountData(IPrimaryKey key,
-                                                    ResultSet rs)
-      throws SQLException, InvalidParametersException {
+  public static ISimpleAccount getSimpleAccountData(IPrimaryKey key, ResultSet rs) throws
+    SQLException, InvalidParametersException {
     // Constructor argument accountName gets the JDBC value with a function
     // call.
     java.lang.String accountNameValue = rs.getString("accountName");
@@ -1039,14 +969,9 @@ public abstract class AbstractAccountFactory {
     java.lang.Boolean receivableValue = rs.getBoolean("receivable");
     // SimpleAccount has lazily loaded members or is a lazily loaded association
     // class, so create a Proxy.
-    ISimpleAccount newObject =
-      new SimpleAccountProxy(new SimpleAccount(key,
-                                               accountNameValue,
-                                               entityNameValue,
-                                               descriptionValue,
-                                               debitDefaultValue,
-                                               activeValue,
-                                               receivableValue));
+    ISimpleAccount newObject = new SimpleAccountProxy(
+      new SimpleAccount(key, accountNameValue, entityNameValue, descriptionValue, debitDefaultValue,
+                        activeValue, receivableValue));
     return newObject;
   }
 
@@ -1063,18 +988,17 @@ public abstract class AbstractAccountFactory {
    * <ul>
    * <li>Persistent</li>
    * </ul>
-   * 
-   * @param rs a JDBC result set with primary key columns
+   *
+   * @param rs     a JDBC result set with primary key columns
    * @param prefix an optional prefix string for derived column names in
-   *          associations
+   *               associations
    * @return a SimpleAccount None primary key
-   * @throws SQLException when there is a problem getting data from the result
-   *           set
+   * @throws SQLException               when there is a problem getting data from the result
+   *                                    set
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getSimpleAccountPrimaryKey(ResultSet rs,
-                                                       String prefix)
-      throws SQLException, InvalidParametersException {
+  public static IPrimaryKey getSimpleAccountPrimaryKey(ResultSet rs, String prefix) throws
+    SQLException, InvalidParametersException {
     IPrimaryKey key = null;
     if (prefix == null) {
       prefix = "";
@@ -1082,9 +1006,7 @@ public abstract class AbstractAccountFactory {
     // Superclass: $class.superclass.name
     // superclass Account
     // superclass subsystem Account
-    key =
-      com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(rs,
-                                                                           "");
+    key = com.poesys.accounting.db.account.AccountFactory.getAccountPrimaryKey(rs, "");
     return key;
   }
 
@@ -1100,16 +1022,15 @@ public abstract class AbstractAccountFactory {
    * <ul>
    * <li>Persistent</li>
    * </ul>
-   * 
+   *
    * @param accountName the account name; unique within the entity
-   * @param entityName composite super-key attribute that uniquely identifies
-   *          child combined with child sub-key and any other parent super-keys
+   * @param entityName  composite super-key attribute that uniquely identifies
+   *                    child combined with child sub-key and any other parent super-keys
    * @return a SimpleAccount None primary key
    * @throws InvalidParametersException when there is a problem creating a key
    */
-  public static IPrimaryKey getSimpleAccountPrimaryKey(java.lang.String accountName,
-                                                       java.lang.String entityName)
-      throws InvalidParametersException {
+  public static IPrimaryKey getSimpleAccountPrimaryKey(java.lang.String accountName, java.lang
+    .String entityName) throws InvalidParametersException {
     return getAccountPrimaryKey(accountName, entityName);
   }
 }

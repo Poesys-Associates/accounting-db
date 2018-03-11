@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.poesys.db.InvalidParametersException;
 import com.poesys.db.col.AbstractColumnValue;
+import com.poesys.db.col.IColumnValue;
 import com.poesys.db.col.IntegerColumnValue;
 import com.poesys.db.pk.IPrimaryKey;
 import com.poesys.db.pk.PrimaryKeyFactory;
@@ -108,8 +109,7 @@ public abstract class AbstractTransactionFactory {
       prefix = "";
     }
     IPrimaryKey parentKey = getTransactionPrimaryKey(rs, "");
-    java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-      new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+    java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new ArrayList<>();
     java.lang.Integer orderNumberValue = rs.getInt("orderNumber");
     list.add(new com.poesys.db.col.IntegerColumnValue(prefix + "orderNumber",
                                                       orderNumberValue));
@@ -151,8 +151,7 @@ public abstract class AbstractTransactionFactory {
 
     // Check the parent key; if it is null, the return key should be null.
     if (parentKey != null) {
-      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-        new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+      java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new ArrayList<>();
       list.add(new com.poesys.db.col.IntegerColumnValue("orderNumber",
                                                         orderNumber));
       IPrimaryKey subKey =
@@ -187,7 +186,7 @@ public abstract class AbstractTransactionFactory {
 
     // Check the parent key; if it is null, the return key should be null.
     if (parentKey != null) {
-      List<AbstractColumnValue> list = new ArrayList<AbstractColumnValue>();
+      List<IColumnValue> list = new ArrayList<>();
       list.add(new IntegerColumnValue(prefix + "OrderNumber", orderNumber));
       IPrimaryKey subKey =
         PrimaryKeyFactory.createNaturalKey(list,

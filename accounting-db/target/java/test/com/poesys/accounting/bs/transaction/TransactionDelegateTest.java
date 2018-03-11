@@ -878,4 +878,47 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       deleteAccounts();
     }
   }
+
+  /**
+   * Test the JSON serialization and deserialization capabilities for a transaction object.
+   */
+  @Test
+  public void testJson() {
+    // Create a new Transaction object to perform the test.
+    List<BsTransaction> objects = null;
+    try {
+      createAccounts();
+      objects = createTransactionTransaction(1);
+      delegate.insert(objects);
+      SequencePrimaryKey key =
+        (SequencePrimaryKey)objects.get(0).getPrimaryKey();
+      assertTrue("No key generated from concrete implementation", key != null);
+      BsTransaction insertedObject = objects.get(0);
+      assertTrue("No comparison object for object query",
+                 insertedObject != null);
+
+      // Query the object from the database.
+      IDaoManager manager = DaoManagerFactory.getManager(getSubsystem());
+      if (manager != null) {
+        manager.clearCache(com.poesys.accounting.db.transaction.Transaction.class.getName());
+      }
+      BsTransaction object = delegate.getObject(key);
+      assertTrue("Couldn't get object", object != null);
+      assertTrue("Wrong object", insertedObject.equals(object));
+      String jsonTransaction = object.toString();
+      logger.debug("JSON transaction: " + jsonTransaction);
+    } catch (DelegateException e) {
+      fail(e.getMessage());
+    } catch (Exception e) {
+      logger.error("getObject failed", e);
+    } finally {
+      // Delete the inserted objects to clean up.
+      // Mark all the objects for delete.
+      for (BsTransaction o : objects) {
+        o.delete();
+      }
+      delegate.deleteBatch(objects);
+      deleteAccounts();
+    }
+  }
 }

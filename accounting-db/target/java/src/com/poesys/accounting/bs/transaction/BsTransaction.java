@@ -7,6 +7,8 @@
 package com.poesys.accounting.bs.transaction;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.log4j.Logger;
 
 import com.poesys.db.pk.IPrimaryKey;
@@ -109,5 +111,12 @@ public class BsTransaction extends AbstractBsTransaction {
       }
     }
     return valid;
+  }
+
+  @Override
+  public String toString() {
+    // TODO create JSON DTO from DB DTO, serialize into String
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    return gson.toJson(dto, dto.getClass());
   }
 }

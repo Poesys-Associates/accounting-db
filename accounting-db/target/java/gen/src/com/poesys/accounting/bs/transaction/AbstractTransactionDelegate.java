@@ -228,8 +228,7 @@ reconciled
     // Create the key.
     com.poesys.db.pk.CompositePrimaryKey key = null;
     try {
-      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-        new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+      java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
       list.add(new com.poesys.db.col.IntegerColumnValue("orderNumber", orderNumber));
 	  com.poesys.db.pk.IPrimaryKey subKey = 
 	    com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list, "com.poesys.accounting.db.transaction.Item");

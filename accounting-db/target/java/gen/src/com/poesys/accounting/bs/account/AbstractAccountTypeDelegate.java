@@ -115,8 +115,7 @@ public abstract class AbstractAccountTypeDelegate
       throws DelegateException {
     com.poesys.db.pk.NaturalPrimaryKey key = null;
     try {
-      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-        new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+      java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
       list.add(new com.poesys.db.col.StringColumnValue("accountType", accountType));
       key = 
         com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list, "com.poesys.accounting.db.account.AccountType");
@@ -152,8 +151,7 @@ Payable, Tax-Related Expenses
     // Create the key.
     com.poesys.db.pk.CompositePrimaryKey key = null;
     try {
-      java.util.ArrayList<com.poesys.db.col.AbstractColumnValue> list =
-        new java.util.ArrayList<com.poesys.db.col.AbstractColumnValue>();
+      java.util.ArrayList<com.poesys.db.col.IColumnValue> list = new java.util.ArrayList<>();
       list.add(new com.poesys.db.col.StringColumnValue("groupName", groupName));
 	  com.poesys.db.pk.IPrimaryKey subKey = 
 	    com.poesys.db.pk.PrimaryKeyFactory.createNaturalKey(list, "com.poesys.accounting.db.account.AccountGroup");

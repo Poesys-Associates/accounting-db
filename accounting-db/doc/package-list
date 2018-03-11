@@ -3,5 +3,6 @@ com.poesys.accounting.bs.transaction
 com.poesys.accounting.db.account
 com.poesys.accounting.db.account.sql
 com.poesys.accounting.db.transaction
+com.poesys.accounting.db.transaction.json
 com.poesys.accounting.db.transaction.sql
 com.poesys.db
