@@ -3,14 +3,17 @@ rights reserved. */
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.poesys.accounting.db.transaction.TransactionFactory;
 import com.poesys.db.AbstractJsonObject;
 import com.poesys.db.col.json.JsonColumnValue;
 import com.poesys.db.col.json.StringJsonColumnValue;
+import com.poesys.db.pk.IPrimaryKey;
 import com.poesys.db.pk.json.CompositeJsonPrimaryKey;
 import com.poesys.db.pk.json.JsonPrimaryKey;
 import com.poesys.db.pk.json.NaturalJsonPrimaryKey;
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -24,8 +27,8 @@ import static org.junit.Assert.*;
  */
 public class JsonTransactionTest {
 
-  private static final String ID1 = "100";
-  private static final String ID2 = "200";
+  private static final BigInteger ID1 = new BigInteger("100");
+  private static final BigInteger ID2 = new BigInteger("200");
   private static final String DESCRIPTION = "transaction description";
   private static final String DATE = "2018-03-11 12:11:23.005";
   private static final String INVALID_DATE = "this is not a date";
@@ -78,7 +81,9 @@ public class JsonTransactionTest {
    */
   @Test
   public void testFieldConstructor() {
-    JsonTransaction transaction = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
+    IPrimaryKey key1 = TransactionFactory.getTransactionPrimaryKey(ID1);
+    JsonTransaction transaction =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
     assertTrue("default constructor status not EXISTING: " + transaction.getStatus(),
                transaction.getStatus().equals(AbstractJsonObject.EXISTING));
   }
@@ -97,8 +102,11 @@ public class JsonTransactionTest {
    */
   @Test
   public void testEqualsSameKey() {
-    JsonTransaction transaction1 = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
-    JsonTransaction transaction2 = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
+    IPrimaryKey key1 = TransactionFactory.getTransactionPrimaryKey(ID1);
+    JsonTransaction transaction1 =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
+    JsonTransaction transaction2 =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
     assertTrue("two transactions with same key not equal", transaction1.equals(transaction2));
   }
 
@@ -107,8 +115,12 @@ public class JsonTransactionTest {
    */
   @Test
   public void testEqualsDifferentKeys() {
-    JsonTransaction transaction1 = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
-    JsonTransaction transaction2 = new JsonTransaction(ID2, DESCRIPTION, DATE, false, false, null);
+    IPrimaryKey key1 = TransactionFactory.getTransactionPrimaryKey(ID1);
+    IPrimaryKey key2 = TransactionFactory.getTransactionPrimaryKey(ID2);
+    JsonTransaction transaction1 =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
+    JsonTransaction transaction2 =
+      new JsonTransaction(key2.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
     assertFalse("two transactions with different keys are equal",
                 transaction1.equals(transaction2));
   }
@@ -118,7 +130,9 @@ public class JsonTransactionTest {
    */
   @Test
   public void testEqualsNull() {
-    JsonTransaction transaction1 = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
+    IPrimaryKey key1 = TransactionFactory.getTransactionPrimaryKey(ID1);
+    JsonTransaction transaction1 =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
     assertFalse("transaction compared to null is equal", transaction1.equals(null));
   }
 
@@ -127,8 +141,10 @@ public class JsonTransactionTest {
    */
   @Test
   public void testHashCode() {
-    JsonTransaction transaction1 = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
-    assertTrue("wrong hashcode: " + transaction1.hashCode(), transaction1.hashCode() == 496469344);
+    IPrimaryKey key1 = TransactionFactory.getTransactionPrimaryKey(ID1);
+    JsonTransaction transaction1 =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
+    assertTrue("wrong hashcode: " + transaction1.hashCode(), transaction1.hashCode() == 503386044);
   }
 
   /**
@@ -136,8 +152,11 @@ public class JsonTransactionTest {
    */
   @Test
   public void testHashCodeSame() {
-    JsonTransaction transaction1 = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
-    JsonTransaction transaction2 = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
+    IPrimaryKey key1 = TransactionFactory.getTransactionPrimaryKey(ID1);
+    JsonTransaction transaction1 =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
+    JsonTransaction transaction2 =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
     assertTrue("hashcodes for same transaction are not equal",
                transaction1.hashCode() == transaction2.hashCode());
   }
@@ -147,8 +166,12 @@ public class JsonTransactionTest {
    */
   @Test
   public void testHashCodeDifferent() {
-    JsonTransaction transaction1 = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
-    JsonTransaction transaction2 = new JsonTransaction(ID2, DESCRIPTION, DATE, false, false, null);
+    IPrimaryKey key1 = TransactionFactory.getTransactionPrimaryKey(ID1);
+    IPrimaryKey key2 = TransactionFactory.getTransactionPrimaryKey(ID2);
+    JsonTransaction transaction1 =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
+    JsonTransaction transaction2 =
+      new JsonTransaction(key2.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
     assertFalse("hashcodes for different transactions are the same",
                 transaction1.hashCode() == transaction2.hashCode());
   }
@@ -158,7 +181,7 @@ public class JsonTransactionTest {
    */
   @Test
   public void testGetTransactionDate() {
-    Date date = null;
+    Date date;
     try {
       date = AbstractJsonObject.FORMAT.parse(DATE);
     } catch (ParseException e) {
@@ -166,7 +189,9 @@ public class JsonTransactionTest {
     }
     Timestamp originalTimestamp = new Timestamp(date.getTime());
 
-    JsonTransaction transaction1 = new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, null);
+    IPrimaryKey key1 = TransactionFactory.getTransactionPrimaryKey(ID1);
+    JsonTransaction transaction1 =
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false, null);
     Timestamp timestamp = transaction1.getTransactionDate();
 
     assertTrue(timestamp.equals(originalTimestamp));
@@ -177,11 +202,12 @@ public class JsonTransactionTest {
    */
   @Test
   public void testGetTransactionDateInvalid() {
+    IPrimaryKey key1 = TransactionFactory.getTransactionPrimaryKey(ID1);
     JsonTransaction transaction1 =
-      new JsonTransaction(ID1, DESCRIPTION, INVALID_DATE, false, false, null);
+      new JsonTransaction(key1.getJsonPrimaryKey(), DESCRIPTION, INVALID_DATE, false, false, null);
 
     try {
-      Timestamp timestamp = transaction1.getTransactionDate();
+      transaction1.getTransactionDate();
       fail("transaction with invalid date string did not throw exception");
     } catch (RuntimeException e) {
       assertTrue("wrong exception: " + e.getMessage(),
@@ -197,51 +223,85 @@ public class JsonTransactionTest {
     ENTITY_LIST.add(ENTITY_COLUMN_VALUE);
     CHECKING_ACCOUNT_KEY_NAME_LIST.add(CHECKING_COLUMN_VALUE);
     FOOD_ACCOUNT_KEY_NAME_LIST.add(FOOD_COLUMN_VALUE);
+    IPrimaryKey key1 = TransactionFactory.getItemPrimaryKey(ORDER1, ID1);
+    IPrimaryKey key2 = TransactionFactory.getItemPrimaryKey(ORDER2, ID2);
     JsonItem item1 =
-      new JsonItem(ID1, ORDER1, AMOUNT, false, false, CHECKING_ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+      new JsonItem(key1.getJsonPrimaryKey(), AMOUNT, false, false, CHECKING_ACCOUNT_KEY, CHECKING,
+                   null, null, null, null);
     JsonItem item2 =
-      new JsonItem(ID2, ORDER2, AMOUNT, true, false, FOOD_ACCOUNT_KEY, FOOD, null, null, null,
-                   null);
+      new JsonItem(key2.getJsonPrimaryKey(), AMOUNT, true, false, FOOD_ACCOUNT_KEY, FOOD, null,
+                   null, null, null);
 
     List<JsonItem> itemList = new ArrayList<>();
     itemList.add(item1);
     itemList.add(item2);
 
+    IPrimaryKey transactionKey = TransactionFactory.getTransactionPrimaryKey(ID1);
     JsonTransaction transaction =
-      new JsonTransaction(ID1, DESCRIPTION, DATE, false, false, itemList);
+      new JsonTransaction(transactionKey.getJsonPrimaryKey(), DESCRIPTION, DATE, false, false,
+                          itemList);
     // Create the Gson object.
     Gson gson = new GsonBuilder().serializeNulls().create();
     // Produce the JSON string.
     String json = gson.toJson(transaction, JsonTransaction.class);
-    assertTrue("wrong JSON: " + json, json.equals("{\"transactionId\":\"100\"," +
-                                                  "\"description\":\"transaction description\"," +
-                                                  "\"transactionDate\":\"2018-03-11 " +
-                                                  "12:11:23.005\",\"balance\":false," +
-                                                  "\"checked\":false," +
-                                                  "\"items\":[{\"transactionId\":\"100\"," +
-                                                  "\"orderNumber\":1,\"amount\":10.0," +
-                                                  "\"debit\":false,\"checked\":false," +
-                                                  "\"accountKey\":{\"keyType\":\"com.poesys.db.pk" +
-                                                  ".CompositePrimaryKey\",\"className\":\"com" +
-                                                  ".poesys.accounting.db.account.Account\"," +
-                                                  "\"columnValueList\":null,\"value\":null," +
-                                                  "\"keyList\":null," +
-                                                  "\"parentKey\":{\"keyType\":\"com.poesys.db.pk" +
-                                                  ".NaturalPrimaryKey\",\"className\":\"com" +
-                                                  ".poesys.accounting.db.account.Entity\"," +
-                                                  "\"columnValueList\":[{\"name\":\"entityName\"," +
-                                                  "\"type\":\"com.poesys.db.col" +
-                                                  ".StringColumnValue\",\"value\":\"Poesys " +
-                                                  "Associates\"}],\"value\":null," +
-                                                  "\"keyList\":null,\"parentKey\":null," +
-                                                  "\"childKey\":null}," +
-                                                  "\"childKey\":{\"keyType\":\"com.poesys.db.pk" +
-                                                  ".NaturalPrimaryKey\",\"className\":\"com" +
-                                                  ".poesys.accounting.db.account.Account\"," +
-                                                  "\"columnValueList\":[{\"name\":\"accountName\",\"type\":\"com.poesys.db.col.StringColumnValue\",\"value\":\"Checking\"}],\"value\":null,\"keyList\":null,\"parentKey\":null,\"childKey\":null}},\"accountName\":\"Checking\",\"receivableKeys\":null,\"reimbursingItemsReimbursements\":null,\"receivableReimbursements\":null,\"reimbursingItemKeys\":null,\"status\":\"EXISTING\"},{\"transactionId\":\"200\",\"orderNumber\":2,\"amount\":10.0,\"debit\":true,\"checked\":false,\"accountKey\":{\"keyType\":\"com.poesys.db.pk.CompositePrimaryKey\",\"className\":\"com.poesys.accounting.db.account.Account\",\"columnValueList\":null,\"value\":null,\"keyList\":null,\"parentKey\":{\"keyType\":\"com.poesys.db.pk.NaturalPrimaryKey\",\"className\":\"com.poesys.accounting.db.account.Entity\",\"columnValueList\":[{\"name\":\"entityName\",\"type\":\"com.poesys.db.col.StringColumnValue\",\"value\":\"Poesys Associates\"}],\"value\":null,\"keyList\":null,\"parentKey\":null,\"childKey\":null},\"childKey\":{\"keyType\":\"com.poesys.db.pk.NaturalPrimaryKey\",\"className\":\"com.poesys.accounting.db.account.Account\",\"columnValueList\":[{\"name\":\"accountName\",\"type\":\"com.poesys.db.col.StringColumnValue\",\"value\":\"Food\"}],\"value\":null,\"keyList\":null,\"parentKey\":null,\"childKey\":null}},\"accountName\":\"Food\",\"receivableKeys\":null,\"reimbursingItemsReimbursements\":null,\"receivableReimbursements\":null,\"reimbursingItemKeys\":null,\"status\":\"EXISTING\"}],\"status\":\"EXISTING\"}"));
+    assertTrue("wrong JSON: " + json, json.equals(
+      "{\"primaryKey\":{\"keyType\":\"com.poesys.db.pk.SequencePrimaryKey\",\"className\":\"com" +
+      ".poesys.accounting.db.transaction.Transaction\"," +
+      "\"columnValueList\":[{\"name\":\"transactionId\",\"type\":\"com.poesys.db.col" +
+      ".BigIntegerColumnValue\",\"value\":\"100\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null},\"description\":\"transaction description\"," +
+      "\"transactionDate\":\"2018-03-11 12:11:23.005\",\"balance\":false,\"checked\":false," +
+      "\"items\":[{\"primaryKey\":{\"keyType\":\"com.poesys.db.pk.CompositePrimaryKey\"," +
+      "\"className\":\"com.poesys.accounting.db.transaction.Item\",\"columnValueList\":null," +
+      "\"value\":null,\"keyList\":null,\"parentKey\":{\"keyType\":\"com.poesys.db.pk" +
+      ".SequencePrimaryKey\",\"className\":\"com.poesys.accounting.db.transaction.Transaction\"," +
+      "\"columnValueList\":[{\"name\":\"transactionId\",\"type\":\"com.poesys.db.col" +
+      ".BigIntegerColumnValue\",\"value\":\"100\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null},\"childKey\":{\"keyType\":\"com.poesys.db.pk" +
+      ".NaturalPrimaryKey\",\"className\":\"com.poesys.accounting.db.transaction.Item\"," +
+      "\"columnValueList\":[{\"name\":\"orderNumber\",\"type\":\"com.poesys.db.col" +
+      ".IntegerColumnValue\",\"value\":\"1\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null}},\"amount\":10.0,\"debit\":false,\"checked\":false," +
+      "\"accountKey\":{\"keyType\":\"com.poesys.db.pk.CompositePrimaryKey\",\"className\":\"com" +
+      ".poesys.accounting.db.account.Account\",\"columnValueList\":null,\"value\":null," +
+      "\"keyList\":null,\"parentKey\":{\"keyType\":\"com.poesys.db.pk.NaturalPrimaryKey\"," +
+      "\"className\":\"com.poesys.accounting.db.account.Entity\"," +
+      "\"columnValueList\":[{\"name\":\"entityName\",\"type\":\"com.poesys.db.col" +
+      ".StringColumnValue\",\"value\":\"Poesys Associates\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null},\"childKey\":{\"keyType\":\"com.poesys.db.pk" +
+      ".NaturalPrimaryKey\",\"className\":\"com.poesys.accounting.db.account.Account\"," +
+      "\"columnValueList\":[{\"name\":\"accountName\",\"type\":\"com.poesys.db.col" +
+      ".StringColumnValue\",\"value\":\"Checking\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null}},\"accountName\":\"Checking\"," +
+      "\"receivableKeys\":null,\"reimbursingItemsReimbursements\":null," +
+      "\"receivableReimbursements\":null,\"reimbursingItemKeys\":null,\"status\":\"EXISTING\"}," +
+      "{\"primaryKey\":{\"keyType\":\"com.poesys.db.pk.CompositePrimaryKey\",\"className\":\"com" +
+      ".poesys.accounting.db.transaction.Item\",\"columnValueList\":null,\"value\":null," +
+      "\"keyList\":null,\"parentKey\":{\"keyType\":\"com.poesys.db.pk.SequencePrimaryKey\"," +
+      "\"className\":\"com.poesys.accounting.db.transaction.Transaction\"," +
+      "\"columnValueList\":[{\"name\":\"transactionId\",\"type\":\"com.poesys.db.col" +
+      ".BigIntegerColumnValue\",\"value\":\"200\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null},\"childKey\":{\"keyType\":\"com.poesys.db.pk" +
+      ".NaturalPrimaryKey\",\"className\":\"com.poesys.accounting.db.transaction.Item\"," +
+      "\"columnValueList\":[{\"name\":\"orderNumber\",\"type\":\"com.poesys.db.col" +
+      ".IntegerColumnValue\",\"value\":\"2\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null}},\"amount\":10.0,\"debit\":true,\"checked\":false," +
+      "\"accountKey\":{\"keyType\":\"com.poesys.db.pk.CompositePrimaryKey\",\"className\":\"com" +
+      ".poesys.accounting.db.account.Account\",\"columnValueList\":null,\"value\":null," +
+      "\"keyList\":null,\"parentKey\":{\"keyType\":\"com.poesys.db.pk.NaturalPrimaryKey\"," +
+      "\"className\":\"com.poesys.accounting.db.account.Entity\"," +
+      "\"columnValueList\":[{\"name\":\"entityName\",\"type\":\"com.poesys.db.col" +
+      ".StringColumnValue\",\"value\":\"Poesys Associates\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null},\"childKey\":{\"keyType\":\"com.poesys.db.pk" +
+      ".NaturalPrimaryKey\",\"className\":\"com.poesys.accounting.db.account.Account\"," +
+      "\"columnValueList\":[{\"name\":\"accountName\",\"type\":\"com.poesys.db.col" +
+      ".StringColumnValue\",\"value\":\"Food\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null}},\"accountName\":\"Food\",\"receivableKeys\":null," +
+      "\"reimbursingItemsReimbursements\":null,\"receivableReimbursements\":null," +
+      "\"reimbursingItemKeys\":null,\"status\":\"EXISTING\"}],\"status\":\"EXISTING\"}"));
     JsonTransaction newTransaction = gson.fromJson(json, JsonTransaction.class);
     assertTrue("invalid JSON item from string", transaction.equals(newTransaction));
-    assertTrue("status not EXISTING: " + transaction.getStatus(), "EXISTING".equals(transaction.getStatus()));
+    assertTrue("status not EXISTING: " + transaction.getStatus(),
+               "EXISTING".equals(transaction.getStatus()));
   }
 }

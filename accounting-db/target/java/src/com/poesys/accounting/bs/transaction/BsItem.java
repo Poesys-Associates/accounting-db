@@ -6,6 +6,10 @@
 package com.poesys.accounting.bs.transaction;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.poesys.accounting.db.transaction.json.JsonItem;
+import com.poesys.accounting.db.transaction.json.JsonReimbursement;
 import com.poesys.db.pk.IPrimaryKey;
 import com.poesys.bs.delegate.DelegateException;
 
@@ -65,5 +69,13 @@ reconciled
    */
   public BsItem(IPrimaryKey key, java.math.BigInteger transactionId, java.lang.Integer orderNumber, java.lang.Double amount, java.lang.Boolean debit, java.lang.Boolean checked, java.lang.String accountName, java.lang.String entityName) {
     super(key, transactionId, orderNumber, amount, debit, checked, accountName, entityName); 
+  }
+
+  @Override
+  public String toString() {
+    // Create the Gson object.
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    // Produce the JSON string.
+    return gson.toJson(dto.getJson(), JsonItem.class);
   }
 }

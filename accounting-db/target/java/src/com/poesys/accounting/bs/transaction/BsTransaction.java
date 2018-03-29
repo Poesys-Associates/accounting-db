@@ -1,19 +1,15 @@
-/**
- * Copyright 2016 Poesys Associates. All rights reserved.
- */
+/* Copyright 2016 Poesys Associates. All rights reserved. */
 // Template: BsDto.vsl
 // Modified by Poesys
 
 package com.poesys.accounting.bs.transaction;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.apache.log4j.Logger;
-
-import com.poesys.db.pk.IPrimaryKey;
+import com.poesys.accounting.db.transaction.json.JsonTransaction;
 import com.poesys.bs.delegate.DelegateException;
-
+import com.poesys.db.pk.IPrimaryKey;
+import org.apache.log4j.Logger;
 
 /**
  * <p>
@@ -38,6 +34,7 @@ import com.poesys.bs.delegate.DelegateException;
  * <p>
  * The custom method isValid() provides basic validation for transactions.
  * </p>
+ *
  * @author Poesys/DB Cartridge
  */
 public class BsTransaction extends AbstractBsTransaction {
@@ -46,12 +43,12 @@ public class BsTransaction extends AbstractBsTransaction {
 
   /**
    * Create a BsTransaction object from a Transaction object.
-   * 
+   *
    * @param dto the data-access layer Transaction DTO
    * @throws DelegateException when there is a problem creating the Transaction
    */
-  public BsTransaction(com.poesys.accounting.db.transaction.ITransaction dto)
-      throws DelegateException {
+  public BsTransaction(com.poesys.accounting.db.transaction.ITransaction dto) throws
+    DelegateException {
     super(dto);
   }
 
@@ -61,22 +58,19 @@ public class BsTransaction extends AbstractBsTransaction {
    * constructor.
    * </p>
    *
-   * @param key the primary key of the Transaction
-   * @param transactionId primary key attribute
-   * @param description a text describing the nature of the transaction
+   * @param key             the primary key of the Transaction
+   * @param transactionId   primary key attribute
+   * @param description     a text describing the nature of the transaction
    * @param transactionDate the calendar day on which the transaction occurred
-   * @param checked whether the transaction is reconciled and validated
-   * @param balance whether the transaction represents a balance transaction,
-   *          the transfer of an amount onto the balance sheet; balance
-   *          transactions do not need to have off-setting debits and credits
-   *          and are ignored in balance checking for normal transactions
+   * @param checked         whether the transaction is reconciled and validated
+   * @param balance         whether the transaction represents a balance transaction,
+   *                        the transfer of an amount onto the balance sheet; balance
+   *                        transactions do not need to have off-setting debits and credits
+   *                        and are ignored in balance checking for normal transactions
    */
-  public BsTransaction(IPrimaryKey key,
-                       java.math.BigInteger transactionId,
-                       java.lang.String description,
-                       java.sql.Timestamp transactionDate,
-                       java.lang.Boolean checked,
-                       java.lang.Boolean balance) {
+  public BsTransaction(IPrimaryKey key, java.math.BigInteger transactionId, java.lang.String
+    description, java.sql.Timestamp transactionDate, java.lang.Boolean checked, java.lang.Boolean
+    balance) {
     super(key, transactionId, description, transactionDate, checked, balance);
   }
 
@@ -84,7 +78,7 @@ public class BsTransaction extends AbstractBsTransaction {
    * Is the transaction valid? To be valid, a transaction must have balanced
    * transaction items (debits and credits sum to zero) or must be a balance
    * transaction with a single item.
-   * 
+   *
    * @return true if valid, false if invalid
    */
   public Boolean isValid() {
@@ -115,8 +109,9 @@ public class BsTransaction extends AbstractBsTransaction {
 
   @Override
   public String toString() {
-    // TODO create JSON DTO from DB DTO, serialize into String
+    // Create the Gson object.
     Gson gson = new GsonBuilder().serializeNulls().create();
-    return gson.toJson(dto, dto.getClass());
+    // Produce the JSON string.
+    return gson.toJson(dto.getJson(), JsonTransaction.class);
   }
 }

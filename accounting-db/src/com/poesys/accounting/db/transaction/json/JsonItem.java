@@ -3,20 +3,15 @@ package com.poesys.accounting.db.transaction.json;
 
 import com.poesys.db.AbstractJsonObject;
 import com.poesys.db.pk.json.JsonPrimaryKey;
-import org.apache.log4j.Logger;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * A JSON Data Transfer Object corresponding to the Item class
  */
 public class JsonItem extends AbstractJsonObject {
-  /** unique identifier for the parent transaction; part of the primary key with orderNumber */
-  private String transactionId;
-  /** position of this item in the parent transaction; part of primary key with transaction id */
-  private Integer orderNumber;
+  /** JSON primary key for the object */
+  private JsonPrimaryKey primaryKey;
   /** amount of the debit/credit */
   private Double amount;
   /** whether this is a debit item (true) or a credit item (false) */
@@ -27,8 +22,10 @@ public class JsonItem extends AbstractJsonObject {
   private JsonPrimaryKey accountKey;
   /** the name of the account to which the item applies */
   private String accountName;
-  /** a list of the JSON primary keys for reimbursed receivable items if this is a reimbursing
-   * item */
+  /**
+   * a list of the JSON primary keys for reimbursed receivable items if this is a reimbursing
+   * item
+   */
   private List<JsonPrimaryKey> receivableKeys;
   /** a list of the reimbursement objects if this is a reimbursing item */
   private List<JsonReimbursement> reimbursingItemsReimbursements;
@@ -47,12 +44,7 @@ public class JsonItem extends AbstractJsonObject {
   /**
    * Create a JsonItem.
    *
-   * @param transactionId                  the unique identifier for the parent transaction that
-   *                                       owns this item; part of the composite primary key
-   *                                       along with order number
-   * @param orderNumber                    the order of this item within the transaction in
-   *                                       reports; part of the composite primary key along
-   *                                       with the transaction id
+   * @param primaryKey                     the JSON primary key for the item
    * @param amount                         the monetary amount in dollars of the transaction item
    * @param debit                          whether the item is a debit (true) or credit
    *                                       (false); default value is the
@@ -74,15 +66,13 @@ public class JsonItem extends AbstractJsonObject {
    *                                       objects linked to this reimbursing item; null if
    *                                       not a reimbursing item
    */
-  public JsonItem(String transactionId, Integer orderNumber, Double amount, Boolean debit,
-                  Boolean checked, JsonPrimaryKey accountKey, String accountName,
-                  List<JsonPrimaryKey> receivableKeys, List<JsonReimbursement>
-                    receivableReimbursements, List<JsonPrimaryKey> reimbursingItemKeys,
-                  List<JsonReimbursement> reimbursingItemsReimbursements) {
+  public JsonItem(JsonPrimaryKey primaryKey, Double amount, Boolean debit, Boolean checked,
+                  JsonPrimaryKey accountKey, String accountName, List<JsonPrimaryKey>
+                    receivableKeys, List<JsonReimbursement> receivableReimbursements,
+                  List<JsonPrimaryKey> reimbursingItemKeys, List<JsonReimbursement>
+                    reimbursingItemsReimbursements) {
     super(AbstractJsonObject.EXISTING);
     // Test the inputs for required values.
-    assert transactionId != null;
-    assert orderNumber != null;
     assert amount != null;
     assert accountKey != null;
     assert accountName != null && !accountName.isEmpty();
@@ -91,8 +81,7 @@ public class JsonItem extends AbstractJsonObject {
     this.debit = debit == null ? true : debit;
     this.checked = checked == null ? false : checked;
 
-    this.transactionId = transactionId;
-    this.orderNumber = orderNumber;
+    this.primaryKey = primaryKey;
     this.amount = amount;
     this.accountKey = accountKey;
     this.accountName = accountName;
@@ -113,17 +102,15 @@ public class JsonItem extends AbstractJsonObject {
 
     JsonItem other = (JsonItem)o;
 
-    // Check primary key
-
-    return transactionId.equals(other.transactionId) && orderNumber.equals(other.orderNumber);
+    // Compare primary keys.
+    return primaryKey.equals(other.primaryKey);
   }
 
   @Override
   public int hashCode() {
-    // Hash the fully qualified class name and the primary key fields.
+    // Hash the fully qualified class name and the primary key.
     int result = getClass().getName().hashCode();
-    result = 31 * result + transactionId.hashCode();
-    result = 31 * result + orderNumber.hashCode();
+    result = 31 * result + primaryKey.hashCode();
     return result;
   }
 

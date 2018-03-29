@@ -2,6 +2,7 @@
 package com.poesys.accounting.db.transaction.json;
 
 import com.poesys.db.AbstractJsonObject;
+import com.poesys.db.pk.json.JsonPrimaryKey;
 import org.apache.log4j.Logger;
 
 import java.sql.Timestamp;
@@ -13,7 +14,7 @@ public class JsonTransaction extends AbstractJsonObject {
   /** logger for this class */
   private static final Logger logger = Logger.getLogger(JsonTransaction.class);
   /** unique integer identifier for the transaction */
-  private String transactionId;
+  private JsonPrimaryKey primaryKey;
   /** description of the transaction */
   private String description;
   /** date of the transaction */
@@ -41,17 +42,17 @@ public class JsonTransaction extends AbstractJsonObject {
   /**
    * Create a JSON transaction object by
    *
-   * @param transactionId   unique integer identifier for the transaction
+   * @param primaryKey   unique identifier for the transaction
    * @param description     description of the transaction
    * @param transactionDate date of the transaction
    * @param balance         whether this is a balance transaction
    * @param checked         whether this item has been reconciled
    * @param items           the list of JSON items for the transaction
    */
-  public JsonTransaction(String transactionId, String description, String transactionDate,
+  public JsonTransaction(JsonPrimaryKey primaryKey, String description, String transactionDate,
                          Boolean balance, Boolean checked, List<JsonItem> items) {
     super(AbstractJsonObject.EXISTING);
-    this.transactionId = transactionId;
+    this.primaryKey = primaryKey;
     this.description = description;
     this.transactionDate = transactionDate;
     this.balance = balance;
@@ -70,14 +71,13 @@ public class JsonTransaction extends AbstractJsonObject {
 
     JsonTransaction that = (JsonTransaction)o;
 
-    return transactionId.equals(that.transactionId);
+    return primaryKey.equals(that.primaryKey);
   }
 
   @Override
   public int hashCode() {
     int result = getClass().getName().hashCode();
-    result = 31 * result +  transactionId.hashCode();
-    return result;
+    return 31 * result +  primaryKey.hashCode();
   }
 
   /**
@@ -87,7 +87,7 @@ public class JsonTransaction extends AbstractJsonObject {
    * @return a SQL timestamp
    */
   public Timestamp getTransactionDate() {
-    Date date = null;
+    Date date;
     try {
       date = FORMAT.parse(transactionDate);
     } catch (ParseException e) {

@@ -5,6 +5,7 @@
 
 package com.poesys.accounting.db.transaction;
 
+import com.poesys.accounting.db.transaction.json.JsonReimbursement;
 
 /**
  * <p>
@@ -54,5 +55,10 @@ public class ReimbursementProxy extends AbstractReimbursementProxy {
    */
   public ReimbursementProxy(Reimbursement dto) {
     super(dto); 
+  }
+
+  @Override
+  public JsonReimbursement getJson() {
+    return ((Reimbursement)dto).getJson();
   }
 }

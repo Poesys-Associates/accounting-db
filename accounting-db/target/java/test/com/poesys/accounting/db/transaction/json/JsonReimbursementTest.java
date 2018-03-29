@@ -4,18 +4,12 @@ package com.poesys.accounting.db.transaction.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.poesys.accounting.db.transaction.TransactionFactory;
 import com.poesys.db.InvalidParametersException;
-import com.poesys.db.col.json.BigIntegerJsonColumnValue;
-import com.poesys.db.col.json.IntegerJsonColumnValue;
-import com.poesys.db.col.json.JsonColumnValue;
-import com.poesys.db.pk.json.CompositeJsonPrimaryKey;
-import com.poesys.db.pk.json.JsonPrimaryKey;
-import com.poesys.db.pk.json.NaturalJsonPrimaryKey;
-import com.poesys.db.pk.json.SequenceJsonPrimaryKey;
+import com.poesys.db.pk.IPrimaryKey;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigInteger;
 
 import static org.junit.Assert.*;
 
@@ -24,44 +18,51 @@ import static org.junit.Assert.*;
  */
 public class JsonReimbursementTest {
 
-  private static final String TRANSACTION_COLUMN = "transactionId";
-  private static final String ITEM_COLUMN = "orderNumber";
-  private static final String BIG_INTEGER_COLUMN_VALUE_CLASS =
-    "com.poesys.db.col.BigIntegerColumnValue";
-  private static final String INTEGER_COLUMN_VALUE_CLASS = "com.poesys.db.col.IntegerColumnValue";
-  private static final String TRANSACTION_CLASS =
-    "com.poesys.db.accounting.transaction.Transaction";
-  private static final String ITEM_CLASS = "com.poesys.db.accounting.transaction.Item";
   private static final Double RECEIVABLE_AMOUNT = 100.00D;
   private static final Double ALLOCATED_AMOUNT = 0.00D;
-  private static final String ID1 = "100";
-  private static final String ID2 = "200";
-  private static final String ID3 = "300";
-  private static final String ORDER_NUMBER = "1";
+  private static final BigInteger ID1 = new BigInteger("100");
+  private static final BigInteger ID2 = new BigInteger("200");
+  private static final BigInteger ID3 = new BigInteger("300");
+  private static final Integer ORDER_NUMBER = 1;
 
   /**
    * Test the GSON integration for the JSON Reimbursement DTO.
    */
   @Test
   public void testJsonReimbursementIntegration() {
+    IPrimaryKey key =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID2);
     JsonReimbursement reimbursement =
-      new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID2, ORDER_NUMBER),
-                            RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
+      new JsonReimbursement(key.getJsonPrimaryKey(), RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
     // Create the Gson object.
     Gson gson = new GsonBuilder().serializeNulls().create();
     // Produce the JSON string.
     String json = gson.toJson(reimbursement, JsonReimbursement.class);
-    assertTrue("invalid JSON string from item: " + json, json.equals("{\"receivableItemKey" +
-                                                                     "\":{\"keyType\":\"com" +
-                                                                     ".poesys.db.pk" +
-                                                                     ".CompositePrimaryKey\"," +
-                                                                     "\"className\":\"com.poesys" +
-                                                                     ".db.accounting.transaction" +
-                                                                     ".Item\"," +
-                                                                     "\"columnValueList\":null," +
-                                                                     "\"value\":null," +
-                                                                     "\"keyList\":null," +
-                                                                     "\"parentKey\":{\"keyType\":\"com.poesys.db.pk.SequencePrimaryKey\",\"className\":\"com.poesys.db.accounting.transaction.Transaction\",\"columnValueList\":[{\"name\":\"transactionId\",\"type\":\"com.poesys.db.col.BigIntegerColumnValue\",\"value\":\"100\"}],\"value\":null,\"keyList\":null,\"parentKey\":null,\"childKey\":null},\"childKey\":{\"keyType\":\"com.poesys.db.pk.NaturalPrimaryKey\",\"className\":\"com.poesys.db.accounting.transaction.Item\",\"columnValueList\":[{\"name\":\"orderNumber\",\"type\":\"com.poesys.db.col.IntegerColumnValue\",\"value\":\"1\"}],\"value\":null,\"keyList\":null,\"parentKey\":null,\"childKey\":null}},\"reimbursingItemKey\":{\"keyType\":\"com.poesys.db.pk.CompositePrimaryKey\",\"className\":\"com.poesys.db.accounting.transaction.Item\",\"columnValueList\":null,\"value\":null,\"keyList\":null,\"parentKey\":{\"keyType\":\"com.poesys.db.pk.SequencePrimaryKey\",\"className\":\"com.poesys.db.accounting.transaction.Transaction\",\"columnValueList\":[{\"name\":\"transactionId\",\"type\":\"com.poesys.db.col.BigIntegerColumnValue\",\"value\":\"200\"}],\"value\":null,\"keyList\":null,\"parentKey\":null,\"childKey\":null},\"childKey\":{\"keyType\":\"com.poesys.db.pk.NaturalPrimaryKey\",\"className\":\"com.poesys.db.accounting.transaction.Item\",\"columnValueList\":[{\"name\":\"orderNumber\",\"type\":\"com.poesys.db.col.IntegerColumnValue\",\"value\":\"1\"}],\"value\":null,\"keyList\":null,\"parentKey\":null,\"childKey\":null}},\"reimbursedAmount\":100.0,\"allocatedAmount\":0.0,\"status\":\"EXISTING\"}"));
+    assertTrue("invalid JSON string from item: " + json, json.equals(
+      "{\"primaryKey\":{\"keyType\":\"com.poesys.db.pk.AssociationPrimaryKey\"," +
+      "\"className\":\"com.poesys.accounting.db.transaction.Reimbursement\"," +
+      "\"columnValueList\":null,\"value\":null,\"keyList\":[{\"keyType\":\"com.poesys.db.pk" +
+      ".CompositePrimaryKey\",\"className\":\"com.poesys.accounting.db.transaction.Item\"," +
+      "\"columnValueList\":null,\"value\":null,\"keyList\":null,\"parentKey\":{\"keyType\":\"com" +
+      ".poesys.db.pk.SequencePrimaryKey\",\"className\":\"com.poesys.accounting.db.transaction" +
+      ".Transaction\",\"columnValueList\":[{\"name\":\"receivablesTransactionId\",\"type\":\"com" +
+      ".poesys.db.col.BigIntegerColumnValue\",\"value\":\"100\"}],\"value\":null," +
+      "\"keyList\":null,\"parentKey\":null,\"childKey\":null},\"childKey\":{\"keyType\":\"com" +
+      ".poesys.db.pk.NaturalPrimaryKey\",\"className\":\"com.poesys.accounting.db.transaction" +
+      ".Item\",\"columnValueList\":[{\"name\":\"receivablesOrderNumber\",\"type\":\"com.poesys.db" +
+      ".col.IntegerColumnValue\",\"value\":\"1\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null}},{\"keyType\":\"com.poesys.db.pk" +
+      ".CompositePrimaryKey\",\"className\":\"com.poesys.accounting.db.transaction.Item\"," +
+      "\"columnValueList\":null,\"value\":null,\"keyList\":null,\"parentKey\":{\"keyType\":\"com" +
+      ".poesys.db.pk.SequencePrimaryKey\",\"className\":\"com.poesys.accounting.db.transaction" +
+      ".Transaction\",\"columnValueList\":[{\"name\":\"reimbursingItemsTransactionId\"," +
+      "\"type\":\"com.poesys.db.col.BigIntegerColumnValue\",\"value\":\"200\"}],\"value\":null," +
+      "\"keyList\":null,\"parentKey\":null,\"childKey\":null},\"childKey\":{\"keyType\":\"com" +
+      ".poesys.db.pk.NaturalPrimaryKey\",\"className\":\"com.poesys.accounting.db.transaction" +
+      ".Item\",\"columnValueList\":[{\"name\":\"reimbursingItemsOrderNumber\",\"type\":\"com" +
+      ".poesys.db.col.IntegerColumnValue\",\"value\":\"1\"}],\"value\":null,\"keyList\":null," +
+      "\"parentKey\":null,\"childKey\":null}}],\"parentKey\":null,\"childKey\":null}," +
+      "\"reimbursedAmount\":100.0,\"allocatedAmount\":0.0,\"status\":\"EXISTING\"}"));
     // Create a new version of the Json reimbursement from the JSON string.
     JsonReimbursement newReimbursement = gson.fromJson(json, JsonReimbursement.class);
     assertTrue("invalid JSON item from string", reimbursement.equals(newReimbursement));
@@ -80,11 +81,14 @@ public class JsonReimbursementTest {
    */
   @Test
   public void testJsonReimbursementData() {
+    IPrimaryKey key =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID2);
     JsonReimbursement reimbursement =
-      new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID2, ORDER_NUMBER),
-                            RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
-    assertTrue("wrong reimbursed amount", RECEIVABLE_AMOUNT == reimbursement.getReimbursedAmount());
-    assertTrue("wrong allocatiion amount", ALLOCATED_AMOUNT == reimbursement.getAllocatedAmount());
+      new JsonReimbursement(key.getJsonPrimaryKey(), RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
+    assertTrue("wrong reimbursed amount",
+               RECEIVABLE_AMOUNT.equals(reimbursement.getReimbursedAmount()));
+    assertTrue("wrong allocation amount",
+               ALLOCATED_AMOUNT.equals(reimbursement.getAllocatedAmount()));
     assertTrue("wrong status", "EXISTING".equals(reimbursement.getStatus()));
   }
 
@@ -93,9 +97,10 @@ public class JsonReimbursementTest {
    */
   @Test
   public void testSetStatusValid() {
+    IPrimaryKey key =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID2);
     JsonReimbursement reimbursement =
-      new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID2, ORDER_NUMBER),
-                            RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
+      new JsonReimbursement(key.getJsonPrimaryKey(), RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
     reimbursement.setStatus("EXISTING");
     assertTrue("wrong status: " + reimbursement.getStatus(),
                "EXISTING".equals(reimbursement.getStatus()));
@@ -114,9 +119,10 @@ public class JsonReimbursementTest {
    */
   @Test
   public void testSetStatusInvalid() {
+    IPrimaryKey key =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID2);
     JsonReimbursement reimbursement =
-      new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID2, ORDER_NUMBER),
-                            RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
+      new JsonReimbursement(key.getJsonPrimaryKey(), RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
     try {
       reimbursement.setStatus("INVALID");
       fail("invalid status setting did not throw exception");
@@ -124,49 +130,6 @@ public class JsonReimbursementTest {
       assertTrue("wrong exception: " + e.getMessage(),
                  e.getMessage().contains("invalid JSON object status "));
     }
-  }
-
-  /**
-   * Get an Item JSON primary key, specifying the transaction id and order number.
-   *
-   * @param id          the transaction identifier
-   * @param orderNumber the order of the item within the transaction
-   * @return the JSON primary key for the item
-   */
-  private JsonPrimaryKey getItemKey(String id, String orderNumber) {
-    return new CompositeJsonPrimaryKey(ITEM_CLASS, getTransactionKey(id),
-                                       getItemChildKey(orderNumber));
-  }
-
-  /**
-   * Get a Transaction JSON primary key, specifying the transaction id.
-   *
-   * @param id the transaction identifier
-   * @return the Transaction JSON primary key
-   */
-  private JsonPrimaryKey getTransactionKey(String id) {
-    List<JsonColumnValue> transactionColumnValueList1 = new ArrayList<>(1);
-
-    JsonColumnValue transactionColumnValue1 =
-      new BigIntegerJsonColumnValue(TRANSACTION_COLUMN, BIG_INTEGER_COLUMN_VALUE_CLASS, id);
-    transactionColumnValueList1.add(transactionColumnValue1);
-
-    return new SequenceJsonPrimaryKey(TRANSACTION_CLASS, transactionColumnValueList1);
-  }
-
-  /**
-   * Get an Item child key JSON primary key, part of a Composite JSON primary key.
-   *
-   * @param orderNumber the order number to use for the key
-   * @return the JSON primary key for the child key
-   */
-  private JsonPrimaryKey getItemChildKey(String orderNumber) {
-    List<JsonColumnValue> itemColumnValueList = new ArrayList<>(1);
-    JsonColumnValue itemColumnValue =
-      new IntegerJsonColumnValue(ITEM_COLUMN, INTEGER_COLUMN_VALUE_CLASS, orderNumber);
-    itemColumnValueList.add(itemColumnValue);
-
-    return new NaturalJsonPrimaryKey(ITEM_CLASS, itemColumnValueList);
   }
 
   /**
@@ -202,11 +165,14 @@ public class JsonReimbursementTest {
    */
   @Test
   public void testEqualsDifferentReceivableItem() {
+    IPrimaryKey key1 =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID2);
+    IPrimaryKey key2 =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID3, ID2);
     assertFalse("different objects (on receivable item) are equal",
-                new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID2, ORDER_NUMBER),
-                                      RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT).equals(
-                  new JsonReimbursement(getItemKey(ID3, ORDER_NUMBER),
-                                        getItemKey(ID2, ORDER_NUMBER), RECEIVABLE_AMOUNT,
+                new JsonReimbursement(key1.getJsonPrimaryKey(), RECEIVABLE_AMOUNT,
+                                      ALLOCATED_AMOUNT).equals(
+                  new JsonReimbursement(key2.getJsonPrimaryKey(), RECEIVABLE_AMOUNT,
                                         ALLOCATED_AMOUNT)));
   }
 
@@ -215,11 +181,14 @@ public class JsonReimbursementTest {
    */
   @Test
   public void testEqualsDifferentReimbursingItem() {
+    IPrimaryKey key1 =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID2);
+    IPrimaryKey key2 =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID3);
     assertFalse("different objects (on reimbursing item) are equal",
-                new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID2, ORDER_NUMBER),
-                                      RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT).equals(
-                  new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER),
-                                        getItemKey(ID3, ORDER_NUMBER), RECEIVABLE_AMOUNT,
+                new JsonReimbursement(key1.getJsonPrimaryKey(), RECEIVABLE_AMOUNT,
+                                      ALLOCATED_AMOUNT).equals(
+                  new JsonReimbursement(key2.getJsonPrimaryKey(), RECEIVABLE_AMOUNT,
                                         ALLOCATED_AMOUNT)));
   }
 
@@ -228,22 +197,28 @@ public class JsonReimbursementTest {
    */
   @Test
   public void testEquals() {
+    IPrimaryKey key1 =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID2);
+    IPrimaryKey key2 =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID2);
     assertTrue("equivalent objects not equal",
-               new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID2, ORDER_NUMBER),
-                                     RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT).equals(
-                 new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID2, ORDER_NUMBER),
-                                       RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT)));
+               new JsonReimbursement(key1.getJsonPrimaryKey(), RECEIVABLE_AMOUNT,
+                                     ALLOCATED_AMOUNT).equals(
+                 new JsonReimbursement(key2.getJsonPrimaryKey(), RECEIVABLE_AMOUNT,
+                                       ALLOCATED_AMOUNT)));
   }
 
   @Test
   public void testHashCode() {
+    IPrimaryKey key1 =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID2);
+    IPrimaryKey key2 =
+      TransactionFactory.getReimbursementPrimaryKey(ORDER_NUMBER, ORDER_NUMBER, ID1, ID3);
     JsonReimbursement object1 =
-      new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID2, ORDER_NUMBER),
-                            RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
+      new JsonReimbursement(key1.getJsonPrimaryKey(), RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
     JsonReimbursement object2 =
-      new JsonReimbursement(getItemKey(ID1, ORDER_NUMBER), getItemKey(ID3, ORDER_NUMBER),
-                            RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
-    assertTrue("wrong hash code: " + object1.hashCode(), object1.hashCode() == -1384342401);
+      new JsonReimbursement(key2.getJsonPrimaryKey(), RECEIVABLE_AMOUNT, ALLOCATED_AMOUNT);
+    assertTrue("wrong hash code: " + object1.hashCode(), object1.hashCode() == -1397744865);
     assertTrue("different objects have same hash code", object1.hashCode() != object2.hashCode());
   }
 }

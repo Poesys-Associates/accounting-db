@@ -5,10 +5,8 @@ import com.poesys.db.AbstractJsonObject;
 import com.poesys.db.pk.json.JsonPrimaryKey;
 
 public class JsonReimbursement extends AbstractJsonObject {
-  /** JSON primary key for the receivable item; part of the primary key */
-  private JsonPrimaryKey receivableItemKey;
-  /** JSON primary key for the reimbursing item; part of the primary key */
-  private JsonPrimaryKey reimbursingItemKey;
+  /** JSON primary key for the object */
+  private JsonPrimaryKey primaryKey;
   /** the amount of the receivable reimbursed by the reimbursing item */
   private Double reimbursedAmount;
   /** the amount of the receivable allocated by the reimbursing item transaction */
@@ -22,20 +20,17 @@ public class JsonReimbursement extends AbstractJsonObject {
   }
 
   /**
-   * Create a JSON Reimbursement by specifying the primary key (receivable and reimbursing item
-   * keys) and the two amounts. Status defaults to EXISTING.
+   * Create a JSON Reimbursement with the association primary key and the two amounts. Status defaults to EXISTING.
    *
-   * @param receivableItemKey  the key for the receivable item (part of primary key)
-   * @param reimbursingItemKey the key for the reimbursing item (part of primary key)
+   * @param primaryKey  the JSON association key for the Reimbursement object
    * @param reimbursedAmount   the amount of the receivable reimbursed by the reimbursing item
    * @param allocatedAmount    the amount of the receivable allocated by the reimbursing item
    *                           transaction
    */
-  public JsonReimbursement(JsonPrimaryKey receivableItemKey, JsonPrimaryKey reimbursingItemKey,
+  public JsonReimbursement(JsonPrimaryKey primaryKey,
                            Double reimbursedAmount, Double allocatedAmount) {
     super(AbstractJsonObject.EXISTING);
-    this.receivableItemKey = receivableItemKey;
-    this.reimbursingItemKey = reimbursingItemKey;
+    this.primaryKey = primaryKey;
     this.reimbursedAmount = reimbursedAmount;
     this.allocatedAmount = allocatedAmount;
   }
@@ -51,17 +46,15 @@ public class JsonReimbursement extends AbstractJsonObject {
 
     JsonReimbursement that = (JsonReimbursement)o;
 
-    // Compare the association key components.
-    return receivableItemKey.equals(that.receivableItemKey) &&
-           reimbursingItemKey.equals(that.reimbursingItemKey);
+    // Compare the primary keys.
+    return primaryKey.equals(that.primaryKey);
   }
 
   @Override
   public int hashCode() {
     // hash the fully qualified class name and the primary key to minimize hashcode overlaps
     int result = this.getClass().getName().hashCode();
-    result = 31 * result + receivableItemKey.hashCode();
-    return 31 * result + reimbursingItemKey.hashCode();
+    return 31 * result + primaryKey.hashCode();
   }
 
   /**

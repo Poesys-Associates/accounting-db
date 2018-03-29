@@ -6,6 +6,9 @@
 package com.poesys.accounting.bs.transaction;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.poesys.accounting.db.transaction.json.JsonReimbursement;
 import com.poesys.db.pk.IPrimaryKey;
 import com.poesys.bs.delegate.DelegateException;
 
@@ -82,5 +85,13 @@ allocated amount when summing up amounts applied against the receivable
    */
   public BsReimbursement(IPrimaryKey key, com.poesys.accounting.db.transaction.IItem receivablesObject, com.poesys.accounting.db.transaction.IItem reimbursingItemsObject, java.lang.Integer receivablesOrderNumber, java.lang.Integer reimbursingItemsOrderNumber, java.math.BigInteger receivablesTransactionId, java.math.BigInteger reimbursingItemsTransactionId, java.lang.Double reimbursedAmount, java.lang.Double allocatedAmount) {
     super(key, receivablesObject, reimbursingItemsObject, receivablesOrderNumber, reimbursingItemsOrderNumber, receivablesTransactionId, reimbursingItemsTransactionId, reimbursedAmount, allocatedAmount); 
+  }
+
+  @Override
+  public String toString() {
+    // Create the Gson object.
+    Gson gson = new GsonBuilder().serializeNulls().create();
+    // Produce the JSON string.
+    return gson.toJson(dto.getJson(), JsonReimbursement.class);
   }
 }

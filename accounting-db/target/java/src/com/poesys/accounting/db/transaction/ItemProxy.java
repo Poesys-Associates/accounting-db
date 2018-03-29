@@ -5,6 +5,7 @@
 
 package com.poesys.accounting.db.transaction;
 
+import com.poesys.accounting.db.transaction.json.JsonItem;
 
 /**
  * <p>
@@ -38,5 +39,10 @@ public class ItemProxy extends AbstractItemProxy {
    */
   public ItemProxy(Item dto) {
     super(dto); 
+  }
+
+  @Override
+  public JsonItem getJson() {
+    return ((Item)dto).getJson();
   }
 }

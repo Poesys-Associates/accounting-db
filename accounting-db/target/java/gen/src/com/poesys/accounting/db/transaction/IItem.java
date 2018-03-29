@@ -6,6 +6,7 @@
 
 package com.poesys.accounting.db.transaction;
 
+import com.poesys.accounting.db.transaction.json.JsonItem;
 import com.poesys.db.dto.IDbDto;
 
 import com.poesys.db.pk.IPrimaryKey;
@@ -51,7 +52,13 @@ public interface IItem extends IDbDto {
   void markChildrenDeleted();
 
   IPrimaryKey getPrimaryKey();
-  
+
+  /**
+   * Get a JSON DTO for the Reimbursement.
+   *
+   * @return a JSON DTO
+   */
+  JsonItem getJson();
 
   /**
    * <p>

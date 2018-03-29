@@ -5,9 +5,14 @@
 
 package com.poesys.accounting.db.transaction;
 
-
+import com.poesys.accounting.db.transaction.json.JsonItem;
+import com.poesys.accounting.db.transaction.json.JsonReimbursement;
 import com.poesys.db.pk.IPrimaryKey;
+import com.poesys.db.pk.json.JsonPrimaryKey;
+import com.poesys.db.pk.json.JsonPrimaryKeyFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -28,10 +33,10 @@ import com.poesys.db.pk.IPrimaryKey;
  * Stereotypes:
  * </p>
  * <ul>
- *     <li>CompositeKey</li>
- *     <li>Persistent</li>
+ * <li>CompositeKey</li>
+ * <li>Persistent</li>
  * </ul>
- * 
+ *
  * @author Poesys/DB Cartridge
  */
 public class Item extends AbstractItem {
@@ -40,33 +45,55 @@ public class Item extends AbstractItem {
 
   /**
    * <p>
-   * Create a Item as a new object. This constructor calls the abstract 
+   * Create a Item as a new object. This constructor calls the abstract
    * superclass constructor.
    * </p>
-   *
    */
   public Item() {
-    super(); 
+    super();
   }
 
   /**
    * <p>
-   * Create a Item. This constructor calls the abstract superclass 
+   * Create a Item. This constructor calls the abstract superclass
    * constructor.
    * </p>
    *
-   * @param key the primary key of the Item
-   * @param transactionId composite super-key attribute that uniquely identifies child combined with child sub-key and any other parent super-keys
-   * @param orderNumber 
-   * @param amount the monetary amount in dollars of the transaction item
-   * @param debit whether the item is a debit (true) or credit (false); default value is the
-debit-default value of the account
-   * @param checked whether the value and details of the transaction item have been verified and
-reconciled
-   * @param accountName foreign key used by setter to query associated object
-   * @param entityName foreign key used by setter to query associated object
+   * @param key           the primary key of the Item
+   * @param transactionId composite super-key attribute that uniquely identifies child combined
+   *                      with child sub-key and any other parent super-keys
+   * @param orderNumber
+   * @param amount        the monetary amount in dollars of the transaction item
+   * @param debit         whether the item is a debit (true) or credit (false); default value is the
+   *                      debit-default value of the account
+   * @param checked       whether the value and details of the transaction item have been
+   *                      verified and
+   *                      reconciled
+   * @param accountName   foreign key used by setter to query associated object
+   * @param entityName    foreign key used by setter to query associated object
    */
-  public Item(IPrimaryKey key, java.math.BigInteger transactionId, java.lang.Integer orderNumber, java.lang.Double amount, java.lang.Boolean debit, java.lang.Boolean checked, java.lang.String accountName, java.lang.String entityName) {
-    super(key, transactionId, orderNumber, amount, debit, checked, accountName, entityName); 
+  public Item(IPrimaryKey key, java.math.BigInteger transactionId, java.lang.Integer orderNumber,
+              java.lang.Double amount, java.lang.Boolean debit, java.lang.Boolean checked, java
+                .lang.String accountName, java.lang.String entityName) {
+    super(key, transactionId, orderNumber, amount, debit, checked, accountName, entityName);
+  }
+
+  @Override
+  public JsonItem getJson() {
+    List<JsonPrimaryKey> jsonReceivableKeys = JsonPrimaryKeyFactory.getList(receivableKeys);
+    List<JsonPrimaryKey> jsonReimbursingItemKeys =
+      JsonPrimaryKeyFactory.getList(reimbursingItemKeys);
+    List<JsonReimbursement> jsonReceivablesReimbursements = new ArrayList<>();
+    for (IReimbursement reimbursement : receivablesReimbursement) {
+      jsonReceivablesReimbursements.add(reimbursement.getJson());
+    }
+    List<JsonReimbursement> jsonReimbursingItemReimbursements = new ArrayList<>();
+    for (IReimbursement reimbursement : reimbursingItemsReimbursement) {
+      jsonReceivablesReimbursements.add(reimbursement.getJson());
+    }
+    return new JsonItem(key.getJsonPrimaryKey(), getAmount(), getDebit(), getChecked(),
+                        getAccount().getPrimaryKey().getJsonPrimaryKey(), getAccountName(),
+                        jsonReceivableKeys, jsonReceivablesReimbursements, jsonReimbursingItemKeys,
+                        jsonReimbursingItemReimbursements);
   }
 }

@@ -6,8 +6,10 @@
 package com.poesys.accounting.db.transaction;
 
 
+import com.poesys.accounting.db.transaction.json.JsonReimbursement;
 import com.poesys.db.pk.IPrimaryKey;
-
+import com.poesys.db.pk.json.JsonPrimaryKey;
+import com.poesys.db.pk.json.JsonPrimaryKeyFactory;
 
 /**
  * <p>
@@ -85,5 +87,10 @@ allocated amount when summing up amounts applied against the receivable
    */
   public Reimbursement(IPrimaryKey key, com.poesys.accounting.db.transaction.IItem receivablesObject, com.poesys.accounting.db.transaction.IItem reimbursingItemsObject, java.lang.Integer receivablesOrderNumber, java.lang.Integer reimbursingItemsOrderNumber, java.math.BigInteger receivablesTransactionId, java.math.BigInteger reimbursingItemsTransactionId, java.lang.Double reimbursedAmount, java.lang.Double allocatedAmount) {
     super(key, receivablesObject, reimbursingItemsObject, receivablesOrderNumber, reimbursingItemsOrderNumber, receivablesTransactionId, reimbursingItemsTransactionId, reimbursedAmount, allocatedAmount); 
+  }
+
+  @Override
+  public JsonReimbursement getJson() {
+    return new JsonReimbursement(getPrimaryKey().getJsonPrimaryKey(), getReimbursedAmount(), getAllocatedAmount());
   }
 }

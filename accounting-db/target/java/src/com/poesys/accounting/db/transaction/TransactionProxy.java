@@ -5,6 +5,7 @@
 
 package com.poesys.accounting.db.transaction;
 
+import com.poesys.accounting.db.transaction.json.JsonTransaction;
 
 /**
  * <p>
@@ -36,5 +37,10 @@ public class TransactionProxy extends AbstractTransactionProxy {
    */
   public TransactionProxy(Transaction dto) {
     super(dto); 
+  }
+
+  @Override
+  public JsonTransaction getJson() {
+    return ((Transaction)dto).getJson();
   }
 }

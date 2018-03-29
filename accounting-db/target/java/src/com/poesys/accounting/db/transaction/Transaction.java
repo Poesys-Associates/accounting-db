@@ -5,9 +5,13 @@
 
 package com.poesys.accounting.db.transaction;
 
-
+import com.poesys.accounting.db.transaction.json.JsonItem;
+import com.poesys.accounting.db.transaction.json.JsonTransaction;
+import com.poesys.db.AbstractJsonObject;
 import com.poesys.db.pk.IPrimaryKey;
 
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -26,10 +30,10 @@ import com.poesys.db.pk.IPrimaryKey;
  * Stereotypes:
  * </p>
  * <ul>
- *     <li>Persistent</li>
- *     <li>SequenceKey</li>
+ * <li>Persistent</li>
+ * <li>SequenceKey</li>
  * </ul>
- * 
+ *
  * @author Poesys/DB Cartridge
  */
 public class Transaction extends AbstractTransaction {
@@ -38,32 +42,46 @@ public class Transaction extends AbstractTransaction {
 
   /**
    * <p>
-   * Create a Transaction as a new object. This constructor calls the abstract 
+   * Create a Transaction as a new object. This constructor calls the abstract
    * superclass constructor.
    * </p>
-   *
    */
   public Transaction() {
-    super(); 
+    super();
   }
 
   /**
    * <p>
-   * Create a Transaction. This constructor calls the abstract superclass 
+   * Create a Transaction. This constructor calls the abstract superclass
    * constructor.
    * </p>
    *
-   * @param key the primary key of the Transaction
-   * @param transactionId primary key attribute
-   * @param description a text describing the nature of the transaction
+   * @param key             the primary key of the Transaction
+   * @param transactionId   primary key attribute
+   * @param description     a text describing the nature of the transaction
    * @param transactionDate the calendar day on which the transaction occurred
-   * @param checked whether the transaction is reconciled and validated
-   * @param balance whether the transaction represents a balance transaction, the transfer of an
-amount onto the balance sheet; balance transactions do not need to have
-off-setting debits and credits and are ignored in balance checking for normal
-transactions
+   * @param checked         whether the transaction is reconciled and validated
+   * @param balance         whether the transaction represents a balance transaction, the
+   *                        transfer of an
+   *                        amount onto the balance sheet; balance transactions do not need to have
+   *                        off-setting debits and credits and are ignored in balance checking
+   *                        for normal
+   *                        transactions
    */
-  public Transaction(IPrimaryKey key, java.math.BigInteger transactionId, java.lang.String description, java.sql.Timestamp transactionDate, java.lang.Boolean checked, java.lang.Boolean balance) {
-    super(key, transactionId, description, transactionDate, checked, balance); 
+  public Transaction(IPrimaryKey key, java.math.BigInteger transactionId, java.lang.String
+    description, java.sql.Timestamp transactionDate, java.lang.Boolean checked, java.lang.Boolean
+    balance) {
+    super(key, transactionId, description, transactionDate, checked, balance);
+  }
+
+  @Override
+  public JsonTransaction getJson() {
+    List<JsonItem> jsonItems = new ArrayList<>();
+    for (IItem item : items) {
+      jsonItems.add(item.getJson());
+    }
+    String date = AbstractJsonObject.FORMAT.format(getTransactionDate());
+    return new JsonTransaction(key.getJsonPrimaryKey(), getDescription(), date, getBalance(),
+                               getChecked(), jsonItems);
   }
 }

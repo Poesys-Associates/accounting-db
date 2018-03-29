@@ -5,10 +5,10 @@
 
 package com.poesys.accounting.bs.transaction;
 
-
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,7 +43,6 @@ import com.poesys.db.dao.IDaoManager;
 import com.poesys.db.pk.IPrimaryKey;
 import com.poesys.db.pk.SequencePrimaryKey;
 
-
 /**
  * <p>
  * A test class for the TransactionDelegate class. This class is the concrete
@@ -65,7 +64,7 @@ import com.poesys.db.pk.SequencePrimaryKey;
  * replacing the Abstract superclass, to handle the structural requirement that
  * a transaction needs at least two items that balance in credit/debit amount.
  * </p>
- * 
+ *
  * @author Poesys/DB Cartridge
  */
 public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
@@ -96,9 +95,9 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    * transaction items of various kinds. These objects get created and inserted
    * at the beginning of the test run and deleted after the last test method
    * runs.
-   * 
+   *
    * @throws java.lang.Exception when there is a problem creating or inserting
-   *           objects
+   *                             objects
    */
   private void createAccounts() {
     // Create entity and store it.
@@ -107,32 +106,19 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
     entDel.insert(entity);
 
     // Create simple accounts.
-    SimpleAccountDelegate accDel =
-      AccountDelegateFactory.getSimpleAccountDelegate();
+    SimpleAccountDelegate accDel = AccountDelegateFactory.getSimpleAccountDelegate();
 
-    receivableAccount =
-      new BsAccount(accDel.createSimpleAccount(REC_ACCOUNT_NAME,
-                                               entity.getEntityName(),
-                                               REC_DESC,
-                                               DEBIT,
-                                               ACTIVE,
-                                               RECEIVABLE).toDto());
+    receivableAccount = new BsAccount(
+      accDel.createSimpleAccount(REC_ACCOUNT_NAME, entity.getEntityName(), REC_DESC, DEBIT, ACTIVE,
+                                 RECEIVABLE).toDto());
     receivableAccount.setEntity(entity);
-    incomeAccount =
-      new BsAccount(accDel.createSimpleAccount(INC_ACCOUNT_NAME,
-                                               entity.getEntityName(),
-                                               INC_ACCOUNT_DESC,
-                                               !DEBIT,
-                                               ACTIVE,
-                                               !RECEIVABLE).toDto());
+    incomeAccount = new BsAccount(
+      accDel.createSimpleAccount(INC_ACCOUNT_NAME, entity.getEntityName(), INC_ACCOUNT_DESC, !DEBIT,
+                                 ACTIVE, !RECEIVABLE).toDto());
     incomeAccount.setEntity(entity);
-    checkingAccount =
-      new BsAccount(accDel.createSimpleAccount(CHK_ACCOUNT_NAME,
-                                               entity.getEntityName(),
-                                               CHK_ACCOUNT_DESC,
-                                               DEBIT,
-                                               ACTIVE,
-                                               !RECEIVABLE).toDto());
+    checkingAccount = new BsAccount(
+      accDel.createSimpleAccount(CHK_ACCOUNT_NAME, entity.getEntityName(), CHK_ACCOUNT_DESC, DEBIT,
+                                 ACTIVE, !RECEIVABLE).toDto());
     checkingAccount.setEntity(entity);
 
     // Add the accounts to the entity's list of accounts, then insert all.
@@ -146,7 +132,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
   /**
    * Delete the Entity object and its dependents. Free the static business
    * delegates.
-   * 
+   *
    * @throws java.lang.Exception
    */
   private void deleteAccounts() {
@@ -163,42 +149,30 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
   // RegularItem items (revenue credit, checking debit).
 
   @Override
-  protected List<com.poesys.accounting.bs.transaction.BsTransaction> createTransactionTransaction(int count)
-      throws DelegateException, InvalidParametersException {
+  protected List<com.poesys.accounting.bs.transaction.BsTransaction> createTransactionTransaction
+    (int count) throws DelegateException, InvalidParametersException {
     List<BsTransaction> objects = new ArrayList<BsTransaction>();
 
     for (int i = 0; i < count; i++) {
       String description = StringUtilities.generateString(4000);
       // Generate different dates relative to current date based on current
       // count.
-      Timestamp transactionDate =
-        new Timestamp(System.currentTimeMillis() - (10000 * i));
+      Timestamp transactionDate = new Timestamp(System.currentTimeMillis() - (10000 * i));
 
       // Create the object.
       BsTransaction transaction = null;
       try {
         // tests createTransaction and BsTransaction constructor
         transaction =
-          delegate.createTransaction(null,
-                                     description,
-                                     transactionDate,
-                                     !CHECKED,
-                                     !BALANCE);
+          delegate.createTransaction(null, description, transactionDate, !CHECKED, !BALANCE);
         // Verify object creation
         assertTrue("no transaction object created", transaction != null);
         // Validate object with description comparison
-        assertTrue("wrong description",
-                   description.equals(transaction.getDescription()));
+        assertTrue("wrong description", description.equals(transaction.getDescription()));
         // Create the income credit item.
         BsItem incomeItem =
-          delegate.createItem(transaction,
-                              transaction.getTransactionId(),
-                              1,
-                              AMOUNT,
-                              !DEBIT,
-                              !CHECKED,
-                              INC_ACCOUNT_NAME,
-                              entity.getEntityName());
+          delegate.createItem(transaction, transaction.getTransactionId(), 1, AMOUNT, !DEBIT,
+                              !CHECKED, INC_ACCOUNT_NAME, entity.getEntityName());
         BsAccount account = new BsAccount(incomeAccount.toDto());
         incomeItem.setAccount(account);
         account.addItemsItem(incomeItem);
@@ -206,28 +180,20 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
         int itemCount = transaction.getItems().size();
         transaction.addItemsItem(incomeItem);
         // verify add by item count
-        assertTrue("wrong number of items: " + transaction.getItems().size()
-                       + ", expected " + (itemCount + 1),
-                   transaction.getItems().size() == (itemCount + 1));
+        assertTrue("wrong number of items: " + transaction.getItems().size() + ", expected " +
+                   (itemCount + 1), transaction.getItems().size() == (itemCount + 1));
         // Create the asset debit item.
         BsItem assetItem =
-          delegate.createItem(transaction,
-                              transaction.getTransactionId(),
-                              2,
-                              AMOUNT,
-                              DEBIT,
-                              !CHECKED,
-                              CHK_ACCOUNT_NAME,
-                              entity.getEntityName());
+          delegate.createItem(transaction, transaction.getTransactionId(), 2, AMOUNT, DEBIT,
+                              !CHECKED, CHK_ACCOUNT_NAME, entity.getEntityName());
         incomeItem.setAccount(checkingAccount);
         checkingAccount.addItemsItem(incomeItem);
         // tests addItemsItem()
         itemCount = transaction.getItems().size();
         transaction.addItemsItem(assetItem);
         // verify add by item count
-        assertTrue("wrong number of items: " + transaction.getItems().size()
-                       + ", expected " + (itemCount + 1),
-                   transaction.getItems().size() == (itemCount + 1));
+        assertTrue("wrong number of items: " + transaction.getItems().size() + ", expected " +
+                   (itemCount + 1), transaction.getItems().size() == (itemCount + 1));
         // Validate the transaction, should be complete now
         // tests base isValid() function branch on BsTransaction
         assertTrue("transaction not valid, see log", transaction.isValid());
@@ -249,7 +215,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    * Create a Receivable transaction with a debit Receivable item against a
    * receivable account and a credit RegularItem against an income account. This
    * test also tests the createItem() method on the ItemDelegate.
-   * 
+   *
    * @return a receivable transaction
    */
   protected BsTransaction createReceivableTransaction() {
@@ -261,52 +227,35 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
     try {
       // tests createTransaction and BsTransaction constructor
       transaction =
-        delegate.createTransaction(null,
-                                   description,
-                                   transactionDate,
-                                   !CHECKED,
-                                   !BALANCE);
+        delegate.createTransaction(null, description, transactionDate, !CHECKED, !BALANCE);
       // Verify object creation
       assertTrue("no transaction object created", transaction != null);
       // Validate object with description comparison
-      assertTrue("wrong description",
-                 description.equals(transaction.getDescription()));
+      assertTrue("wrong description", description.equals(transaction.getDescription()));
       // Create the income credit item.
       BsItem incomeItem =
-        delegate.createItem(transaction,
-                            transaction.getTransactionId(),
-                            1,
-                            AMOUNT,
-                            !DEBIT,
-                            !CHECKED,
-                            INC_ACCOUNT_NAME,
-                            entity.getEntityName());
+        delegate.createItem(transaction, transaction.getTransactionId(), 1, AMOUNT, !DEBIT,
+                            !CHECKED, INC_ACCOUNT_NAME, entity.getEntityName());
       incomeItem.setAccount(incomeAccount);
       // tests addItemsItem()
       int itemCount = transaction.getItems().size();
       transaction.addItemsItem(incomeItem);
       // verify add by item count
-      assertTrue("wrong number of items: " + transaction.getItems().size()
-                     + ", expected " + (itemCount + 1),
-                 transaction.getItems().size() == (itemCount + 1));
+      assertTrue(
+        "wrong number of items: " + transaction.getItems().size() + ", expected " + (itemCount + 1),
+        transaction.getItems().size() == (itemCount + 1));
       // Create the receivable debit item.
       BsItem receivableItem =
-        delegate.createItem(transaction,
-                            transaction.getTransactionId(),
-                            2,
-                            AMOUNT,
-                            DEBIT,
-                            !CHECKED,
-                            REC_ACCOUNT_NAME,
-                            entity.getEntityName());
+        delegate.createItem(transaction, transaction.getTransactionId(), 2, AMOUNT, DEBIT, !CHECKED,
+                            REC_ACCOUNT_NAME, entity.getEntityName());
       incomeItem.setAccount(receivableAccount);
       // tests addItemsItem()
       itemCount = transaction.getItems().size();
       transaction.addItemsItem(receivableItem);
       // verify add by item count
-      assertTrue("wrong number of items: " + transaction.getItems().size()
-                     + ", expected " + (itemCount + 1),
-                 transaction.getItems().size() == (itemCount + 1));
+      assertTrue(
+        "wrong number of items: " + transaction.getItems().size() + ", expected " + (itemCount + 1),
+        transaction.getItems().size() == (itemCount + 1));
       // Validate the transaction, should be complete now
       // tests base isValid() function branch on BsTransaction
       assertTrue("transaction not valid, see log", transaction.isValid());
@@ -325,7 +274,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
   /**
    * Create a Reimbursement transaction against the account of a receivable
    * item.
-   * 
+   *
    * @return a reimbursement transaction
    */
   protected BsTransaction createReimbursementTransaction() {
@@ -337,52 +286,35 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
     try {
       // tests createTransaction and BsTransaction constructor
       transaction =
-        delegate.createTransaction(null,
-                                   description,
-                                   transactionDate,
-                                   !CHECKED,
-                                   !BALANCE);
+        delegate.createTransaction(null, description, transactionDate, !CHECKED, !BALANCE);
       // Verify object creation
       assertTrue("no transaction object created", transaction != null);
       // Validate object with description comparison
-      assertTrue("wrong description",
-                 description.equals(transaction.getDescription()));
+      assertTrue("wrong description", description.equals(transaction.getDescription()));
       // Create the receivable credit item.
       BsItem receivableReimbursement =
-        delegate.createItem(transaction,
-                            transaction.getTransactionId(),
-                            1,
-                            AMOUNT,
-                            !DEBIT,
-                            !CHECKED,
-                            REC_ACCOUNT_NAME,
-                            entity.getEntityName());
+        delegate.createItem(transaction, transaction.getTransactionId(), 1, AMOUNT, !DEBIT,
+                            !CHECKED, REC_ACCOUNT_NAME, entity.getEntityName());
       receivableReimbursement.setAccount(receivableAccount);
       // tests addItemsItem()
       int itemCount = transaction.getItems().size();
       transaction.addItemsItem(receivableReimbursement);
       // verify add by item count
-      assertTrue("wrong number of items: " + transaction.getItems().size()
-                     + ", expected " + (itemCount + 1),
-                 transaction.getItems().size() == (itemCount + 1));
+      assertTrue(
+        "wrong number of items: " + transaction.getItems().size() + ", expected " + (itemCount + 1),
+        transaction.getItems().size() == (itemCount + 1));
       // Create the reimbursement debit item. No item list required.
       BsItem checkingReimbursement =
-        delegate.createItem(transaction,
-                            transaction.getTransactionId(),
-                            2,
-                            AMOUNT,
-                            DEBIT,
-                            !CHECKED,
-                            CHK_ACCOUNT_NAME,
-                            entity.getEntityName());
+        delegate.createItem(transaction, transaction.getTransactionId(), 2, AMOUNT, DEBIT, !CHECKED,
+                            CHK_ACCOUNT_NAME, entity.getEntityName());
       checkingReimbursement.setAccount(checkingAccount);
       // tests addItemsItem()
       itemCount = transaction.getItems().size();
       transaction.addItemsItem(checkingReimbursement);
       // verify add by item count
-      assertTrue("wrong number of items: " + transaction.getItems().size()
-                     + ", expected " + (itemCount + 1),
-                 transaction.getItems().size() == (itemCount + 1));
+      assertTrue(
+        "wrong number of items: " + transaction.getItems().size() + ", expected " + (itemCount + 1),
+        transaction.getItems().size() == (itemCount + 1));
       // Validate the transaction, should be complete now
       // tests base isValid() function branch on BsTransaction
       assertTrue("transaction not valid, see log", transaction.isValid());
@@ -400,33 +332,27 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
 
   @Override
   protected List<BsReimbursement> createTransactionReimbursement(List<IItem> receivablesList,
-                                                                 List<IItem> reimbursingItemsList,
-                                                                 int count)
-      throws DelegateException, InvalidParametersException {
-    List<BsReimbursement> reimbursements =
-      new ArrayList<BsReimbursement>(count);
+                                                                 List<IItem>
+                                                                   reimbursingItemsList, int
+                                                                     count) throws
+    DelegateException, InvalidParametersException {
+    List<BsReimbursement> reimbursements = new ArrayList<BsReimbursement>(count);
 
     // Check the input array sizes, should be count.
     assertTrue("Receivables list has incorrect size " + receivablesList.size(),
                receivablesList.size() == count);
-    assertTrue("Reimbursing items list has incorrect size "
-                   + reimbursingItemsList.size(),
+    assertTrue("Reimbursing items list has incorrect size " + reimbursingItemsList.size(),
                reimbursingItemsList.size() == count);
 
     for (int i = 0; i < count; i++) {
       BsItem receivable = new BsItem(receivablesList.get(i));
       BsItem reimbursingItem = new BsItem(reimbursingItemsList.get(i));
       BsReimbursement reimbursement =
-        delegate.createReimbursement(receivable,
-                                     reimbursingItem,
-                                     receivable.getOrderNumber(),
+        delegate.createReimbursement(receivable, reimbursingItem, receivable.getOrderNumber(),
                                      reimbursingItem.getOrderNumber(),
                                      receivable.getTransactionId(),
-                                     reimbursingItem.getTransactionId(),
-                                     AMOUNT,
-                                     ALLOCATED_AMOUNT);
-      logger.debug("Created reimbursement object "
-                   + reimbursement.getPrimaryKey().getStringKey());
+                                     reimbursingItem.getTransactionId(), AMOUNT, ALLOCATED_AMOUNT);
+      logger.debug("Created reimbursement object " + reimbursement.getPrimaryKey().getStringKey());
       reimbursements.add(reimbursement);
       try {
         receivable.addReimbursingItemsItem(reimbursingItem);
@@ -452,8 +378,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       createAccounts();
       objects = createTransactionTransaction(1);
       delegate.insert(objects);
-      SequencePrimaryKey key =
-        (SequencePrimaryKey)objects.get(0).getPrimaryKey();
+      SequencePrimaryKey key = (SequencePrimaryKey)objects.get(0).getPrimaryKey();
       assertTrue("No key for inserted object", key != null);
 
       BsTransaction queriedObject = queryStoredObject(key);
@@ -461,7 +386,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       assertTrue("Wrong object", objects.get(0).equals(queriedObject));
     } catch (DelegateException e) {
       fail(e.getMessage());
-    } finally {
+    }
+    finally {
       // Delete the inserted objects to clean up.
       // Mark all the objects for delete.
       for (BsTransaction object : objects) {
@@ -480,12 +406,10 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       createAccounts();
       objects = createTransactionTransaction(1);
       delegate.insert(objects);
-      SequencePrimaryKey key =
-        (SequencePrimaryKey)objects.get(0).getPrimaryKey();
+      SequencePrimaryKey key = (SequencePrimaryKey)objects.get(0).getPrimaryKey();
       assertTrue("No key generated from concrete implementation", key != null);
       BsTransaction insertedObject = objects.get(0);
-      assertTrue("No comparison object for object query",
-                 insertedObject != null);
+      assertTrue("No comparison object for object query", insertedObject != null);
 
       // Query the object from the database.
       IDaoManager manager = DaoManagerFactory.getManager(getSubsystem());
@@ -499,7 +423,146 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail(e.getMessage());
     } catch (Exception e) {
       logger.error("getObject failed", e);
-    } finally {
+    }
+    finally {
+      // Delete the inserted objects to clean up.
+      // Mark all the objects for delete.
+      for (BsTransaction o : objects) {
+        o.delete();
+      }
+      delegate.deleteBatch(objects);
+      deleteAccounts();
+    }
+  }
+
+  /**
+   * Test getting a JSON representation of a new transaction business object (and the child item
+   * objects).
+   */
+  @Test
+  public void testGetNewJsonObject() throws IOException, SQLException {
+    // Create a new Transaction object to perform the test.
+    List<BsTransaction> objects = null;
+    try {
+      createAccounts();
+      objects = createTransactionTransaction(1);
+      String json = objects.get(0).toString();
+      assertTrue("did not create JSON string from new object", json != null && !json.isEmpty());
+      assertTrue("wrong JSON from new object: " + json, json.equals(""));
+    } catch (DelegateException e) {
+      fail(e.getMessage());
+    } catch (Exception e) {
+      logger.error("getObject failed", e);
+    }
+    finally {
+      // Delete the inserted entity directly to clean up.
+      Connection connection = JdbcConnectionManager.getConnection(DBMS.MYSQL, getSubsystem());
+      PreparedStatement stmt = connection.prepareStatement("DELETE FROM Entity");
+      stmt.execute();
+    }
+  }
+
+  @Test
+  public void testGetExistingJsonObject() throws SQLException {
+    // Create a new Transaction object to perform the test.
+    List<BsTransaction> objects = null;
+    try {
+      createAccounts();
+      objects = createTransactionTransaction(1);
+      delegate.insert(objects);
+      SequencePrimaryKey key = (SequencePrimaryKey)objects.get(0).getPrimaryKey();
+      assertTrue("No key generated from concrete implementation", key != null);
+      BsTransaction insertedObject = objects.get(0);
+      assertTrue("No comparison object for object query", insertedObject != null);
+
+      // Query the object from the database.
+      IDaoManager manager = DaoManagerFactory.getManager(getSubsystem());
+      if (manager != null) {
+        manager.clearCache(com.poesys.accounting.db.transaction.Transaction.class.getName());
+      }
+      BsTransaction object = delegate.getObject(key);
+      assertTrue("Couldn't get object", object != null);
+      assertTrue("Wrong object", insertedObject.equals(object));
+    } catch (DelegateException e) {
+      fail(e.getMessage());
+    } catch (Exception e) {
+      logger.error("getObject failed", e);
+    }
+    finally {
+      // Delete the inserted objects to clean up.
+      // Mark all the objects for delete.
+      for (BsTransaction o : objects) {
+        o.delete();
+      }
+      delegate.deleteBatch(objects);
+      deleteAccounts();
+    }
+  }
+
+  @Test
+  public void testGetChangedJsonObject() throws SQLException {
+    // Create a new Transaction object to perform the test.
+    List<BsTransaction> objects = null;
+    try {
+      createAccounts();
+      objects = createTransactionTransaction(1);
+      delegate.insert(objects);
+      SequencePrimaryKey key = (SequencePrimaryKey)objects.get(0).getPrimaryKey();
+      assertTrue("No key generated from concrete implementation", key != null);
+      BsTransaction insertedObject = objects.get(0);
+      assertTrue("No comparison object for object query", insertedObject != null);
+
+      // Query the object from the database.
+      IDaoManager manager = DaoManagerFactory.getManager(getSubsystem());
+      if (manager != null) {
+        manager.clearCache(com.poesys.accounting.db.transaction.Transaction.class.getName());
+      }
+      BsTransaction object = delegate.getObject(key);
+      assertTrue("Couldn't get object", object != null);
+      assertTrue("Wrong object", insertedObject.equals(object));
+    } catch (DelegateException e) {
+      fail(e.getMessage());
+    } catch (Exception e) {
+      logger.error("getObject failed", e);
+    }
+    finally {
+      // Delete the inserted objects to clean up.
+      // Mark all the objects for delete.
+      for (BsTransaction o : objects) {
+        o.delete();
+      }
+      delegate.deleteBatch(objects);
+      deleteAccounts();
+    }
+  }
+
+  @Test
+  public void testGetDeletedJsonObject() throws SQLException {
+    // Create a new Transaction object to perform the test.
+    List<BsTransaction> objects = null;
+    try {
+      createAccounts();
+      objects = createTransactionTransaction(1);
+      delegate.insert(objects);
+      SequencePrimaryKey key = (SequencePrimaryKey)objects.get(0).getPrimaryKey();
+      assertTrue("No key generated from concrete implementation", key != null);
+      BsTransaction insertedObject = objects.get(0);
+      assertTrue("No comparison object for object query", insertedObject != null);
+
+      // Query the object from the database.
+      IDaoManager manager = DaoManagerFactory.getManager(getSubsystem());
+      if (manager != null) {
+        manager.clearCache(com.poesys.accounting.db.transaction.Transaction.class.getName());
+      }
+      BsTransaction object = delegate.getObject(key);
+      assertTrue("Couldn't get object", object != null);
+      assertTrue("Wrong object", insertedObject.equals(object));
+    } catch (DelegateException e) {
+      fail(e.getMessage());
+    } catch (Exception e) {
+      logger.error("getObject failed", e);
+    }
+    finally {
       // Delete the inserted objects to clean up.
       // Mark all the objects for delete.
       for (BsTransaction o : objects) {
@@ -518,21 +581,19 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       createAccounts();
       objects = createTransactionTransaction(3);
       delegate.insert(objects);
-      SequencePrimaryKey key =
-        (SequencePrimaryKey)objects.get(0).getPrimaryKey();
+      SequencePrimaryKey key = (SequencePrimaryKey)objects.get(0).getPrimaryKey();
       assertTrue("No key generated from concrete implementation", key != null);
       BsTransaction insertedObject = objects.get(0);
-      assertTrue("No comparison object for object query",
-                 insertedObject != null);
+      assertTrue("No comparison object for object query", insertedObject != null);
 
       // Query the objects from the database.
       clearCaches();
       objects = delegate.getAllObjects(3);
-      assertTrue("Couldn't get list of transactions", objects != null
-                                                      && objects.size() > 0);
+      assertTrue("Couldn't get list of transactions", objects != null && objects.size() > 0);
     } catch (DelegateException e) {
       fail(e.getMessage());
-    } finally {
+    }
+    finally {
       // Delete the inserted objects to clean up.
       // Mark all the objects for delete.
       for (BsTransaction o : objects) {
@@ -570,7 +631,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail("Invalid parameters: " + e.getMessage());
     } catch (DelegateException e) {
       fail("Delegate exception: " + e.getMessage());
-    } finally {
+    }
+    finally {
       // Delete the inserted objects to clean up.
       // Mark all the objects for delete.
       for (BsTransaction object : objects) {
@@ -582,16 +644,14 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
   }
 
   @Override
-  public void testUpdateBatch() throws InvalidParametersException,
-      DelegateException {
+  public void testUpdateBatch() throws InvalidParametersException, DelegateException {
     List<BsTransaction> objects = null;
     try {
       createAccounts();
       objects = createTransactionTransaction(2);
       delegate.insert(objects);
       // Allocate a map to hold the updated objects for later comparison.
-      Map<IPrimaryKey, BsTransaction> map =
-        new TreeMap<IPrimaryKey, BsTransaction>();
+      Map<IPrimaryKey, BsTransaction> map = new TreeMap<IPrimaryKey, BsTransaction>();
       for (BsTransaction object : objects) {
         object.setDescription(StringUtilities.generateString(100));
         // Add the object to the holding map.
@@ -612,7 +672,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       }
     } catch (Exception e) {
       fail(e.getMessage());
-    } finally {
+    }
+    finally {
       // Delete the inserted objects to clean up.
       // Mark all the objects for delete.
       for (BsTransaction object : objects) {
@@ -631,8 +692,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       createAccounts();
       List<BsTransaction> objects = createTransactionTransaction(1);
       delegate.insert(objects);
-      SequencePrimaryKey key =
-        (SequencePrimaryKey)objects.get(0).getPrimaryKey();
+      SequencePrimaryKey key = (SequencePrimaryKey)objects.get(0).getPrimaryKey();
       assertTrue("No key for inserted object", key != null);
       BsTransaction insertedObject = objects.get(0);
       assertTrue("No inserted object to delete", insertedObject != null);
@@ -642,15 +702,15 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       assertTrue("object not deleted", !exists(key));
     } catch (Exception e) {
       fail(e.getMessage());
-    } finally {
+    }
+    finally {
       // object already deleted if it can be
       deleteAccounts();
     }
   }
 
   @Override
-  public void testDeleteBatch() throws InvalidParametersException,
-      DelegateException {
+  public void testDeleteBatch() throws InvalidParametersException, DelegateException {
     try {
       createAccounts();
       List<BsTransaction> objects = createTransactionTransaction(2);
@@ -669,14 +729,14 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       }
     } catch (Exception e) {
       fail(e.getMessage());
-    } finally {
+    }
+    finally {
       deleteAccounts();
     }
   }
 
   @Override
-  public void testProcess() throws InvalidParametersException,
-      DelegateException {
+  public void testProcess() throws InvalidParametersException, DelegateException {
     // Create 3 rows--one to insert, one to update, one to delete.
     List<BsTransaction> allObjects = null;
     try {
@@ -692,13 +752,11 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       existingObjects.get(1).delete();
 
       // Set the third object as the object to insert.
-      List<BsTransaction> insertObject =
-        new CopyOnWriteArrayList<BsTransaction>();
+      List<BsTransaction> insertObject = new CopyOnWriteArrayList<BsTransaction>();
       insertObject.add(allObjects.get(2));
 
       // Put it all together.
-      List<BsTransaction> objects =
-        new ArrayList<BsTransaction>(existingObjects);
+      List<BsTransaction> objects = new ArrayList<BsTransaction>(existingObjects);
       objects.addAll(insertObject);
 
       // Test the process method
@@ -707,8 +765,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       // Verify the update
       BsTransaction queriedObject =
         queryStoredObject((SequencePrimaryKey)existingObjects.get(0).getPrimaryKey());
-      assertTrue("Update not processed",
-                 updatedDescription.equals(queriedObject.getDescription()));
+      assertTrue("Update not processed", updatedDescription.equals(queriedObject.getDescription()));
 
       // Verify the delete
       assertTrue("object not deleted",
@@ -719,7 +776,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
                  exists((SequencePrimaryKey)insertObject.get(0).getPrimaryKey()));
     } catch (Exception e) {
       fail(e.getMessage());
-    } finally {
+    }
+    finally {
 
       // Delete the inserted objects to clean up.
       // Mark all the objects for delete.
@@ -750,8 +808,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
   }
 
   @Override
-  protected List<BsItem> createTransactionItem(ITransaction parent, int count)
-      throws DelegateException, InvalidParametersException {
+  protected List<BsItem> createTransactionItem(ITransaction parent, int count) throws
+    DelegateException, InvalidParametersException {
     // not used
     return null;
   }
@@ -785,7 +843,6 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    */
   @Test
   public void testReimbursement() {
-    Connection connection = null;
     createAccounts();
 
     // Create the receivable transaction.
@@ -795,23 +852,20 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
     for (BsItem item : receivableTransaction.getItems()) {
       // Test whether the account is a SimpleAccount, then test for receivable.
       if (item.getAccount().toDto() instanceof ISimpleAccount) {
-        BsSimpleAccount account =
-          new BsSimpleAccount((ISimpleAccount)item.getAccount().toDto());
+        BsSimpleAccount account = new BsSimpleAccount((ISimpleAccount)item.getAccount().toDto());
         if (account.getReceivable()) {
           receivableItem = item;
           break;
         }
       }
     }
-    assertTrue("no receivable item in receivable transaction",
-               receivableItem != null);
+    assertTrue("no receivable item in receivable transaction", receivableItem != null);
     BsTransaction reimbursementTransaction = createReimbursementTransaction();
     // Extract the reimbursing item from the reimbursement transaction.
     BsItem reimbursingItem = null;
     for (BsItem item : reimbursementTransaction.getItems()) {
       if (item.getAccount().toDto() instanceof ISimpleAccount) {
-        BsSimpleAccount account =
-          new BsSimpleAccount((ISimpleAccount)item.getAccount().toDto());
+        BsSimpleAccount account = new BsSimpleAccount((ISimpleAccount)item.getAccount().toDto());
         if (account.getReceivable()) {
           reimbursingItem = item;
           break;
@@ -828,15 +882,15 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       delegate.process(transactions);
 
       // Now create and link the reimbursement.
-      BsReimbursement reimbursement =
-        delegate.createReimbursement(receivableItem,
-                                     reimbursingItem,
-                                     receivableItem.getOrderNumber(),
-                                     reimbursingItem.getOrderNumber(),
-                                     receivableItem.getTransactionId(),
-                                     reimbursingItem.getTransactionId(),
-                                     receivableItem.getAmount(),
-                                     0.00D);
+      BsReimbursement reimbursement = delegate.createReimbursement(receivableItem, reimbursingItem,
+                                                                   receivableItem.getOrderNumber(),
+                                                                   reimbursingItem.getOrderNumber(),
+                                                                   receivableItem
+                                                                     .getTransactionId(),
+                                                                   reimbursingItem
+                                                                     .getTransactionId(),
+                                                                   receivableItem.getAmount(),
+                                                                   0.00D);
 
       reimbursingItem.addReceivablesReimbursementReimbursement(reimbursement);
 
@@ -845,23 +899,23 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       delegate.process(reimbursementTransaction);
 
       // check whether the reimbursement is there.
-      connection =
-        JdbcConnectionManager.getConnection(DBMS.MYSQL, getSubsystem());
-      stmt =
-        connection.prepareStatement("SELECT 1 FROM Reimbursement WHERE receivablesOrderNumber = ? AND reimbursingItemsOrderNumber = ? AND receivablesTransactionId = ? AND reimbursingItemsTransactionId = ?");
+      Connection connection = JdbcConnectionManager.getConnection(DBMS.MYSQL, getSubsystem());
+      stmt = connection.prepareStatement(
+        "SELECT 1 FROM Reimbursement WHERE receivablesOrderNumber = ? AND " +
+        "reimbursingItemsOrderNumber = ? AND receivablesTransactionId = ? AND " +
+        "reimbursingItemsTransactionId = ?");
       stmt.setInt(1, receivableItem.getOrderNumber());
       stmt.setInt(2, reimbursingItem.getOrderNumber());
-      stmt.setBigDecimal(3,
-                         new BigDecimal(receivableTransaction.getTransactionId()));
-      stmt.setBigDecimal(4,
-                         new BigDecimal(reimbursementTransaction.getTransactionId()));
+      stmt.setBigDecimal(3, new BigDecimal(receivableTransaction.getTransactionId()));
+      stmt.setBigDecimal(4, new BigDecimal(reimbursementTransaction.getTransactionId()));
       rs = stmt.executeQuery();
       if (!rs.next()) {
         fail("No reimbursement object found in database");
       }
     } catch (Exception e) {
       fail(e.getMessage());
-    } finally {
+    }
+    finally {
       // Delete the transactions.
       List<BsTransaction> objects = new ArrayList<BsTransaction>();
       if (receivableTransaction != null) {
@@ -890,12 +944,10 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       createAccounts();
       objects = createTransactionTransaction(1);
       delegate.insert(objects);
-      SequencePrimaryKey key =
-        (SequencePrimaryKey)objects.get(0).getPrimaryKey();
+      SequencePrimaryKey key = (SequencePrimaryKey)objects.get(0).getPrimaryKey();
       assertTrue("No key generated from concrete implementation", key != null);
       BsTransaction insertedObject = objects.get(0);
-      assertTrue("No comparison object for object query",
-                 insertedObject != null);
+      assertTrue("No comparison object for object query", insertedObject != null);
 
       // Query the object from the database.
       IDaoManager manager = DaoManagerFactory.getManager(getSubsystem());
@@ -911,7 +963,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail(e.getMessage());
     } catch (Exception e) {
       logger.error("getObject failed", e);
-    } finally {
+    }
+    finally {
       // Delete the inserted objects to clean up.
       // Mark all the objects for delete.
       for (BsTransaction o : objects) {
