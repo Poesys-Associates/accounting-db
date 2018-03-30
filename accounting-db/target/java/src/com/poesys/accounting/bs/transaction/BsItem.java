@@ -73,9 +73,13 @@ reconciled
 
   @Override
   public String toString() {
+    // Get the JSON object.
+    JsonItem jsonItem = dto.getJson();
+    // Set the JSON status from the current object status.
+    jsonItem.setStatus(dto.getStatus());
     // Create the Gson object.
     Gson gson = new GsonBuilder().serializeNulls().create();
     // Produce the JSON string.
-    return gson.toJson(dto.getJson(), JsonItem.class);
+    return gson.toJson(jsonItem, JsonItem.class);
   }
 }

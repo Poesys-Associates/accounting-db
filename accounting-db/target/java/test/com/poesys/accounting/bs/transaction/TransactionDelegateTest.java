@@ -1,34 +1,9 @@
-/**
- * Copyright 2016 Poesys Associates. All rights reserved.
- */
+/* Copyright 2016 Poesys Associates. All rights reserved. */
 // Template: DelegateTest.vsl
 
 package com.poesys.accounting.bs.transaction;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import org.junit.Test;
-
-import com.poesys.accounting.bs.account.AccountDelegateFactory;
-import com.poesys.accounting.bs.account.BsAccount;
-import com.poesys.accounting.bs.account.BsEntity;
-import com.poesys.accounting.bs.account.BsSimpleAccount;
-import com.poesys.accounting.bs.account.EntityDelegate;
-import com.poesys.accounting.bs.account.SimpleAccountDelegate;
+import com.poesys.accounting.bs.account.*;
 import com.poesys.accounting.db.account.ISimpleAccount;
 import com.poesys.accounting.db.transaction.IItem;
 import com.poesys.accounting.db.transaction.ITransaction;
@@ -42,6 +17,18 @@ import com.poesys.db.dao.DaoManagerFactory;
 import com.poesys.db.dao.IDaoManager;
 import com.poesys.db.pk.IPrimaryKey;
 import com.poesys.db.pk.SequencePrimaryKey;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * <p>
@@ -95,9 +82,6 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    * transaction items of various kinds. These objects get created and inserted
    * at the beginning of the test run and deleted after the last test method
    * runs.
-   *
-   * @throws java.lang.Exception when there is a problem creating or inserting
-   *                             objects
    */
   private void createAccounts() {
     // Create entity and store it.
@@ -129,29 +113,13 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
     entDel.process(entity);
   }
 
-  /**
-   * Delete the Entity object and its dependents. Free the static business
-   * delegates.
-   *
-   * @throws java.lang.Exception
-   */
-  private void deleteAccounts() {
-    EntityDelegate entDel = AccountDelegateFactory.getEntityDelegate();
-
-    // Mark the entity for deletion and delete it.
-
-    entity.delete();
-    entDel.process(entity);
-    entDel = null;
-  }
-
   // Create a specified number of Transaction objects with Item children, all
   // RegularItem items (revenue credit, checking debit).
 
   @Override
   protected List<com.poesys.accounting.bs.transaction.BsTransaction> createTransactionTransaction
     (int count) throws DelegateException, InvalidParametersException {
-    List<BsTransaction> objects = new ArrayList<BsTransaction>();
+    List<BsTransaction> objects = new ArrayList<>();
 
     for (int i = 0; i < count; i++) {
       String description = StringUtilities.generateString(4000);
@@ -160,7 +128,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       Timestamp transactionDate = new Timestamp(System.currentTimeMillis() - (10000 * i));
 
       // Create the object.
-      BsTransaction transaction = null;
+      BsTransaction transaction;
       try {
         // tests createTransaction and BsTransaction constructor
         transaction =
@@ -186,8 +154,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
         BsItem assetItem =
           delegate.createItem(transaction, transaction.getTransactionId(), 2, AMOUNT, DEBIT,
                               !CHECKED, CHK_ACCOUNT_NAME, entity.getEntityName());
-        incomeItem.setAccount(checkingAccount);
-        checkingAccount.addItemsItem(incomeItem);
+        assetItem.setAccount(checkingAccount);
+        checkingAccount.addItemsItem(assetItem);
         // tests addItemsItem()
         itemCount = transaction.getItems().size();
         transaction.addItemsItem(assetItem);
@@ -218,12 +186,12 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    *
    * @return a receivable transaction
    */
-  protected BsTransaction createReceivableTransaction() {
+  private BsTransaction createReceivableTransaction() {
     String description = StringUtilities.generateString(4000);
     Timestamp transactionDate = new Timestamp(System.currentTimeMillis());
 
     // Create the object.
-    BsTransaction transaction = null;
+    BsTransaction transaction;
     try {
       // tests createTransaction and BsTransaction constructor
       transaction =
@@ -277,12 +245,12 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    *
    * @return a reimbursement transaction
    */
-  protected BsTransaction createReimbursementTransaction() {
+  private BsTransaction createReimbursementTransaction() {
     String description = StringUtilities.generateString(4000);
     Timestamp transactionDate = new Timestamp(System.currentTimeMillis());
 
     // Create the transaction.
-    BsTransaction transaction = null;
+    BsTransaction transaction;
     try {
       // tests createTransaction and BsTransaction constructor
       transaction =
@@ -336,7 +304,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
                                                                    reimbursingItemsList, int
                                                                      count) throws
     DelegateException, InvalidParametersException {
-    List<BsReimbursement> reimbursements = new ArrayList<BsReimbursement>(count);
+    List<BsReimbursement> reimbursements = new ArrayList<>(count);
 
     // Check the input array sizes, should be count.
     assertTrue("Receivables list has incorrect size " + receivablesList.size(),
@@ -373,7 +341,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
   @Override
   public void testInsert() {
     // Create a new Transaction object to perform the test.
-    List<BsTransaction> objects = null;
+    List<BsTransaction> objects;
     try {
       createAccounts();
       objects = createTransactionTransaction(1);
@@ -388,20 +356,14 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail(e.getMessage());
     }
     finally {
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction object : objects) {
-        object.delete();
-      }
-      delegate.deleteBatch(objects);
-      deleteAccounts();
+      cleanUpDatabase("test insert");
     }
   }
 
   @Override
-  public void testGetObject() throws SQLException {
+  public void testGetObject() {
     // Create a new Transaction object to perform the test.
-    List<BsTransaction> objects = null;
+    List<BsTransaction> objects;
     try {
       createAccounts();
       objects = createTransactionTransaction(1);
@@ -425,13 +387,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       logger.error("getObject failed", e);
     }
     finally {
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction o : objects) {
-        o.delete();
-      }
-      delegate.deleteBatch(objects);
-      deleteAccounts();
+      cleanUpDatabase("test get object");
     }
   }
 
@@ -440,32 +396,31 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    * objects).
    */
   @Test
-  public void testGetNewJsonObject() throws IOException, SQLException {
+  public void testGetNewJsonObject() {
     // Create a new Transaction object to perform the test.
-    List<BsTransaction> objects = null;
+    List<BsTransaction> objects;
     try {
       createAccounts();
       objects = createTransactionTransaction(1);
       String json = objects.get(0).toString();
       assertTrue("did not create JSON string from new object", json != null && !json.isEmpty());
-      assertTrue("wrong JSON from new object: " + json, json.equals(""));
-    } catch (DelegateException e) {
-      fail(e.getMessage());
+      assertTrue("wrong JSON from new object (not JSON object): " + json, json.contains(
+        "{\"primaryKey" + "\":{\"keyType\":\"com" + ".poesys.db.pk" + ".SequencePrimaryKey\"," +
+        "\"className\":\"com" + ".poesys.accounting.db" + ".transaction" + ".Transaction\","));
+      assertTrue("wrong JSON from new object (not NEW status): " + json, json.contains("NEW"));
     } catch (Exception e) {
-      logger.error("getObject failed", e);
+      e.printStackTrace();
+      fail("getObject failed: " + e.getMessage());
     }
     finally {
-      // Delete the inserted entity directly to clean up.
-      Connection connection = JdbcConnectionManager.getConnection(DBMS.MYSQL, getSubsystem());
-      PreparedStatement stmt = connection.prepareStatement("DELETE FROM Entity");
-      stmt.execute();
+      cleanUpDatabase("test get new JSON object");
     }
   }
 
   @Test
-  public void testGetExistingJsonObject() throws SQLException {
+  public void testGetExistingJsonObject() {
     // Create a new Transaction object to perform the test.
-    List<BsTransaction> objects = null;
+    List<BsTransaction> objects;
     try {
       createAccounts();
       objects = createTransactionTransaction(1);
@@ -483,26 +438,27 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       BsTransaction object = delegate.getObject(key);
       assertTrue("Couldn't get object", object != null);
       assertTrue("Wrong object", insertedObject.equals(object));
+      String json = object.toString();
+      assertTrue("did not create JSON string from existing object", json != null && !json.isEmpty());
+      assertTrue("wrong JSON from existing object: " + json, json.contains(
+        "{\"primaryKey" + "\":{\"keyType\":\"com" + ".poesys.db.pk" + ".SequencePrimaryKey\"," +
+        "\"className\":\"com" + ".poesys.accounting.db" + ".transaction" + ".Transaction\","));
+      assertTrue("wrong JSON from existing object (not EXISTING status): " + json,
+                 json.contains("EXISTING"));
     } catch (DelegateException e) {
       fail(e.getMessage());
     } catch (Exception e) {
       logger.error("getObject failed", e);
     }
     finally {
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction o : objects) {
-        o.delete();
-      }
-      delegate.deleteBatch(objects);
-      deleteAccounts();
+      cleanUpDatabase("test get exiting JSON object");
     }
   }
 
   @Test
-  public void testGetChangedJsonObject() throws SQLException {
+  public void testGetChangedJsonObject() {
     // Create a new Transaction object to perform the test.
-    List<BsTransaction> objects = null;
+    List<BsTransaction> objects;
     try {
       createAccounts();
       objects = createTransactionTransaction(1);
@@ -520,26 +476,31 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       BsTransaction object = delegate.getObject(key);
       assertTrue("Couldn't get object", object != null);
       assertTrue("Wrong object", insertedObject.equals(object));
+      // Change the object.
+      object.setDescription("a new description");
+      String json = object.toString();
+      assertTrue("did not create JSON string from changed object", json != null && !json.isEmpty());
+      assertTrue("wrong JSON from changed object: " + json, json.contains(
+        "{\"primaryKey" + "\":{\"keyType\":\"com" + ".poesys.db.pk" + ".SequencePrimaryKey\"," +
+        "\"className\":\"com" + ".poesys.accounting.db" + ".transaction" + ".Transaction\","));
+      assertTrue("wrong JSON from changed object (not CHANGED status): " + json,
+                 json.contains("CHANGED"));
+      assertTrue("wrong JSON from changed object (description not changed): " + json,
+                 json.contains("a new description"));
     } catch (DelegateException e) {
       fail(e.getMessage());
     } catch (Exception e) {
       logger.error("getObject failed", e);
     }
     finally {
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction o : objects) {
-        o.delete();
-      }
-      delegate.deleteBatch(objects);
-      deleteAccounts();
+      cleanUpDatabase("test get changed JSON object");
     }
   }
 
   @Test
-  public void testGetDeletedJsonObject() throws SQLException {
+  public void testGetDeletedJsonObject() {
     // Create a new Transaction object to perform the test.
-    List<BsTransaction> objects = null;
+    List<BsTransaction> objects;
     try {
       createAccounts();
       objects = createTransactionTransaction(1);
@@ -557,26 +518,29 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       BsTransaction object = delegate.getObject(key);
       assertTrue("Couldn't get object", object != null);
       assertTrue("Wrong object", insertedObject.equals(object));
+      // Mark the object deleted.
+      object.delete();
+      String json = object.toString();
+      assertTrue("did not create JSON string from deleted object", json != null && !json.isEmpty());
+      assertTrue("wrong JSON from deleted object: " + json, json.contains(
+        "{\"primaryKey" + "\":{\"keyType\":\"com" + ".poesys.db.pk" + ".SequencePrimaryKey\"," +
+        "\"className\":\"com" + ".poesys.accounting.db" + ".transaction" + ".Transaction\","));
+      assertTrue("wrong JSON from deleted object (not DELETED status): " + json,
+                 json.contains("DELETED"));
     } catch (DelegateException e) {
       fail(e.getMessage());
     } catch (Exception e) {
       logger.error("getObject failed", e);
     }
     finally {
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction o : objects) {
-        o.delete();
-      }
-      delegate.deleteBatch(objects);
-      deleteAccounts();
+      cleanUpDatabase("test get deleted JSON object");
     }
   }
 
   @Override
   public void testGetAllObjects() {
     // Create 3 new Transaction objects to perform the test.
-    List<BsTransaction> objects = null;
+    List<BsTransaction> objects;
     try {
       createAccounts();
       objects = createTransactionTransaction(3);
@@ -594,13 +558,41 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail(e.getMessage());
     }
     finally {
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction o : objects) {
-        o.delete();
+      cleanUpDatabase("test get all objects");
+    }
+  }
+
+  /**
+   * Clean up the database by deleting all the entities.
+   *
+   * @param method the method to specify in exception messages
+   */
+  private void cleanUpDatabase(String method) {
+    // Delete the inserted entity directly to clean up.
+    Connection connection = null;
+    try {
+      connection = JdbcConnectionManager.getConnection(DBMS.MYSQL, getSubsystem());
+      PreparedStatement stmt = connection.prepareStatement("DELETE FROM Entity");
+      stmt.execute();
+      connection.commit();
+    } catch (SQLException e) {
+      fail(method + " failed: " + e.getMessage());
+      if (connection != null) {
+        try {
+          connection.rollback();
+        } catch (SQLException e1) {
+          fail("SQL exception on rollback: " + e.getMessage());
+        }
       }
-      delegate.deleteBatch(objects);
-      deleteAccounts();
+    } catch (IOException e) {
+      fail(method + " failed: " + e.getMessage());
+      if (connection != null) {
+        try {
+          connection.rollback();
+        } catch (SQLException e1) {
+          fail("I/O exception on rollback: " + e.getMessage());
+        }
+      }
     }
   }
 
@@ -609,7 +601,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
    */
   @Override
   public void testUpdate() {
-    List<BsTransaction> objects = null;
+    List<BsTransaction> objects;
     try {
       createAccounts();
       // Create a new Transaction object to perform the test.
@@ -633,25 +625,20 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail("Delegate exception: " + e.getMessage());
     }
     finally {
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction object : objects) {
-        object.delete();
-      }
-
-      delegate.deleteBatch(objects);
+      // Delete the inserted entity directly to clean up.
+      cleanUpDatabase("test update");
     }
   }
 
   @Override
   public void testUpdateBatch() throws InvalidParametersException, DelegateException {
-    List<BsTransaction> objects = null;
+    List<BsTransaction> objects;
     try {
       createAccounts();
       objects = createTransactionTransaction(2);
       delegate.insert(objects);
       // Allocate a map to hold the updated objects for later comparison.
-      Map<IPrimaryKey, BsTransaction> map = new TreeMap<IPrimaryKey, BsTransaction>();
+      Map<IPrimaryKey, BsTransaction> map = new TreeMap<>();
       for (BsTransaction object : objects) {
         object.setDescription(StringUtilities.generateString(100));
         // Add the object to the holding map.
@@ -674,14 +661,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail(e.getMessage());
     }
     finally {
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction object : objects) {
-        object.delete();
-      }
-
-      delegate.deleteBatch(objects);
-      deleteAccounts();
+      // Delete the inserted entity directly to clean up.
+      cleanUpDatabase("test update batch");
     }
   }
 
@@ -704,8 +685,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail(e.getMessage());
     }
     finally {
-      // object already deleted if it can be
-      deleteAccounts();
+      // Delete the inserted entity directly to clean up.
+      cleanUpDatabase("test delete");
     }
   }
 
@@ -731,19 +712,20 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail(e.getMessage());
     }
     finally {
-      deleteAccounts();
+      // Delete the inserted entity directly to clean up.
+      cleanUpDatabase("test delete batch");
     }
   }
 
   @Override
   public void testProcess() throws InvalidParametersException, DelegateException {
     // Create 3 rows--one to insert, one to update, one to delete.
-    List<BsTransaction> allObjects = null;
+    List<BsTransaction> allObjects;
     try {
       createAccounts();
       allObjects = createTransactionTransaction(3);
       // Insert the first two rows to later update and delete.
-      List<BsTransaction> existingObjects = new ArrayList<BsTransaction>();
+      List<BsTransaction> existingObjects = new ArrayList<>();
       existingObjects.add(allObjects.get(0));
       existingObjects.add(allObjects.get(1));
       delegate.insert(existingObjects);
@@ -752,11 +734,11 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       existingObjects.get(1).delete();
 
       // Set the third object as the object to insert.
-      List<BsTransaction> insertObject = new CopyOnWriteArrayList<BsTransaction>();
+      List<BsTransaction> insertObject = new ArrayList<>();
       insertObject.add(allObjects.get(2));
 
       // Put it all together.
-      List<BsTransaction> objects = new ArrayList<BsTransaction>(existingObjects);
+      List<BsTransaction> objects = new ArrayList<>(existingObjects);
       objects.addAll(insertObject);
 
       // Test the process method
@@ -778,15 +760,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       fail(e.getMessage());
     }
     finally {
-
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction object : allObjects) {
-        object.delete();
-      }
-
-      delegate.deleteBatch(allObjects);
-      deleteAccounts();
+      cleanUpDatabase("test process");
     }
   }
 
@@ -873,10 +847,11 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       }
     }
 
-    PreparedStatement stmt = null;
-    ResultSet rs = null;
+    Connection connection = null;
+    PreparedStatement stmt;
+    ResultSet rs;
     try {
-      List<BsTransaction> transactions = new ArrayList<BsTransaction>(2);
+      List<BsTransaction> transactions = new ArrayList<>(2);
       transactions.add(receivableTransaction);
       transactions.add(reimbursementTransaction);
       delegate.process(transactions);
@@ -884,94 +859,50 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       // Now create and link the reimbursement.
       BsReimbursement reimbursement = delegate.createReimbursement(receivableItem, reimbursingItem,
                                                                    receivableItem.getOrderNumber(),
-                                                                   reimbursingItem.getOrderNumber(),
+                                                                   reimbursingItem !=
+                                                                   null ? reimbursingItem
+                                                                     .getOrderNumber() : null,
                                                                    receivableItem
                                                                      .getTransactionId(),
-                                                                   reimbursingItem
-                                                                     .getTransactionId(),
+                                                                   reimbursingItem !=
+                                                                   null ? reimbursingItem
+                                                                     .getTransactionId() : null,
                                                                    receivableItem.getAmount(),
                                                                    0.00D);
 
-      reimbursingItem.addReceivablesReimbursementReimbursement(reimbursement);
+      if (reimbursingItem != null) {
+        reimbursingItem.addReceivablesReimbursementReimbursement(reimbursement);
+      }
 
       // Process the change.
       logger.info("Processing reimbursement transaction");
       delegate.process(reimbursementTransaction);
 
       // check whether the reimbursement is there.
-      Connection connection = JdbcConnectionManager.getConnection(DBMS.MYSQL, getSubsystem());
+      connection = JdbcConnectionManager.getConnection(DBMS.MYSQL, getSubsystem());
       stmt = connection.prepareStatement(
         "SELECT 1 FROM Reimbursement WHERE receivablesOrderNumber = ? AND " +
         "reimbursingItemsOrderNumber = ? AND receivablesTransactionId = ? AND " +
         "reimbursingItemsTransactionId = ?");
       stmt.setInt(1, receivableItem.getOrderNumber());
-      stmt.setInt(2, reimbursingItem.getOrderNumber());
+      stmt.setInt(2, reimbursingItem != null ? reimbursingItem.getOrderNumber() : 0);
       stmt.setBigDecimal(3, new BigDecimal(receivableTransaction.getTransactionId()));
       stmt.setBigDecimal(4, new BigDecimal(reimbursementTransaction.getTransactionId()));
       rs = stmt.executeQuery();
       if (!rs.next()) {
         fail("No reimbursement object found in database");
       }
+      connection.commit();
     } catch (Exception e) {
       fail(e.getMessage());
+      try {
+        connection.rollback();
+      } catch (SQLException e1) {
+        fail("failed on rollback: " + e1.getMessage());
+      }
     }
     finally {
-      // Delete the transactions.
-      List<BsTransaction> objects = new ArrayList<BsTransaction>();
-      if (receivableTransaction != null) {
-        objects.add(receivableTransaction);
-      }
-      if (reimbursementTransaction != null) {
-        objects.add(reimbursementTransaction);
-      }
-      // Mark the transactions for delete.
-      for (BsTransaction object : objects) {
-        object.delete();
-      }
-      delegate.deleteBatch(objects);
-      deleteAccounts();
-    }
-  }
-
-  /**
-   * Test the JSON serialization and deserialization capabilities for a transaction object.
-   */
-  @Test
-  public void testJson() {
-    // Create a new Transaction object to perform the test.
-    List<BsTransaction> objects = null;
-    try {
-      createAccounts();
-      objects = createTransactionTransaction(1);
-      delegate.insert(objects);
-      SequencePrimaryKey key = (SequencePrimaryKey)objects.get(0).getPrimaryKey();
-      assertTrue("No key generated from concrete implementation", key != null);
-      BsTransaction insertedObject = objects.get(0);
-      assertTrue("No comparison object for object query", insertedObject != null);
-
-      // Query the object from the database.
-      IDaoManager manager = DaoManagerFactory.getManager(getSubsystem());
-      if (manager != null) {
-        manager.clearCache(com.poesys.accounting.db.transaction.Transaction.class.getName());
-      }
-      BsTransaction object = delegate.getObject(key);
-      assertTrue("Couldn't get object", object != null);
-      assertTrue("Wrong object", insertedObject.equals(object));
-      String jsonTransaction = object.toString();
-      logger.debug("JSON transaction: " + jsonTransaction);
-    } catch (DelegateException e) {
-      fail(e.getMessage());
-    } catch (Exception e) {
-      logger.error("getObject failed", e);
-    }
-    finally {
-      // Delete the inserted objects to clean up.
-      // Mark all the objects for delete.
-      for (BsTransaction o : objects) {
-        o.delete();
-      }
-      delegate.deleteBatch(objects);
-      deleteAccounts();
+      cleanUpDatabase("test Reimbursement");
     }
   }
 }

@@ -80,17 +80,31 @@ public class Item extends AbstractItem {
 
   @Override
   public JsonItem getJson() {
+    // Test for required primary key in item
+    if (this.getAccount() == null) {
+      throw new RuntimeException("no item account while getting JSON string: " + getAccountName());
+    }
+    if (this.getAccount().getPrimaryKey() == null) {
+      throw new RuntimeException("no item account primary key while getting JSON string: " + getAccount());
+    }
+    List<JsonReimbursement> jsonReceivablesReimbursements = new ArrayList<>();
+    List<JsonReimbursement> jsonReimbursingItemReimbursements = new ArrayList<>();
+
     List<JsonPrimaryKey> jsonReceivableKeys = JsonPrimaryKeyFactory.getList(receivableKeys);
     List<JsonPrimaryKey> jsonReimbursingItemKeys =
       JsonPrimaryKeyFactory.getList(reimbursingItemKeys);
-    List<JsonReimbursement> jsonReceivablesReimbursements = new ArrayList<>();
-    for (IReimbursement reimbursement : receivablesReimbursement) {
-      jsonReceivablesReimbursements.add(reimbursement.getJson());
+    if (receivablesReimbursement != null && !receivablesReimbursement.isEmpty()) {
+      for (IReimbursement reimbursement : receivablesReimbursement) {
+        jsonReceivablesReimbursements.add(reimbursement.getJson());
+      }
     }
-    List<JsonReimbursement> jsonReimbursingItemReimbursements = new ArrayList<>();
-    for (IReimbursement reimbursement : reimbursingItemsReimbursement) {
-      jsonReceivablesReimbursements.add(reimbursement.getJson());
+
+    if (reimbursingItemsReimbursement != null && !reimbursingItemsReimbursement.isEmpty()) {
+      for (IReimbursement reimbursement : reimbursingItemsReimbursement) {
+        jsonReceivablesReimbursements.add(reimbursement.getJson());
+      }
     }
+
     return new JsonItem(key.getJsonPrimaryKey(), getAmount(), getDebit(), getChecked(),
                         getAccount().getPrimaryKey().getJsonPrimaryKey(), getAccountName(),
                         jsonReceivableKeys, jsonReceivablesReimbursements, jsonReimbursingItemKeys,

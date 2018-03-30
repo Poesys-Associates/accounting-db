@@ -81,7 +81,19 @@ public class Transaction extends AbstractTransaction {
       jsonItems.add(item.getJson());
     }
     String date = AbstractJsonObject.FORMAT.format(getTransactionDate());
-    return new JsonTransaction(key.getJsonPrimaryKey(), getDescription(), date, getBalance(),
-                               getChecked(), jsonItems);
+    JsonTransaction transaction =
+      new JsonTransaction(key.getJsonPrimaryKey(), getDescription(), date, getBalance(),
+                          getChecked(), jsonItems);
+    switch (getStatus()) {
+      case NEW:
+        transaction.setStatus(AbstractJsonObject.NEW);
+        break;
+      case DELETED:
+        transaction.setStatus(AbstractJsonObject.DELETED);
+        break;
+      default:
+        transaction.setStatus(AbstractJsonObject.EXISTING);
+    }
+    return transaction;
   }
 }

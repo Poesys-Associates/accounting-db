@@ -109,9 +109,13 @@ public class BsTransaction extends AbstractBsTransaction {
 
   @Override
   public String toString() {
+    // Get the JSON object.
+    JsonTransaction jsonTransaction = dto.getJson();
+    // Set the current status.
+    jsonTransaction.setStatus(dto.getStatus());
     // Create the Gson object.
     Gson gson = new GsonBuilder().serializeNulls().create();
     // Produce the JSON string.
-    return gson.toJson(dto.getJson(), JsonTransaction.class);
+    return gson.toJson(jsonTransaction, JsonTransaction.class);
   }
 }

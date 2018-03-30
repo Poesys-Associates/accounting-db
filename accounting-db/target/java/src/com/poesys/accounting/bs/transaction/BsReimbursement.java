@@ -89,9 +89,13 @@ allocated amount when summing up amounts applied against the receivable
 
   @Override
   public String toString() {
+    // Get the JSON object.
+    JsonReimbursement jsonReimbursement = dto.getJson();
+    // Set the JSON status from the current object status.
+    jsonReimbursement.setStatus(dto.getStatus());
     // Create the Gson object.
     Gson gson = new GsonBuilder().serializeNulls().create();
     // Produce the JSON string.
-    return gson.toJson(dto.getJson(), JsonReimbursement.class);
+    return gson.toJson(jsonReimbursement, JsonReimbursement.class);
   }
 }
