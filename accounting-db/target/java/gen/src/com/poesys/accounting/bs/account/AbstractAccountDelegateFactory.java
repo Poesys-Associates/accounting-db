@@ -45,7 +45,7 @@ public abstract class AbstractAccountDelegateFactory {
     java.util.ResourceBundle.getBundle("com.poesys.db.database");
 
   /** Initialize the subsystem name from the subsystem property file. */
-  private static final String subsystem = rb.getString("subsystem");
+  protected static final String subsystem = rb.getString("subsystem");
   
   /** Initialize the JDBC DBMS type from the DBMS property file. */
   protected static final DBMS JDBC_DBMS = DBMS.stringValue(dbrb.getString("com.poesys.accounting.db.account.dbms"));
