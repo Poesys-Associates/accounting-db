@@ -3,6 +3,7 @@ rights reserved. */
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.poesys.accounting.db.account.SimpleAccount;
 import com.poesys.accounting.db.transaction.TransactionFactory;
 import com.poesys.db.AbstractJsonObject;
 import com.poesys.db.col.json.JsonColumnValue;
@@ -177,6 +178,18 @@ public class JsonTransactionTest {
   }
 
   /**
+   * Test the getTransactionId() method.
+   */
+  @Test
+  public void testGetTransactionId() {
+    IPrimaryKey key = TransactionFactory.getTransactionPrimaryKey(ID1);
+    JsonTransaction transaction =
+      new JsonTransaction(key.getJsonPrimaryKey(), DESCRIPTION, INVALID_DATE, false, false, null);
+    BigInteger transactionId = transaction.getTransactionId();
+    assertTrue("wrong transaction id: " + transactionId, transactionId.equals(ID1));
+  }
+
+  /**
    * Test the getTransactionDate() method with a valid date.
    */
   @Test
@@ -227,10 +240,10 @@ public class JsonTransactionTest {
     IPrimaryKey key2 = TransactionFactory.getItemPrimaryKey(ORDER2, ID2);
     JsonItem item1 =
       new JsonItem(key1.getJsonPrimaryKey(), AMOUNT, false, false, CHECKING_ACCOUNT_KEY, CHECKING,
-                   null, null, null, null);
+                   null, null, null, null, SimpleAccount.class.getName());
     JsonItem item2 =
       new JsonItem(key2.getJsonPrimaryKey(), AMOUNT, true, false, FOOD_ACCOUNT_KEY, FOOD, null,
-                   null, null, null);
+                   null, null, null, SimpleAccount.class.getName());
 
     List<JsonItem> itemList = new ArrayList<>();
     itemList.add(item1);

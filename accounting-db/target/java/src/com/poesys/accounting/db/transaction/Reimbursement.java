@@ -91,6 +91,8 @@ allocated amount when summing up amounts applied against the receivable
 
   @Override
   public JsonReimbursement getJson() {
-    return new JsonReimbursement(getPrimaryKey().getJsonPrimaryKey(), getReimbursedAmount(), getAllocatedAmount());
+    JsonReimbursement reimbursement = new JsonReimbursement(getPrimaryKey().getJsonPrimaryKey(), getReimbursedAmount(), getAllocatedAmount());
+    setJsonStatus(reimbursement);
+    return reimbursement;
   }
 }

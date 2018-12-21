@@ -6,6 +6,7 @@
 package com.poesys.accounting.db.account;
 
 
+import com.poesys.db.dao.PoesysTrackingThread;
 import com.poesys.db.pk.IPrimaryKey;
 
 
@@ -43,7 +44,7 @@ public class Entity extends AbstractEntity {
    *
    */
   public Entity() {
-    super(); 
+    super();
   }
 
   /**
@@ -56,6 +57,6 @@ public class Entity extends AbstractEntity {
    * @param entityName the name of the accounting entity; unique among all entities
    */
   public Entity(IPrimaryKey key, java.lang.String entityName) {
-    super(key, entityName); 
+    super(key, entityName);
   }
 }

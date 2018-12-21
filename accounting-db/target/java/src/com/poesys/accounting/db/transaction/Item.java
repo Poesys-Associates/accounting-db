@@ -80,13 +80,18 @@ public class Item extends AbstractItem {
 
   @Override
   public JsonItem getJson() {
-    // Test for required primary key in item
+    // Test for required account in item to allow extraction of primary key and class name
     if (this.getAccount() == null) {
       throw new RuntimeException("no item account while getting JSON string: " + getAccountName());
     }
     if (this.getAccount().getPrimaryKey() == null) {
-      throw new RuntimeException("no item account primary key while getting JSON string: " + getAccount());
+      throw new RuntimeException(
+        "no item account primary key while getting JSON string: " + getAccount());
     }
+
+    JsonPrimaryKey accountKey = getAccount().getPrimaryKey().getJsonPrimaryKey();
+    String accountClassName = getAccount().getClass().getName();
+
     List<JsonReimbursement> jsonReceivablesReimbursements = new ArrayList<>();
     List<JsonReimbursement> jsonReimbursingItemReimbursements = new ArrayList<>();
 
@@ -105,9 +110,12 @@ public class Item extends AbstractItem {
       }
     }
 
-    return new JsonItem(key.getJsonPrimaryKey(), getAmount(), getDebit(), getChecked(),
-                        getAccount().getPrimaryKey().getJsonPrimaryKey(), getAccountName(),
-                        jsonReceivableKeys, jsonReceivablesReimbursements, jsonReimbursingItemKeys,
-                        jsonReimbursingItemReimbursements);
+    JsonItem item = new JsonItem(key.getJsonPrimaryKey(), getAmount(), getDebit(), getChecked(), accountKey,
+                        getAccountName(), jsonReceivableKeys, jsonReceivablesReimbursements,
+                        jsonReimbursingItemKeys, jsonReimbursingItemReimbursements,
+                        accountClassName);
+    setJsonStatus(item);
+
+    return item;
   }
 }

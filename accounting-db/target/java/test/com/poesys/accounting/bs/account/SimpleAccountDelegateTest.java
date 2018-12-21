@@ -1,6 +1,4 @@
-/**
- * Copyright 2016 Poesys Associates. All rights reserved.
- */
+/* Copyright 2016 Poesys Associates. All rights reserved. */
 // Template: DelegateTest.vsl
 
 package com.poesys.accounting.bs.account;
@@ -48,11 +46,9 @@ public class SimpleAccountDelegateTest extends
 
   /**
    * Before running all the tests in the class, set up an entity.
-   * 
-   * @throws Exception when there is a problem setting up the group
    */
   @BeforeClass
-  public static void setUpBeforeClass() throws Exception {
+  public static void setUpBeforeClass() {
     entity = enDel.createEntity(StringUtilities.generateString(25));
     enDel.insert(entity);
   }
@@ -60,11 +56,9 @@ public class SimpleAccountDelegateTest extends
   /**
    * After the last test method runs, delete the entity set up in the
    * setUpBeforeClass() method.
-   * 
-   * @throws Exception when there is a problem deleting the account group
    */
   @AfterClass
-  public static void tearDownAfterClass() throws Exception {
+  public static void tearDownAfterClass() {
     entity.delete();
     enDel.delete(entity);
     enDel = null;
@@ -74,7 +68,7 @@ public class SimpleAccountDelegateTest extends
   @Override
   protected List<BsSimpleAccount> createAccountSimpleAccount(int count)
       throws DelegateException, InvalidParametersException {
-    List<BsSimpleAccount> objects = new ArrayList<BsSimpleAccount>();
+    List<BsSimpleAccount> objects = new ArrayList<>();
     java.util.Random r = new java.util.Random();
 
     for (int i = 0; i < count; i++) {
@@ -85,7 +79,7 @@ public class SimpleAccountDelegateTest extends
       Boolean receivable = r.nextBoolean();
 
       // Create the object.
-      BsSimpleAccount object = null;
+      BsSimpleAccount object;
       try {
         object =
           delegate.createSimpleAccount(accountName,
@@ -159,7 +153,9 @@ public class SimpleAccountDelegateTest extends
 
       // Close the connection.
       try {
-        connection.close();
+        if (connection != null) {
+          connection.close();
+        }
       } catch (SQLException e) {
         // log and ignore
         logger.error("Couldn't close JDBC connection");
@@ -181,7 +177,7 @@ public class SimpleAccountDelegateTest extends
       delegate.insert(objects);
 
       // Save the original descriptions.
-      List<String> originalDescriptions = new ArrayList<String>(2);
+      List<String> originalDescriptions = new ArrayList<>(2);
       originalDescriptions.add(objects.get(0).getDescription());
       originalDescriptions.add(objects.get(1).getDescription());
 
@@ -217,7 +213,9 @@ public class SimpleAccountDelegateTest extends
 
       // Close the connection.
       try {
-        connection.close();
+        if (connection != null) {
+          connection.close();
+        }
       } catch (SQLException e) {
         // log and ignore
         logger.error("Couldn't close JDBC connection");
@@ -240,7 +238,7 @@ public class SimpleAccountDelegateTest extends
       allObjects = createAccountSimpleAccount(3);
 
       // Insert the first two rows.
-      List<BsSimpleAccount> existingObjects = new ArrayList<BsSimpleAccount>();
+      List<BsSimpleAccount> existingObjects = new ArrayList<>();
       existingObjects.add(allObjects.get(0));
       existingObjects.add(allObjects.get(1));
 
@@ -283,19 +281,11 @@ public class SimpleAccountDelegateTest extends
     } catch (SQLException | IOException e1) {
       fail("Cannot get JDBC connection for test validation");
     } finally {
-      // Delete the inserted objects to clean up.
-      if (allObjects != null) {
-        // Mark all the objects for delete.
-        for (BsSimpleAccount object : allObjects) {
-          object.delete();
-        }
-
-        delegate.deleteBatch(allObjects);
-      }
-
       // Close the connection.
       try {
-        connection.close();
+        if (connection != null) {
+          connection.close();
+        }
       } catch (SQLException e) {
         // log and ignore
         logger.error("Couldn't close JDBC connection");
@@ -311,23 +301,20 @@ public class SimpleAccountDelegateTest extends
    * @param accountName the name of the account
    * @return true if the account was inserted, false if not
    */
-  public boolean verifyInsert(Connection connection, String entityName,
+  private boolean verifyInsert(Connection connection, String entityName,
                               String accountName) {
     boolean inserted = false;
     PreparedStatement stmt = null;
     String sql =
-      "SELECT 1 FROM Account WHERE entityName = ? AND accountName = ?";
+      "SELECT 1 FROM Account a JOIN SimpleAccount sa ON a.entityName = sa.entityName AND a.accountName = sa.accountName WHERE a.entityName = ? AND a.accountName = ?";
 
     try {
       stmt = connection.prepareStatement(sql);
       stmt.setString(1, entityName);
       stmt.setString(2, accountName);
       ResultSet rs = stmt.executeQuery();
-      if (rs.next()) {
-        inserted = true;
-      } else {
-        fail("No SimpleAccount created for update");
-      }
+      // test return from next() for whether account exists
+      inserted = rs.next();
     } catch (SQLException e) {
       logger.error("SQL exception getting inserted account", e);
       fail("SQL exception getting inserted account: " + e.getMessage());
@@ -354,12 +341,12 @@ public class SimpleAccountDelegateTest extends
    * @param originalDescription the original description
    * @return true if updated, false if not
    */
-  public boolean verifyUpdate(Connection connection, String entityName,
-                              String accountName, String originalDescription) {
+  private boolean verifyUpdate(Connection connection, String entityName, String accountName,
+                               String originalDescription) {
     boolean updated = false;
     PreparedStatement stmt = null;
     String sql =
-      "SELECT description FROM Account WHERE entityName = ? AND accountName = ?";
+      "SELECT description FROM Account a JOIN SimpleAccount sa ON a.entityName = sa.entityName AND a.accountName = sa.accountName WHERE a.entityName = ? AND a.accountName = ?";
     try {
       stmt = connection.prepareStatement(sql);
       stmt.setString(1, entityName);
@@ -396,8 +383,7 @@ public class SimpleAccountDelegateTest extends
    * @param accountName the name of the account
    * @return true if the account was deleted, false if not
    */
-  public boolean verifyDelete(Connection connection, String entityName,
-                              String accountName) {
+  private boolean verifyDelete(Connection connection, String entityName, String accountName) {
     boolean deleted = false;
     PreparedStatement stmt = null;
     String sql =

@@ -5,6 +5,7 @@ import com.poesys.db.AbstractJsonObject;
 import com.poesys.db.pk.json.JsonPrimaryKey;
 import org.apache.log4j.Logger;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Date;
@@ -42,7 +43,7 @@ public class JsonTransaction extends AbstractJsonObject {
   /**
    * Create a JSON transaction object by
    *
-   * @param primaryKey   unique identifier for the transaction
+   * @param primaryKey      unique identifier for the transaction
    * @param description     description of the transaction
    * @param transactionDate date of the transaction
    * @param balance         whether this is a balance transaction
@@ -77,7 +78,7 @@ public class JsonTransaction extends AbstractJsonObject {
   @Override
   public int hashCode() {
     int result = getClass().getName().hashCode();
-    return 31 * result +  primaryKey.hashCode();
+    return 31 * result + primaryKey.hashCode();
   }
 
   /**
@@ -97,5 +98,68 @@ public class JsonTransaction extends AbstractJsonObject {
     }
 
     return new Timestamp(date.getTime());
+  }
+
+  /**
+   * Get the JSON primary key object.
+   *
+   * @return a JSON primary key
+   */
+  public JsonPrimaryKey getPrimaryKey() {
+    return primaryKey;
+  }
+
+  /**
+   * Set the primary key of the JSON object. Primarily for use in unit testing to be able to set the primary key to a specific value or to make it null.
+   *
+   * @param key the key to set (possibly null)
+   */
+  public void setPrimaryKey(JsonPrimaryKey key) {
+    this.primaryKey = key;
+  }
+
+  /**
+   * Get the transaction id of the transaction.
+   *
+   * @return a BigInteger transaction id
+   */
+  public BigInteger getTransactionId() {
+    return new BigInteger(primaryKey.getColumnValueList().get(0).getValue());
+  }
+
+  /**
+   * Get the description.
+   *
+   * @return a text description
+   */
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * Get the balance flag.
+   *
+   * @return the balance flag value
+   */
+  public Boolean getBalance() {
+    return balance;
+  }
+
+  /**
+   * Get the checked flag.
+   *
+   * @return the checked flag value
+   */
+  public Boolean getChecked() {
+    return checked;
+  }
+
+  /**
+   * Get the list of JSON items belonging to the transaction.
+   *
+   * @return a list of JSON items
+   */
+  public List<JsonItem> getItems() {
+    return items;
   }
 }

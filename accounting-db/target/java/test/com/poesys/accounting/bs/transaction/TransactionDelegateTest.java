@@ -3,11 +3,15 @@
 
 package com.poesys.accounting.bs.transaction;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.poesys.accounting.bs.account.*;
 import com.poesys.accounting.db.account.ISimpleAccount;
 import com.poesys.accounting.db.transaction.IItem;
 import com.poesys.accounting.db.transaction.ITransaction;
+import com.poesys.accounting.db.transaction.json.JsonTransaction;
 import com.poesys.bs.delegate.DelegateException;
+import com.poesys.db.AbstractJsonObject;
 import com.poesys.db.InvalidParametersException;
 import com.poesys.db.Message;
 import com.poesys.db.StringUtilities;
@@ -15,18 +19,20 @@ import com.poesys.db.connection.IConnectionFactory.DBMS;
 import com.poesys.db.connection.JdbcConnectionManager;
 import com.poesys.db.dao.DaoManagerFactory;
 import com.poesys.db.dao.IDaoManager;
+import com.poesys.db.dto.IDbDto;
 import com.poesys.db.pk.IPrimaryKey;
 import com.poesys.db.pk.SequencePrimaryKey;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import junit.framework.AssertionFailedError;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.Date;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -68,6 +74,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
   private static final Boolean RECEIVABLE = Boolean.TRUE;
   private static final Boolean ACTIVE = Boolean.TRUE;
   private static final Double AMOUNT = 100.00D;
+  private static final Double NEW_AMOUNT = 200.00D;
   private static final Double ALLOCATED_AMOUNT = 0.00D;
 
   private BsEntity entity = null;
@@ -87,7 +94,7 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
     // Create entity and store it.
     EntityDelegate entDel = AccountDelegateFactory.getEntityDelegate();
     entity = entDel.createEntity(StringUtilities.generateString(100));
-    entDel.insert(entity);
+    // entDel.insert(entity);
 
     // Create simple accounts.
     SimpleAccountDelegate accDel = AccountDelegateFactory.getSimpleAccountDelegate();
@@ -439,7 +446,8 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
       assertTrue("Couldn't get object", object != null);
       assertTrue("Wrong object", insertedObject.equals(object));
       String json = object.toString();
-      assertTrue("did not create JSON string from existing object", json != null && !json.isEmpty());
+      assertTrue("did not create JSON string from existing object",
+                 json != null && !json.isEmpty());
       assertTrue("wrong JSON from existing object: " + json, json.contains(
         "{\"primaryKey" + "\":{\"keyType\":\"com" + ".poesys.db.pk" + ".SequencePrimaryKey\"," +
         "\"className\":\"com" + ".poesys.accounting.db" + ".transaction" + ".Transaction\","));
@@ -903,6 +911,233 @@ public class TransactionDelegateTest extends AbstractTransactionDelegateTest {
     }
     finally {
       cleanUpDatabase("test Reimbursement");
+    }
+  }
+
+  /**
+   * Test the creation of a new transaction from a NEW JSON transaction object with two regular
+   * items (not a receivable account).
+   */
+  @Test
+  public void testCreateNewFromJsonRegularItems() {
+    List<BsTransaction> objects;
+    try {
+      // Create and store accounts for use in the new transaction.
+      createAccounts();
+
+      // Create a new transaction business DTO, then extract a JSON object from it.
+      objects = createTransactionTransaction(1);
+      BsTransaction object = objects.get(0);
+      assertNotNull("no transaction object created for test", object);
+
+      // Set the primary key to null and status to NEW to represent a newly created object from
+      // the View.
+      JsonTransaction jsonTransaction = object.toDto().getJson();
+      jsonTransaction.setPrimaryKey(null);
+      jsonTransaction.setStatus(AbstractJsonObject.NEW);
+
+      // Generate a JSON string from the JSON object.
+      Gson gson = new GsonBuilder().serializeNulls().create();
+      String json = gson.toJson(jsonTransaction, JsonTransaction.class);
+      assertTrue("did not create JSON string from new object", json != null && !json.isEmpty());
+      assertTrue("wrong JSON from new object (wrong descritpion): " + json + ", should be " +
+                 object.getDescription(),
+                 json.contains("\"description\":\"" + object.getDescription() + "\""));
+      assertTrue("wrong JSON from new object (not NEW status): " + json, json.contains("NEW"));
+
+      // Create a new transaction business DTO from the JSON and test content.
+      BsTransaction newTransaction = delegate.createTransaction(json);
+      assertNotNull("no business DTO created from JSON", newTransaction);
+      assertTrue("wrong transaction date",
+                 newTransaction.getTransactionDate().equals(object.getTransactionDate()));
+      assertTrue("wrong transaction description",
+                 newTransaction.getDescription().equals(object.getDescription()));
+      assertTrue(
+        "wrong transaction item list size " + newTransaction.getItems().size() + ", should be " +
+        object.getItems().size(), newTransaction.getItems().size() == object.getItems().size());
+      assertItemsIdentical(object, newTransaction);
+    } catch (AssertionFailedError e) {
+      throw e;
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("getObject failed: " + e.getMessage());
+    }
+    finally {
+      cleanUpDatabase("test get new regular transaction from JSON");
+    }
+  }
+
+  /**
+   * Assert that all the items in one transaction DTO are the same as those in another DTO.
+   *
+   * @param transaction1 the first transaction DTO
+   * @param transaction2 the second transaction DTO
+   */
+  private void assertItemsIdentical(BsTransaction transaction1, BsTransaction transaction2) {
+    // Verify the items are the same.
+    boolean allItemsValid = true;
+    outer:
+    for (BsItem item1 : transaction2.getItems()) {
+      boolean itemValid = false;
+      inner:
+      for (BsItem item2 : transaction1.getItems()) {
+        if (item2.getAccountName().equals(item1.getAccountName()) &&
+            item2.getOrderNumber().equals(item1.getOrderNumber()) &&
+            item2.getAmount().equals(item1.getAmount())) {
+          itemValid = true;
+        }
+        if (itemValid) {
+          break inner;
+        }
+      }
+      if (!itemValid) {
+        allItemsValid = false;
+        break outer;
+      }
+    }
+    assertTrue("at least one item is not correct: " + transaction2, allItemsValid);
+  }
+
+  /**
+   * Assert that all the items in one transaction DTO have changed status and amount.
+   *
+   * @param transaction the transaction DTO containing the items
+   */
+  private void assertItemsChanged(BsTransaction transaction) {
+    // Verify the items are the same.
+    boolean allItemsValid = true;
+    for (BsItem item : transaction.getItems()) {
+      if (!(item.toDto().getStatus().equals(IDbDto.Status.CHANGED) && item.getAmount().equals(NEW_AMOUNT))) {
+        allItemsValid = false;
+      }
+    }
+    assertTrue("at least one item is not correctly changed: " + transaction, allItemsValid);
+  }
+
+  /**
+   * Test the creation of an existing transaction from an EXISTING JSON transaction object.
+   */
+  @Test
+  public void testCreateExistingFromJsonRegularItem() {
+    List<BsTransaction> objects;
+    try {
+      // Create and store accounts for use in the new transaction.
+      createAccounts();
+
+      // Create a new transaction business DTO, insert it, then extract a JSON transaction from it.
+      objects = createTransactionTransaction(1);
+      BsTransaction object = objects.get(0);
+      assertNotNull("no transaction object created for test", object);
+      delegate.insert(object);
+
+      JsonTransaction jsonTransaction = object.toDto().getJson();
+
+      // Generate a JSON string from the JSON transaction.
+      Gson gson = new GsonBuilder().serializeNulls().create();
+      String json = gson.toJson(jsonTransaction, JsonTransaction.class);
+      assertTrue("did not create JSON string from new object", json != null && !json.isEmpty());
+      assertTrue("wrong JSON from new object (wrong description): " + json + ", should be " +
+                 object.getDescription(),
+                 json.contains("\"description\":\"" + object.getDescription() + "\""));
+      assertTrue("wrong JSON from new object (not NEW status): " + json, json.contains("EXISTING"));
+
+      // Query the transaction business object based on the JSON and test content.
+      BsTransaction newTransaction = delegate.createTransaction(json);
+      assertNotNull("no business DTO queried from JSON", newTransaction);
+      // Get nano-less dates for comparison
+      Timestamp originalDate = object.getTransactionDate();
+      int nanos = originalDate.getNanos();
+      originalDate.setNanos(0);
+      Timestamp newDate = newTransaction.getTransactionDate();
+      newDate.setNanos(0);
+      // Round second up if nanos were greater than or equal to 500.
+      if (nanos >= 500) {
+        Calendar date = new GregorianCalendar();
+        date.setTime(originalDate);
+        int seconds = date.get(Calendar.SECOND);
+        seconds++;
+        date.set(Calendar.SECOND, seconds);
+        originalDate = new Timestamp(date.getTimeInMillis());
+      }
+      assertTrue("wrong transaction date " + newDate + ", should be " + originalDate,
+                 newDate.equals(originalDate));
+      assertTrue("wrong transaction description",
+                 newTransaction.getDescription().equals(object.getDescription()));
+      assertTrue(
+        "wrong transaction item list size " + newTransaction.getItems().size() + ", should be " +
+        object.getItems().size(), newTransaction.getItems().size() == object.getItems().size());
+      assertItemsIdentical(object, newTransaction);
+    } catch (AssertionFailedError e) {
+      throw e;
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("getObject failed: " + e.getMessage());
+    }
+    finally {
+      cleanUpDatabase("test get new regular transaction from JSON");
+    }
+  }
+
+  /**
+   * Test the creation of an existing transaction with changes from an EXISTING JSON transaction
+   * object with changes.
+   */
+  @Test
+  public void testCreateChangedFromJsonRegularItem() {
+    List<BsTransaction> objects;
+    try {
+      // Create and store accounts for use in the new transaction.
+      createAccounts();
+
+      // Create a new transaction business DTO, insert it, make changes, then extract a JSON
+      // transaction from it.
+      objects = createTransactionTransaction(1);
+      BsTransaction object = objects.get(0);
+      assertNotNull("no transaction object created for test", object);
+      delegate.insert(object);
+
+      updateTransactionAndItems(object);
+
+      JsonTransaction jsonTransaction = object.toDto().getJson();
+
+      // Generate a JSON string from the JSON transaction.
+      Gson gson = new GsonBuilder().serializeNulls().create();
+      String json = gson.toJson(jsonTransaction, JsonTransaction.class);
+      assertTrue("did not create JSON string from new object", json != null && !json.isEmpty());
+
+      // Query the transaction business object based on the JSON and test content.
+      BsTransaction newTransaction = delegate.createTransaction(json);
+      assertNotNull("no business DTO queried from JSON", newTransaction);
+      assertTrue("business object status is not CHANGED",
+                 newTransaction.toDto().getStatus().equals(IDbDto.Status.CHANGED));
+      assertTrue("wrong transaction description",
+                 !newTransaction.getDescription().equals(object.getDescription()));
+      assertItemsChanged(newTransaction);
+    } catch (AssertionFailedError e) {
+      throw e;
+    } catch (Exception e) {
+      e.printStackTrace();
+      fail("getObject failed: " + e.getMessage());
+    }
+    finally {
+      cleanUpDatabase("test get new regular transaction from JSON");
+    }
+  }
+
+  /**
+   * Update an EXISTING business object with simple changes to the transaction and to each of the
+   * items, changing the transaction description and the item amounts.
+   *
+   * @param object the business object to change
+   */
+  private void updateTransactionAndItems(BsTransaction object) {
+    // Update the description to a new, random String.
+    String description = StringUtilities.generateString(4000);
+    object.setDescription(description);
+
+    for (BsItem item : object.getItems()) {
+      // Update the amount in each item to a new amount.
+      item.setAmount(NEW_AMOUNT);
     }
   }
 }

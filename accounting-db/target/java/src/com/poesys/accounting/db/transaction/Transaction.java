@@ -84,16 +84,7 @@ public class Transaction extends AbstractTransaction {
     JsonTransaction transaction =
       new JsonTransaction(key.getJsonPrimaryKey(), getDescription(), date, getBalance(),
                           getChecked(), jsonItems);
-    switch (getStatus()) {
-      case NEW:
-        transaction.setStatus(AbstractJsonObject.NEW);
-        break;
-      case DELETED:
-        transaction.setStatus(AbstractJsonObject.DELETED);
-        break;
-      default:
-        transaction.setStatus(AbstractJsonObject.EXISTING);
-    }
+    setJsonStatus(transaction);
     return transaction;
   }
 }

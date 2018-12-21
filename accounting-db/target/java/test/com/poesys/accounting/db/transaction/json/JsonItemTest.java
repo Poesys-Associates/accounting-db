@@ -3,6 +3,7 @@ package com.poesys.accounting.db.transaction.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.poesys.accounting.db.account.SimpleAccount;
 import com.poesys.accounting.db.transaction.TransactionFactory;
 import com.poesys.db.AbstractJsonObject;
 import com.poesys.db.col.json.BigIntegerJsonColumnValue;
@@ -68,7 +69,7 @@ public class JsonItemTest {
     IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item =
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     // Create the Gson object.
     Gson gson = new GsonBuilder().serializeNulls().create();
     // Produce the JSON string.
@@ -111,8 +112,38 @@ public class JsonItemTest {
   }
 
   /**
-   * Test a JSON Item that is a receivable item.
+   * Test a JSON Item that is not a receivable or reimbursing item. Test default status.
    */
+  @Test
+  public void testGetTransactionId() {
+    ENTITY_LIST.add(ENTITY_COLUMN_VALUE);
+    ACCOUNT_KEY_NAME_LIST.add(CHECKING_COLUMN_VALUE);
+    IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
+    JsonItem item =
+      new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
+                   null, null, SimpleAccount.class.getName());
+    BigInteger transactionId = item.getTransactionId();
+    assertTrue("wrong transaction id: " + transactionId, transactionId.equals(TRANSACTION1));
+  }
+
+  /**
+   * Test a JSON Item that is not a receivable or reimbursing item. Test default status.
+   */
+  @Test
+  public void testGetOrderNumber() {
+    ENTITY_LIST.add(ENTITY_COLUMN_VALUE);
+    ACCOUNT_KEY_NAME_LIST.add(CHECKING_COLUMN_VALUE);
+    IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
+    JsonItem item =
+      new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
+                   null, null, SimpleAccount.class.getName());
+    Integer orderNumber = item.getOrderNumber();
+    assertTrue("wrong order number: " + orderNumber, orderNumber.equals(ORDER));
+  }
+
+  /**
+     * Test a JSON Item that is a receivable item.
+     */
   @Test
   public void testReceivableItem() {
     ENTITY_LIST.add(ENTITY_COLUMN_VALUE);
@@ -128,7 +159,7 @@ public class JsonItemTest {
     IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item =
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, RECEIVABLE, null,
-                   null, reimbursingItemKeys, reimbursements);
+                   null, reimbursingItemKeys, reimbursements, SimpleAccount.class.getName());
     // Create the Gson object.
     Gson gson = new GsonBuilder().serializeNulls().create();
     // Produce the JSON string.
@@ -163,7 +194,7 @@ public class JsonItemTest {
     IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item =
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, RECEIVABLE,
-                   receivableKeys, reimbursements, null, null);
+                   receivableKeys, reimbursements, null, null, SimpleAccount.class.getName());
     // Create the Gson object.
     Gson gson = new GsonBuilder().serializeNulls().create();
     // Produce the JSON string.
@@ -244,7 +275,7 @@ public class JsonItemTest {
   @Test
   public void testNullRequiredInputPrimaryKey() {
     try {
-      new JsonItem(null, AMOUNT, true, false, ACCOUNT_KEY, RECEIVABLE, null, null, null, null);
+      new JsonItem(null, AMOUNT, true, false, ACCOUNT_KEY, RECEIVABLE, null, null, null, null, SimpleAccount.class.getName());
       fail("no exception thrown for missing primary key");
     } catch (AssertionError e) {
       // success -- AssertionError thrown
@@ -260,7 +291,7 @@ public class JsonItemTest {
     try {
       IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
       new JsonItem(key.getJsonPrimaryKey(), null, true, false, ACCOUNT_KEY, RECEIVABLE, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
       fail("no exception thrown for missing amount");
     } catch (AssertionError e) {
       // success -- AssertionError thrown
@@ -276,7 +307,7 @@ public class JsonItemTest {
     try {
       IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, null, RECEIVABLE, null, null, null,
-                   null);
+                   null, SimpleAccount.class.getName());
       fail("no exception thrown for missing account key");
     } catch (AssertionError e) {
       // success -- AssertionError thrown
@@ -292,7 +323,7 @@ public class JsonItemTest {
     try {
       IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, null, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
       fail("no exception thrown for missing account name");
     } catch (AssertionError e) {
       // success -- AssertionError thrown
@@ -309,7 +340,7 @@ public class JsonItemTest {
     IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item =
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, null, false, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     assertTrue("debit flag not set by default", item.getDebit());
   }
 
@@ -323,7 +354,7 @@ public class JsonItemTest {
     IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item =
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, null, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     assertFalse("checked flag not set by default", item.getChecked());
   }
 
@@ -362,10 +393,10 @@ public class JsonItemTest {
     IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item1 =
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     JsonItem item2 =
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     assertTrue("equivalent items are not equal", item1.equals(item2));
   }
 
@@ -376,11 +407,11 @@ public class JsonItemTest {
     IPrimaryKey key1 = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item1 =
       new JsonItem(key1.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     IPrimaryKey key2 = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION2);
     JsonItem item2 =
       new JsonItem(key2.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, RECEIVABLE, null,
-                   null, null, null);
+                   null, null, null, SimpleAccount.class.getName());
     assertFalse("different items are equal (transaction id)", item1.equals(item2));
   }
 
@@ -391,11 +422,11 @@ public class JsonItemTest {
     IPrimaryKey key1 = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item1 =
       new JsonItem(key1.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     IPrimaryKey key2 = TransactionFactory.getItemPrimaryKey(ORDER2, TRANSACTION1);
     JsonItem item2 =
       new JsonItem(key2.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     assertFalse("different items are equal (order number)", item1.equals(item2));
   }
 
@@ -417,7 +448,7 @@ public class JsonItemTest {
     IPrimaryKey key = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item =
       new JsonItem(key.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, RECEIVABLE,
-                   receivableKeys, reimbursements, null, null);
+                   receivableKeys, reimbursements, null, null, SimpleAccount.class.getName());
     assertTrue("wrong hash code: " + item.hashCode(), item.hashCode() == 389924759);
   }
 
@@ -428,11 +459,11 @@ public class JsonItemTest {
     IPrimaryKey key1 = TransactionFactory.getItemPrimaryKey(ORDER, TRANSACTION1);
     JsonItem item =
       new JsonItem(key1.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     IPrimaryKey key2 = TransactionFactory.getItemPrimaryKey(ORDER2, TRANSACTION2);
     JsonItem item2 =
       new JsonItem(key2.getJsonPrimaryKey(), AMOUNT, true, false, ACCOUNT_KEY, CHECKING, null, null,
-                   null, null);
+                   null, null, SimpleAccount.class.getName());
     assertFalse("hash codes for different objects is the same",
                 item.hashCode() == item2.hashCode());
   }
